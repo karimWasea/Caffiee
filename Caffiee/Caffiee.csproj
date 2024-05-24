@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataAcessLayers\DataAcessLayers.csproj" />
+  </ItemGroup>
+
 </Project>
