@@ -2,6 +2,8 @@ using DataAcessLayers;
 
 using Microsoft.EntityFrameworkCore;
  using Microsoft.AspNetCore.Identity;
+using Servess;
+using Cf_Atomapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,13 @@ IServiceCollection serviceCollection =
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDBcontext>();
+builder.Services.AddTransient<UnitOfWork>();
+builder.Services.AddTransient<CategoryServess>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddAutoMapper(typeof(Program));
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

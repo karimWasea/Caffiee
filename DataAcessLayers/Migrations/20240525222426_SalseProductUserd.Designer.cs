@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAcessLayers.Migrations
 {
     [DbContext(typeof(ApplicationDBcontext))]
-    [Migration("20240524030309_intit")]
-    partial class intit
+    [Migration("20240525222426_SalseProductUserd")]
+    partial class SalseProductUserd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -122,7 +122,142 @@ namespace DataAcessLayers.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("DataAcessLayers.BaseEntity", b =>
+            modelBuilder.Entity("DataAcessLayers.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("DataAcessLayers.FinancialAdvance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ApplicaionuserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FinancialAdvanceType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicaionuserId");
+
+                    b.ToTable("FinancialAdvances");
+                });
+
+            modelBuilder.Entity("DataAcessLayers.FinancialAdvanceHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("ChangeDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ChangedByUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FinancialAdvanceId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("NewAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("OldAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FinancialAdvanceId");
+
+                    b.ToTable("FinancialAdvanceHistories");
+                });
+
+            modelBuilder.Entity("DataAcessLayers.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Qantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("products");
+                });
+
+            modelBuilder.Entity("DataAcessLayers.SalseProductUserTyps", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,18 +270,68 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(34)
-                        .HasColumnType("nvarchar(34)");
+                    b.Property<int>("CustomerType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Qantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("price")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("BaseEntity");
+                    b.HasIndex("ProductId");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("BaseEntity");
+                    b.ToTable("SalseProductUserTyps");
+                });
 
-                    b.UseTphMappingStrategy();
+            modelBuilder.Entity("DataAcessLayers.UserProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicaionuserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<int>("PaymentStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("QantityBuy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SalasDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SalseProductUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SalseProductUserTypsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicaionuserId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("SalseProductUserTypsId");
+
+                    b.ToTable("UserProducts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -229,10 +414,12 @@ namespace DataAcessLayers.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -269,10 +456,12 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -282,145 +471,69 @@ namespace DataAcessLayers.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("DataAcessLayers.Category", b =>
-                {
-                    b.HasBaseType("DataAcessLayers.BaseEntity");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("Category");
-                });
-
             modelBuilder.Entity("DataAcessLayers.FinancialAdvance", b =>
                 {
-                    b.HasBaseType("DataAcessLayers.BaseEntity");
+                    b.HasOne("DataAcessLayers.Applicaionuser", "ApplicationUser")
+                        .WithMany("FinancialAdvances")
+                        .HasForeignKey("ApplicaionuserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ApplicaionuserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FinancialAdvanceType")
-                        .HasColumnType("int");
-
-                    b.HasIndex("ApplicaionuserId");
-
-                    b.ToTable("BaseEntity", t =>
-                        {
-                            t.Property("Description")
-                                .HasColumnName("FinancialAdvance_Description");
-                        });
-
-                    b.HasDiscriminator().HasValue("FinancialAdvance");
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("DataAcessLayers.FinancialAdvanceHistory", b =>
                 {
-                    b.HasBaseType("DataAcessLayers.BaseEntity");
+                    b.HasOne("DataAcessLayers.FinancialAdvance", "FinancialAdvance")
+                        .WithMany("FinancialAdvanceHistory")
+                        .HasForeignKey("FinancialAdvanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<DateTime>("ChangeDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ChangedByUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FinancialAdvanceId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("NewAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("OldAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasIndex("FinancialAdvanceId");
-
-                    b.ToTable("BaseEntity", t =>
-                        {
-                            t.Property("Description")
-                                .HasColumnName("FinancialAdvanceHistory_Description");
-                        });
-
-                    b.HasDiscriminator().HasValue("FinancialAdvanceHistory");
+                    b.Navigation("FinancialAdvance");
                 });
 
             modelBuilder.Entity("DataAcessLayers.Product", b =>
                 {
-                    b.HasBaseType("DataAcessLayers.BaseEntity");
+                    b.HasOne("DataAcessLayers.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Navigation("Category");
+                });
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+            modelBuilder.Entity("DataAcessLayers.SalseProductUserTyps", b =>
+                {
+                    b.HasOne("DataAcessLayers.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Qantity")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("BaseEntity", t =>
-                        {
-                            t.Property("Description")
-                                .HasColumnName("Product_Description");
-
-                            t.Property("Name")
-                                .HasColumnName("Product_Name");
-                        });
-
-                    b.HasDiscriminator().HasValue("Product");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("DataAcessLayers.UserProduct", b =>
                 {
-                    b.HasBaseType("DataAcessLayers.BaseEntity");
+                    b.HasOne("DataAcessLayers.Applicaionuser", "ApplicationUser")
+                        .WithMany("UserProducts")
+                        .HasForeignKey("ApplicaionuserId");
 
-                    b.Property<string>("ApplicaionuserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.HasOne("DataAcessLayers.Product", null)
+                        .WithMany("UserProducts")
+                        .HasForeignKey("ProductId");
 
-                    b.Property<int>("PaymentStatus")
-                        .HasColumnType("int");
+                    b.HasOne("DataAcessLayers.SalseProductUserTyps", "SalseProductUserTyps")
+                        .WithMany()
+                        .HasForeignKey("SalseProductUserTypsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Navigation("ApplicationUser");
 
-                    b.Property<int?>("QantityBuy")
-                        .HasColumnType("int");
-
-                    b.HasIndex("ApplicaionuserId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("BaseEntity", t =>
-                        {
-                            t.Property("ApplicaionuserId")
-                                .HasColumnName("UserProduct_ApplicaionuserId");
-                        });
-
-                    b.HasDiscriminator().HasValue("UserProduct");
+                    b.Navigation("SalseProductUserTyps");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -474,54 +587,11 @@ namespace DataAcessLayers.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DataAcessLayers.FinancialAdvance", b =>
+            modelBuilder.Entity("DataAcessLayers.Applicaionuser", b =>
                 {
-                    b.HasOne("DataAcessLayers.Applicaionuser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicaionuserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("FinancialAdvances");
 
-                    b.Navigation("ApplicationUser");
-                });
-
-            modelBuilder.Entity("DataAcessLayers.FinancialAdvanceHistory", b =>
-                {
-                    b.HasOne("DataAcessLayers.FinancialAdvance", "FinancialAdvance")
-                        .WithMany("History")
-                        .HasForeignKey("FinancialAdvanceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FinancialAdvance");
-                });
-
-            modelBuilder.Entity("DataAcessLayers.Product", b =>
-                {
-                    b.HasOne("DataAcessLayers.Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("DataAcessLayers.UserProduct", b =>
-                {
-                    b.HasOne("DataAcessLayers.Applicaionuser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicaionuserId");
-
-                    b.HasOne("DataAcessLayers.Product", "Product")
-                        .WithMany("UserProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("Product");
+                    b.Navigation("UserProducts");
                 });
 
             modelBuilder.Entity("DataAcessLayers.Category", b =>
@@ -531,7 +601,7 @@ namespace DataAcessLayers.Migrations
 
             modelBuilder.Entity("DataAcessLayers.FinancialAdvance", b =>
                 {
-                    b.Navigation("History");
+                    b.Navigation("FinancialAdvanceHistory");
                 });
 
             modelBuilder.Entity("DataAcessLayers.Product", b =>

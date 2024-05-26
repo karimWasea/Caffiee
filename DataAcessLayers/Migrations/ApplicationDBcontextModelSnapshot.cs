@@ -127,15 +127,15 @@ namespace DataAcessLayers.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreationTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -238,11 +238,11 @@ namespace DataAcessLayers.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Qantity")
                         .HasColumnType("decimal(18,2)");
@@ -252,6 +252,38 @@ namespace DataAcessLayers.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("products");
+                });
+
+            modelBuilder.Entity("DataAcessLayers.SalseProductUserTyps", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<int>("CustomerType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Qantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("price")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("SalseProductUserTyps");
                 });
 
             modelBuilder.Entity("DataAcessLayers.UserProduct", b =>
@@ -273,10 +305,19 @@ namespace DataAcessLayers.Migrations
                     b.Property<int>("PaymentStatus")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int?>("QantityBuy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SalasDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SalseProductUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SalseProductUserTypsId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -284,6 +325,8 @@ namespace DataAcessLayers.Migrations
                     b.HasIndex("ApplicaionuserId");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("SalseProductUserTypsId");
 
                     b.ToTable("UserProducts");
                 });
@@ -368,10 +411,12 @@ namespace DataAcessLayers.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -408,10 +453,12 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -424,7 +471,7 @@ namespace DataAcessLayers.Migrations
             modelBuilder.Entity("DataAcessLayers.FinancialAdvance", b =>
                 {
                     b.HasOne("DataAcessLayers.Applicaionuser", "ApplicationUser")
-                        .WithMany()
+                        .WithMany("FinancialAdvances")
                         .HasForeignKey("ApplicaionuserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -435,7 +482,7 @@ namespace DataAcessLayers.Migrations
             modelBuilder.Entity("DataAcessLayers.FinancialAdvanceHistory", b =>
                 {
                     b.HasOne("DataAcessLayers.FinancialAdvance", "FinancialAdvance")
-                        .WithMany("History")
+                        .WithMany("FinancialAdvanceHistory")
                         .HasForeignKey("FinancialAdvanceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -454,21 +501,36 @@ namespace DataAcessLayers.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("DataAcessLayers.SalseProductUserTyps", b =>
+                {
+                    b.HasOne("DataAcessLayers.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("DataAcessLayers.UserProduct", b =>
                 {
                     b.HasOne("DataAcessLayers.Applicaionuser", "ApplicationUser")
-                        .WithMany()
+                        .WithMany("UserProducts")
                         .HasForeignKey("ApplicaionuserId");
 
-                    b.HasOne("DataAcessLayers.Product", "Product")
+                    b.HasOne("DataAcessLayers.Product", null)
                         .WithMany("UserProducts")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("DataAcessLayers.SalseProductUserTyps", "SalseProductUserTyps")
+                        .WithMany()
+                        .HasForeignKey("SalseProductUserTypsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
 
-                    b.Navigation("Product");
+                    b.Navigation("SalseProductUserTyps");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -522,6 +584,13 @@ namespace DataAcessLayers.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DataAcessLayers.Applicaionuser", b =>
+                {
+                    b.Navigation("FinancialAdvances");
+
+                    b.Navigation("UserProducts");
+                });
+
             modelBuilder.Entity("DataAcessLayers.Category", b =>
                 {
                     b.Navigation("Products");
@@ -529,7 +598,7 @@ namespace DataAcessLayers.Migrations
 
             modelBuilder.Entity("DataAcessLayers.FinancialAdvance", b =>
                 {
-                    b.Navigation("History");
+                    b.Navigation("FinancialAdvanceHistory");
                 });
 
             modelBuilder.Entity("DataAcessLayers.Product", b =>

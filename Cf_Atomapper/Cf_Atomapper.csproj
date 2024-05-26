@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cf_Viewmodels\Cf_Viewmodels.csproj" />
+    <ProjectReference Include="..\DataAcessLayers\DataAcessLayers.csproj" />
   </ItemGroup>
 
 </Project>

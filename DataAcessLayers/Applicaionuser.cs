@@ -19,6 +19,10 @@ namespace DataAcessLayers
         public CustomerType CustomerType { get; set; }
         public Gender Gender { get; set; }
          public string  ?IdentifierNumber { get; set; }
+        public ICollection<FinancialAdvance> FinancialAdvances { get; set; }
+        public ICollection<UserProduct> UserProducts { get; set; }
+
+
 
     };
 }

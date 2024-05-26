@@ -21,7 +21,7 @@
         // Other relevant properties
 
         // Navigation property for history entries
-        public virtual ICollection<FinancialAdvanceHistory> History { get; set; }
+        public virtual ICollection<FinancialAdvanceHistory> FinancialAdvanceHistory { get; set; }
     }
 
 

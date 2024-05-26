@@ -31,11 +31,16 @@ namespace DataAcessLayers
             builder.Entity<Category>()
               .Property(e => e.CreationTime)
               .HasDefaultValueSql("GETDATE()"); 
+
             builder.Entity<UserProduct>()
               .Property(e => e.CreationTime)
               .HasDefaultValueSql("GETDATE()"); 
             
             builder.Entity<FinancialAdvanceHistory>()
+              .Property(e => e.CreationTime)
+              .HasDefaultValueSql("GETDATE()");  
+            
+            builder.Entity<SalseProductUserTyps>()
               .Property(e => e.CreationTime)
               .HasDefaultValueSql("GETDATE()");
 
@@ -48,6 +53,7 @@ namespace DataAcessLayers
         public DbSet<Category>   Categories { get; set; }
         public DbSet<Product>    products { get; set; }
         public DbSet<UserProduct>     UserProducts { get; set; }
+        public DbSet<SalseProductUserTyps> SalseProductUserTyps { get; set; }
         // DbSet properties for other entities...
     }
 }
