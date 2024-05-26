@@ -14,9 +14,10 @@ namespace DataAcessLayers
          public  Product Product  { get; set; }
  
         public int ProductId { get; set; }
+        public int CustomerTypeId { get; set; }
         public CustomerType CustomerType { get; set; }
-        public int ?Qantity { get; set; }
-        public int ?price { get; set; }
+        public int ? Qantity { get; set; }
+        public int ? price { get; set; }
      }
 
 }
