@@ -14,9 +14,11 @@ namespace DataAcessLayers
         public decimal? Qantity { get; set; }
         public int  CategoryId { get; set; }
         public string? Description { get; set; }
+        public int? Discount { get; set; } // Nullable discount property
+
 
         public Category Category { get; set; }
-        public ICollection<UserProduct> UserProducts { get; set; }
+        public ICollection<PriceProductebytypes> PriceProductebytypes { get; set; }
     }
 
 }

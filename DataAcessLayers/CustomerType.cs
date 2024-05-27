@@ -15,8 +15,11 @@ namespace DataAcessLayers
         public string Types { get; set; }  
         public string  ApplicaionuserId { get; set; }
         public Applicaionuser ApplicationUser { get; set; }
+        public ICollection<PriceProductebytypes> PriceProductebytypes { get; set; }
 
-    
-     }
+
+
+
+    }
 
 }

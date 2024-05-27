@@ -3,31 +3,31 @@
 namespace C_Utilities
 {
     public class Enumes
-    { 
-public enum CustomerType
     {
-        [Description("None")]
-        None,
+        public enum CustomerType
+        {
+            [Description("None")]
+            None,
 
-        [Description("Patient")]
-        Patient,
+            [Description("Patient")]
+            Patient,
 
-        [Description("Doctor")]
-        Doctor,
+            [Description("Doctor")]
+            Doctor,
 
-        [Description("Worker")]
-        Worker,
+            [Description("Worker")]
+            Worker,
 
-        [Description("Other People")]
-        OtherPeople
-    }
-     
+            [Description("Other People")]
+            OtherPeople
+        }
+
 
         public enum Gender
         {
             Male,
             Female,
-         }
+        }
 
         public enum FinancialAdvanceType
         {
@@ -40,7 +40,15 @@ public enum CustomerType
             Paid,
             NotPaid
         }
+        public enum Status
+        {
+            New,
+            InProgress,
+            Completed,
+            Failed
+        }
 
+    }
     }
 
 
@@ -53,5 +61,4 @@ public enum CustomerType
         var attribute = (DescriptionAttribute)Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute));
         return attribute == null ? value.ToString() : attribute.Description;
     }
-}
 }
