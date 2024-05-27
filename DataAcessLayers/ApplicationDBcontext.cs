@@ -23,7 +23,7 @@ namespace DataAcessLayers
             builder.Entity<Applicaionuser>()
               .Property(e => e.CreationTime)
               .HasDefaultValueSql("GETDATE()");
-              builder.Entity<FinancialAdvance>()
+              builder.Entity<FinancialUserCash>()
               .Property(e => e.CreationTime)
               .HasDefaultValueSql("GETDATE()");  builder.Entity<Product>()
               .Property(e => e.CreationTime)
@@ -32,7 +32,7 @@ namespace DataAcessLayers
               .Property(e => e.CreationTime)
               .HasDefaultValueSql("GETDATE()"); 
 
-            builder.Entity<UserProduct>()
+            builder.Entity<NotPayedmoney>()
               .Property(e => e.CreationTime)
               .HasDefaultValueSql("GETDATE()"); 
             
@@ -40,7 +40,10 @@ namespace DataAcessLayers
               .Property(e => e.CreationTime)
               .HasDefaultValueSql("GETDATE()");  
             
-            builder.Entity<SalseProductUserTyps>()
+            builder.Entity<PriceProductebytypes>()
+              .Property(e => e.CreationTime)
+              .HasDefaultValueSql("GETDATE()");
+               builder.Entity<CustomerType>()
               .Property(e => e.CreationTime)
               .HasDefaultValueSql("GETDATE()");
 
@@ -48,12 +51,13 @@ namespace DataAcessLayers
 
         }
 
-        public DbSet<FinancialAdvance> FinancialAdvances { get; set; }
+        public DbSet<FinancialUserCash> FinancialAdvances { get; set; }
         public DbSet<FinancialAdvanceHistory>  FinancialAdvanceHistories { get; set; }
         public DbSet<Category>   Categories { get; set; }
         public DbSet<Product>    products { get; set; }
-        public DbSet<UserProduct>     UserProducts { get; set; }
-        public DbSet<SalseProductUserTyps> SalseProductUserTyps { get; set; }
+        public DbSet<PriceProductebytypes> PriceProductebytypes { get; set; }
+        public DbSet<NotPayedmoney> NotPayedmoney { get; set; }
+        public DbSet<CustomerType> CustomerTypes { get; set; }
         // DbSet properties for other entities...
     }
 }
