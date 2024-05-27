@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
  using Microsoft.AspNetCore.Identity;
 using Servess;
 using Cf_Atomapper;
+using Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,7 @@ IServiceCollection serviceCollection =
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDBcontext>();
-builder.Services.AddTransient<UnitOfWork>();
+builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddTransient<CategoryServess>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(MappingProfile));

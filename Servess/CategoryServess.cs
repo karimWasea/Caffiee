@@ -29,6 +29,17 @@ namespace Servess
          return   _context.Categories.Any(i => i.Id != entity.Id && i.CategoryName == entity.CategoryName);
                 }
 
+        public void Create(CategoryVm entity)
+        {
+            var category = new Category
+            {
+                // Id = entity.Id,
+                CategoryName = entity.CategoryName,
+                Description = entity.Description
+            };
+            _context.Categories.Add(category);
+        }
+
         public void Delete(int id)
         {
              _context.Remove(_context.Categories.Find(id));  
@@ -50,7 +61,7 @@ namespace Servess
         }
 
 
-
+        
 
 
 
@@ -97,18 +108,21 @@ namespace Servess
 
 
 
-        public IPagedList<CategoryVm> GetAll()
+        public IPagedList<CategoryVm> GetAll(int pageNumber, int pageSize)
         {
-            throw new NotImplementedException();
+            return _context.Categories.Select(s => new CategoryVm
+            {
+                CategoryName = s.CategoryName,
+                Description = s.Description,
+                Id = s.Id,
+            }).ToPagedList(pageNumber, pageSize);
         }
 
        
 
-        public void Save(CategoryVm entity)
+        public void Save()
         {
-            //var room = _mapper.Map<Room>(source: entity);
-
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
 
         public IPagedList<CategoryVm> Search(CategoryVm criteria)
