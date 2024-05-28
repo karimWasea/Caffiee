@@ -1,29 +1,36 @@
 ﻿using System.ComponentModel;
+using System.Reflection;
 
 namespace C_Utilities
 {
     public class Enumes
     {
-        public enum CustomerType
-        {
-            [Description("None")]
-            None,
+    
 
-            [Description("Patient")]
-            Patient,
+public enum CustomerType
+    {
+        [Description("Nursing")]
+        Nursing = 1,
 
-            [Description("Doctor")]
-            Doctor,
+        [Description("Hospital Management")]
+        HospitalManagement = 2,
 
-            [Description("Worker")]
-            Worker,
+        [Description("Doctor")]
+        Doctor = 3,
 
-            [Description("Other People")]
-            OtherPeople
-        }
+        [Description("Worker")]
+        Worker = 4,
+
+        [Description("Other People")]
+        OtherPeople = 5
+    }
 
 
-        public enum Gender
+
+
+
+
+    public enum Gender
         {
             Male,
             Female,
@@ -49,11 +56,12 @@ namespace C_Utilities
         }
 
     }
-    }
+}
 
+ 
+ 
 
-
-    public static class EnumExtensions
+public static class EnumExtensions
 {
     public static string GetDescription(this Enum value)
     {

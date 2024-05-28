@@ -4,6 +4,7 @@ using DataAcessLayers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAcessLayers.Migrations
 {
     [DbContext(typeof(ApplicationDBcontext))]
-    partial class ApplicationDBcontextModelSnapshot : ModelSnapshot
+    [Migration("20240528020108_CustomerType")]
+    partial class CustomerType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,8 +90,7 @@ namespace DataAcessLayers.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerTypeId")
-                        .IsUnique();
+                    b.HasIndex("CustomerTypeId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -133,15 +135,18 @@ namespace DataAcessLayers.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Code")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreationTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<int>("Types")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("SalasDateTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("TypesName")
+                    b.Property<string>("Types")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -490,8 +495,8 @@ namespace DataAcessLayers.Migrations
             modelBuilder.Entity("DataAcessLayers.Applicaionuser", b =>
                 {
                     b.HasOne("DataAcessLayers.CustomerType", "CustomerType")
-                        .WithOne("ApplicationUser")
-                        .HasForeignKey("DataAcessLayers.Applicaionuser", "CustomerTypeId")
+                        .WithMany()
+                        .HasForeignKey("CustomerTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -629,9 +634,6 @@ namespace DataAcessLayers.Migrations
 
             modelBuilder.Entity("DataAcessLayers.CustomerType", b =>
                 {
-                    b.Navigation("ApplicationUser")
-                        .IsRequired();
-
                     b.Navigation("PriceProductebytypes");
                 });
 

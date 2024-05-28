@@ -20,8 +20,11 @@ builder.Services.AddIdentity<Applicaionuser, IdentityRole>(options => options.Si
 .AddEntityFrameworkStores<ApplicationDBcontext>().AddDefaultTokenProviders();
 
 builder.Services.AddTransient<UnitOfWork>();
+builder.Services.AddTransient<ICustomerTypeServess>();
+builder.Services.AddTransient<lookupServess>();
+builder.Services.AddTransient<CustomerType>();
 builder.Services.AddTransient<CategoryServess>();
-builder.Services.AddRazorPages();
+ builder.Services.AddRazorPages();
 builder.Services.AddScoped<IEmailSender, Emailsender>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

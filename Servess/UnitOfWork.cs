@@ -9,12 +9,15 @@ namespace Servess
     {
         private bool disposed = false;
         public ICategory _Category { get; set; }
- 
+        public ICustomerType _CustomerType { get; }
+        public Ilookup _Ilookup { get; }
+
         public readonly ApplicationDBcontext _context;
 
-        public UnitOfWork(CategoryServess categoryServess , ApplicationDBcontext context  
+        public UnitOfWork(CategoryServess categoryServess , ApplicationDBcontext context   , ICustomerTypeServess customerTypeServess
             )
         {
+            _CustomerType = customerTypeServess;
             _context = context;
             _Category = categoryServess;
  
