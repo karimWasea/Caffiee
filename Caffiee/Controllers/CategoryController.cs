@@ -9,12 +9,10 @@ namespace Caffiee.Controllers
 {
     public class CategoryController : Controller
     {
-        public readonly ApplicationDBcontext _context;
         public readonly IUnitOfWork _ctx;
 
-        public CategoryController(ApplicationDBcontext context, IUnitOfWork ctx)
+        public CategoryController(IUnitOfWork ctx)
         {
-            _context = context;
             _ctx = ctx;
         }
 
@@ -67,7 +65,29 @@ namespace Caffiee.Controllers
             return View(category);
 
         }
-        
+        public IActionResult Edit(int id)
+        {
+            var product = _ctx._Category.Get(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+
+  
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(CategoryVm categoryVm)
+        {
+            if (ModelState.IsValid)
+            {
+                _ctx._Category.Update(categoryVm);
+                _ctx._Category.Save();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(categoryVm);
+        }
         public IActionResult Delete(int id)
         {
             var category = _ctx._Category.Get(id);

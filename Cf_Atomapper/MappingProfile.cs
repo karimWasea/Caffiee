@@ -11,6 +11,7 @@ namespace Cf_Atomapper
         public MappingProfile()
         {
             CreateMap<Category, CategoryVm>().ReverseMap();
+            CreateMap<Product, ProductVm>().ReverseMap();
 
             //CreateMap<Data__Access__layer.Room, RoomlDto>().ForMember(dest => dest.DepartmentName,
             //    src => src.MapFrom(src => src.Department.DepartmentName)).ReverseMap();

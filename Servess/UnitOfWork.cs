@@ -9,15 +9,16 @@ namespace Servess
     {
         private bool disposed = false;
         public ICategory _Category { get; set; }
+        public IProduct _Product { get; set; }
  
         public readonly ApplicationDBcontext _context;
 
-        public UnitOfWork(CategoryServess categoryServess , ApplicationDBcontext context  
+        public UnitOfWork(CategoryServess categoryServess , ApplicationDBcontext context , ProductService productService 
             )
         {
             _context = context;
             _Category = categoryServess;
- 
+            _Product = productService;
 
 
         }

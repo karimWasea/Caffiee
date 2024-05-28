@@ -18,6 +18,7 @@ IServiceCollection serviceCollection =
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDBcontext>();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddTransient<CategoryServess>();
+builder.Services.AddTransient<ProductService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddAutoMapper(typeof(Program));

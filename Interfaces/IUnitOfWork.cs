@@ -4,5 +4,6 @@
 
     {
           ICategory _Category { get;   }
+          IProduct _Product { get;   }
      }
 }

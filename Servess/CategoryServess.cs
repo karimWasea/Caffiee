@@ -7,7 +7,6 @@ using DataAcessLayers;
 using Interfaces;
 
 using Microsoft.EntityFrameworkCore;
-
 using X.PagedList;
 
 namespace Servess
@@ -118,7 +117,15 @@ namespace Servess
             }).ToPagedList(pageNumber, pageSize);
         }
 
-       
+        public IEnumerable<CategoryVm> GetAll()
+        {
+            return _context.Categories.Select(s => new CategoryVm
+            {
+                CategoryName = s.CategoryName,
+                Description = s.Description,
+                Id = s.Id,
+            }).ToList();
+        }
 
         public void Save()
         {
@@ -127,7 +134,37 @@ namespace Servess
 
         public IPagedList<CategoryVm> Search(CategoryVm criteria)
         {
-            throw new NotImplementedException();
+            var Qarable =
+
+
+                _context.Categories.Where(
+                category =>
+
+                    (criteria.Id == 0 || criteria.Id == null || category.Id == criteria.Id)
+                          && (criteria.CategoryName == null || category.CategoryName.Contains(criteria.CategoryName))
+                          &&(criteria.Description == null || category.Description.Contains(criteria.Description))                           )
+                    .Select(category => new CategoryVm
+                    {
+                        Id = category.Id,
+                        CategoryName = category.CategoryName,
+                        Description= category.Description,
+                    }).OrderBy(g => g.Id);
+            var IPagedList = GetPagedData(Qarable);
+
+            return IPagedList;
+        }
+
+        public void Update(CategoryVm entity)
+        {
+            var category = _context.Categories.Find(entity.Id);
+            if (category != null)
+            {
+                category.Description = entity.Description;
+                category.CategoryName = entity.CategoryName;
+                category.Description = entity.Description;
+
+                _context.SaveChanges();
+            }
         }
     }
 }
