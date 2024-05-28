@@ -14,13 +14,13 @@ namespace Caffiee.Areas.Identity.Pages.Account
 {
     public class LoginWithRecoveryCodeModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<DataAcessLayers.Applicaionuser> _signInManager;
+        private readonly UserManager<DataAcessLayers.Applicaionuser> _userManager;
         private readonly ILogger<LoginWithRecoveryCodeModel> _logger;
 
         public LoginWithRecoveryCodeModel(
-            SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
+            SignInManager<DataAcessLayers.Applicaionuser> signInManager,
+            UserManager<DataAcessLayers.Applicaionuser> userManager,
             ILogger<LoginWithRecoveryCodeModel> logger)
         {
             _signInManager = signInManager;

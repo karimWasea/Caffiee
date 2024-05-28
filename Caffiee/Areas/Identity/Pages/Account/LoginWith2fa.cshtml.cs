@@ -16,13 +16,13 @@ namespace Caffiee.Areas.Identity.Pages.Account
 {
     public class LoginWith2faModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<DataAcessLayers.Applicaionuser> _signInManager;
+        private readonly UserManager<DataAcessLayers.Applicaionuser> _userManager;
         private readonly ILogger<LoginWith2faModel> _logger;
 
         public LoginWith2faModel(
-            SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
+            SignInManager<DataAcessLayers.Applicaionuser> signInManager,
+            UserManager<DataAcessLayers.Applicaionuser> userManager,
             ILogger<LoginWith2faModel> logger)
         {
             _signInManager = signInManager;

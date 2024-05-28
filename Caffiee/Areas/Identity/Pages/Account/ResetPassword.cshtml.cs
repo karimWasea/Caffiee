@@ -16,9 +16,9 @@ namespace Caffiee.Areas.Identity.Pages.Account
 {
     public class ResetPasswordModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<DataAcessLayers.Applicaionuser> _userManager;
 
-        public ResetPasswordModel(UserManager<IdentityUser> userManager)
+        public ResetPasswordModel(UserManager<DataAcessLayers.Applicaionuser> userManager)
         {
             _userManager = userManager;
         }

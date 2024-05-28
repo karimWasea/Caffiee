@@ -16,14 +16,14 @@ namespace Caffiee.Areas.Identity.Pages.Account.Manage
 {
     public class ExternalLoginsModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IUserStore<IdentityUser> _userStore;
+        private readonly UserManager<DataAcessLayers.Applicaionuser> _userManager;
+        private readonly SignInManager<DataAcessLayers.Applicaionuser> _signInManager;
+        private readonly IUserStore<DataAcessLayers.Applicaionuser> _userStore;
 
         public ExternalLoginsModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            IUserStore<IdentityUser> userStore)
+            UserManager<DataAcessLayers.Applicaionuser> userManager,
+            SignInManager<DataAcessLayers.Applicaionuser> signInManager,
+            IUserStore<DataAcessLayers.Applicaionuser> userStore)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -69,7 +69,7 @@ namespace Caffiee.Areas.Identity.Pages.Account.Manage
                 .ToList();
 
             string passwordHash = null;
-            if (_userStore is IUserPasswordStore<IdentityUser> userPasswordStore)
+            if (_userStore is IUserPasswordStore<DataAcessLayers.Applicaionuser> userPasswordStore)
             {
                 passwordHash = await userPasswordStore.GetPasswordHashAsync(user, HttpContext.RequestAborted);
             }

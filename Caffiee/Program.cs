@@ -4,22 +4,40 @@ using Microsoft.EntityFrameworkCore;
  using Microsoft.AspNetCore.Identity;
 using Servess;
 using Cf_Atomapper;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using C_Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 IServiceCollection serviceCollection =
     builder.Services.AddDbContext<ApplicationDBcontext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDBcontext>();
+
+builder.Services.AddIdentity<Applicaionuser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+.AddEntityFrameworkStores<ApplicationDBcontext>().AddDefaultTokenProviders();
+
 builder.Services.AddTransient<UnitOfWork>();
 builder.Services.AddTransient<CategoryServess>();
+builder.Services.AddRazorPages();
+builder.Services.AddScoped<IEmailSender, Emailsender>();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddAutoMapper(typeof(Program));
+
+
+builder.Services.ConfigureApplicationCookie(option =>
+{
+
+    option.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+    option.LogoutPath = $"/Identity/Account/Logout";
+    option.LoginPath = $"/Identity/Account/Login";
+
+});
+
 var app = builder.Build();
 
 
@@ -33,10 +51,21 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapRazorPages();
+builder.Services.AddDistributedMemoryCache();
+app.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+
+app.MapControllerRoute(
+       name: "Home",
+       pattern: "{area=Admin}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

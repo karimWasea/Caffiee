@@ -14,13 +14,13 @@ namespace Caffiee.Areas.Identity.Pages.Account.Manage
 {
     public class DeletePersonalDataModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<DataAcessLayers.Applicaionuser> _userManager;
+        private readonly SignInManager<DataAcessLayers.Applicaionuser> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
 
         public DeletePersonalDataModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<DataAcessLayers.Applicaionuser> userManager,
+            SignInManager<DataAcessLayers.Applicaionuser> signInManager,
             ILogger<DeletePersonalDataModel> logger)
         {
             _userManager = userManager;

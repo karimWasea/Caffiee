@@ -13,12 +13,12 @@ namespace Caffiee.Areas.Identity.Pages.Account.Manage
 {
     public class SetPasswordModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<DataAcessLayers.Applicaionuser> _userManager;
+        private readonly SignInManager<DataAcessLayers.Applicaionuser> _signInManager;
 
         public SetPasswordModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<DataAcessLayers.Applicaionuser> userManager,
+            SignInManager<DataAcessLayers.Applicaionuser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
