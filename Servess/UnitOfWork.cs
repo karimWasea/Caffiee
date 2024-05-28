@@ -14,12 +14,13 @@ namespace Servess
 
         public readonly ApplicationDBcontext _context;
 
-        public UnitOfWork(CategoryServess categoryServess , ApplicationDBcontext context   , ICustomerTypeServess customerTypeServess
+        public UnitOfWork(CategoryServess categoryServess , ApplicationDBcontext context   , ICustomerTypeServess customerTypeServess , lookupServess lookupServess
             )
         {
             _CustomerType = customerTypeServess;
             _context = context;
             _Category = categoryServess;
+            _Ilookup = lookupServess;   
  
 
 

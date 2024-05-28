@@ -41,7 +41,16 @@
                 </div>
             </div>
 
-
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="form-floating">
+                        <label asp-for="Input.CustemertypId" class="control-label"></label>
+                    <select asp-for="Input.CustemertypId" asp-items="@(ViewData["CustemertypId"] as List<SelectListItem>)" class="form-control">
+                            <option value=""  >-- Select Custemerty --</option>
+                    </select>
+                    <span asp-validation-for="Input.CustemertypId" class="text-danger"></span>
+                </div>
+            </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
     </div>

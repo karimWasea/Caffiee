@@ -13,21 +13,29 @@ using System.Threading.Tasks;
 
 using DataAcessLayers;
 
+using Interfaces;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+
+using Servess;
 
 using static C_Utilities.Enumes;
 
 namespace Caffiee.Areas.Identity.Pages.Account
 {
+     
     public class RegisterModel : PageModel
     {
+        private UnitOfWork _unitOfWork;
+
         private readonly SignInManager<Applicaionuser> _signInManager;
         private readonly UserManager<Applicaionuser> _userManager;
         private readonly IUserStore<Applicaionuser> _userStore;
@@ -35,13 +43,14 @@ namespace Caffiee.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public RegisterModel(
+        public RegisterModel(UnitOfWork unitOfWork,
             UserManager<Applicaionuser> userManager,
             IUserStore<Applicaionuser> userStore,
             SignInManager<Applicaionuser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
+            _unitOfWork = unitOfWork;
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
@@ -67,6 +76,9 @@ namespace Caffiee.Areas.Identity.Pages.Account
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
+        ///  
+
+
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         /// <summary>
@@ -75,6 +87,8 @@ namespace Caffiee.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
+            public int? CustemertypId { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -96,6 +110,7 @@ namespace Caffiee.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Gender")]
             public Gender Gender { get; set; }
+            List<SelectListItem> Custemertyp { get; set; } = new List<SelectListItem>();    
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -109,6 +124,10 @@ namespace Caffiee.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            // Fetch department options and store them in ViewData
+            var Custemertyp = _unitOfWork._Ilookup.GetCustomerTypesId();
+           
+            ViewData["CustemertypId"] = Custemertyp;
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -121,6 +140,7 @@ namespace Caffiee.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
                 user.Gender = Input.Gender;
+                user.CustomerTypeId = (int)Input.CustemertypId;
 
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
