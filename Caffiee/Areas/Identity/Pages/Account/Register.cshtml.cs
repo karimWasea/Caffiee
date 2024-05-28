@@ -10,33 +10,47 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+
+using DataAcessLayers;
+
+using Interfaces;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
+using Servess;
+
+using static C_Utilities.Enumes;
+
 namespace Caffiee.Areas.Identity.Pages.Account
 {
+     
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly IUserStore<IdentityUser> _userStore;
-        private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private UnitOfWork _unitOfWork;
+
+        private readonly SignInManager<Applicaionuser> _signInManager;
+        private readonly UserManager<Applicaionuser> _userManager;
+        private readonly IUserStore<Applicaionuser> _userStore;
+        private readonly IUserEmailStore<Applicaionuser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            SignInManager<IdentityUser> signInManager,
+        public RegisterModel(UnitOfWork unitOfWork,
+            UserManager<Applicaionuser> userManager,
+            IUserStore<Applicaionuser> userStore,
+            SignInManager<Applicaionuser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
+            _unitOfWork = unitOfWork;
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
@@ -62,6 +76,9 @@ namespace Caffiee.Areas.Identity.Pages.Account
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
+        ///  
+
+
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         /// <summary>
@@ -70,6 +87,8 @@ namespace Caffiee.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
+            public int? CustemertypId { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -88,7 +107,10 @@ namespace Caffiee.Areas.Identity.Pages.Account
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
-
+            [Required]
+            [Display(Name = "Gender")]
+            public Gender Gender { get; set; }
+            List<SelectListItem> Custemertyp { get; set; } = new List<SelectListItem>();    
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -102,6 +124,10 @@ namespace Caffiee.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            // Fetch department options and store them in ViewData
+            var Custemertyp = _unitOfWork._Ilookup.GetCustomerTypesId();
+           
+            ViewData["CustemertypId"] = Custemertyp;
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -113,6 +139,9 @@ namespace Caffiee.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+                user.Gender = Input.Gender;
+                user.CustomerTypeId = (int)Input.CustemertypId;
+
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -154,27 +183,27 @@ namespace Caffiee.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private IdentityUser CreateUser()
+        private Applicaionuser CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<IdentityUser>();
+                return Activator.CreateInstance<Applicaionuser>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(Applicaionuser)}'. " +
+                    $"Ensure that '{nameof(Applicaionuser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<IdentityUser> GetEmailStore()
+        private IUserEmailStore<Applicaionuser> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<IdentityUser>)_userStore;
+            return (IUserEmailStore<Applicaionuser>)_userStore;
         }
     }
 }

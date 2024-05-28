@@ -39,6 +39,9 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
+                    b.Property<int>("CustomerTypeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -84,6 +87,9 @@ namespace DataAcessLayers.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CustomerTypeId")
+                        .IsUnique();
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -127,26 +133,19 @@ namespace DataAcessLayers.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ApplicaionuserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("CreationTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<DateTime>("SalasDateTime")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("Types")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Types")
+                    b.Property<string>("TypesName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicaionuserId")
-                        .IsUnique();
 
                     b.ToTable("CustomerTypes");
                 });
@@ -435,12 +434,10 @@ namespace DataAcessLayers.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -477,12 +474,10 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -492,15 +487,15 @@ namespace DataAcessLayers.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("DataAcessLayers.CustomerType", b =>
+            modelBuilder.Entity("DataAcessLayers.Applicaionuser", b =>
                 {
-                    b.HasOne("DataAcessLayers.Applicaionuser", "ApplicationUser")
-                        .WithOne("CustomerType")
-                        .HasForeignKey("DataAcessLayers.CustomerType", "ApplicaionuserId")
+                    b.HasOne("DataAcessLayers.CustomerType", "CustomerType")
+                        .WithOne("ApplicationUser")
+                        .HasForeignKey("DataAcessLayers.Applicaionuser", "CustomerTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUser");
+                    b.Navigation("CustomerType");
                 });
 
             modelBuilder.Entity("DataAcessLayers.FinancialAdvanceHistory", b =>
@@ -624,9 +619,6 @@ namespace DataAcessLayers.Migrations
 
             modelBuilder.Entity("DataAcessLayers.Applicaionuser", b =>
                 {
-                    b.Navigation("CustomerType")
-                        .IsRequired();
-
                     b.Navigation("NotPayedmoney");
                 });
 
@@ -637,6 +629,9 @@ namespace DataAcessLayers.Migrations
 
             modelBuilder.Entity("DataAcessLayers.CustomerType", b =>
                 {
+                    b.Navigation("ApplicationUser")
+                        .IsRequired();
+
                     b.Navigation("PriceProductebytypes");
                 });
 

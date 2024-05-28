@@ -13,11 +13,11 @@ namespace Caffiee.Areas.Identity.Pages.Account.Manage
 {
     public class Disable2faModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<DataAcessLayers.Applicaionuser> _userManager;
         private readonly ILogger<Disable2faModel> _logger;
 
         public Disable2faModel(
-            UserManager<IdentityUser> userManager,
+            UserManager<DataAcessLayers.Applicaionuser> userManager,
             ILogger<Disable2faModel> logger)
         {
             _userManager = userManager;

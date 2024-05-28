@@ -12,6 +12,7 @@ namespace DataAcessLayers
          public DateTime CreationTime { get; set; } = DateTime.Now;
       
         public CustomerType CustomerType { get; set; }
+        public int  CustomerTypeId { get; set; }
         public Gender Gender { get; set; }
         public ICollection<NotPayedmoney> NotPayedmoney { get; set; }
 

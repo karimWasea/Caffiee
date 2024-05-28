@@ -11,14 +11,21 @@ namespace Servess
         public ICategory _Category { get; set; }
         public IProduct _Product { get; set; }
  
+        public ICustomerType _CustomerType { get; }
+        public Ilookup _Ilookup { get; }
+
         public readonly ApplicationDBcontext _context;
 
+        public UnitOfWork(CategoryServess categoryServess , ApplicationDBcontext context   , ICustomerTypeServess customerTypeServess , lookupServess lookupServess
         public UnitOfWork(CategoryServess categoryServess , ApplicationDBcontext context , ProductService productService 
             )
         {
+            _CustomerType = customerTypeServess;
             _context = context;
             _Category = categoryServess;
             _Product = productService;
+            _Ilookup = lookupServess;   
+ 
 
 
         }
