@@ -16,8 +16,7 @@ namespace Servess
 
         public readonly ApplicationDBcontext _context;
 
-        public UnitOfWork(CategoryServess categoryServess , ApplicationDBcontext context   , ICustomerTypeServess customerTypeServess , lookupServess lookupServess
-        public UnitOfWork(CategoryServess categoryServess , ApplicationDBcontext context , ProductService productService 
+        public UnitOfWork(CategoryServess categoryServess , ApplicationDBcontext context, ProductService productService, ICustomerTypeServess customerTypeServess , lookupServess lookupServess
             )
         {
             _CustomerType = customerTypeServess;
