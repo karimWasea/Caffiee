@@ -7,17 +7,17 @@ using Servess;
 
 using System.Diagnostics;
 
-namespace Caffiee.Controllers
+namespace Caffiee.Areas.Admin.Controllers
 {
-   
+
     public class BaseController : Controller
     {
         protected UnitOfWork _unitOfWork;
-         public BaseController(UnitOfWork unitOfWork)
+        public BaseController(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-         }
-        
+        }
+
 
         public IActionResult Index()
         {

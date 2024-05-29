@@ -1,5 +1,4 @@
 using C_Utilities;
-
 using Caffiee.Models;
 
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +7,7 @@ using Servess;
 
 using System.Diagnostics;
 
-namespace Caffiee.Controllers
+namespace Caffiee.Areas.Admin.Controllers
 {
 
     [Area(ConstsntValuse.Admin)]
@@ -19,8 +18,8 @@ namespace Caffiee.Controllers
         {
 
         }
- 
-        
+
+
 
         public IActionResult Index()
         {

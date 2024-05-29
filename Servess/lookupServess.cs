@@ -65,6 +65,21 @@ namespace Servess
 
             }).OrderBy(c => c.Text).AsNoTracking();
             return applicationuser;
+        } 
+        
+        public IQueryable<SelectListItem> GetCategories(int selectedId=0)
+        {
+
+            IQueryable<SelectListItem>? applicationuser = _applicationDBcontext.Categories.Select(x => new SelectListItem {
+                
+                Value = x.Id.ToString(), 
+                
+                Text = x.CategoryName ,
+                Selected = x.Id == selectedId
+
+
+            }).OrderBy(c => c.Text).AsNoTracking();
+            return applicationuser;
         }
          
 

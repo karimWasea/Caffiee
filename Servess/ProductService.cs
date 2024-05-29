@@ -2,6 +2,8 @@
 using Cf_Viewmodels;
 using DataAcessLayers;
 using Interfaces;
+
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,7 +14,7 @@ using X.PagedList;
 
 namespace Servess
 {
-    public class ProductService : PaginationHelper<ProductVm>, IProduct
+    public class ProductService : PaginationHelper<productVM>, IProduct
     {
         public readonly ApplicationDBcontext _context;
 
@@ -24,173 +26,75 @@ namespace Servess
             _mapper = mapper;
 
         }
-        public bool CheckIfExisit(ProductVm entity)
+
+        public bool CheckIfExisit(productVM entity)
         {
-            return _context.products.Any(i => i.Id != entity.Id && i.ProductName == entity.ProductName);
+            return _context.products.Any(i => i.Id != entity.Id && i.ProductName == entity.ProductName &&i.CategoryId==entity.CategoryId&&i.Price==entity.Price);
         }
 
-        public void Create(ProductVm entity)
+
+        public void Save(productVM criteria)
         {
-            var product = new Product
+            var Entity = _mapper.Map< DataAcessLayers.Product  >(criteria);
+            if (criteria.Id > 0)
             {
-                Id = entity.Id,
-                ProductName = entity.ProductName,
-                Description = entity.Description,
-                Discount = entity.Discount,
-                CategoryId = entity.CategoryId,
-                CreationTime = entity.CreationTime,
-                Price = entity.Price,
-                Qantity = entity.Qantity
-            };
-            _context.products.Add(product);
-        }
-        public void Update(ProductVm entity)
-        {
-            var product = _context.products.Find(entity.Id);
-            if (product != null)
-            {
-                product.CreationTime = entity.CreationTime;
-                product.ProductName = entity.ProductName;
-                product.Price = entity.Price;
-                product.Qantity = entity.Qantity;
-                product.CategoryId = entity.CategoryId;
-                product.Description = entity.Description;
-                product.Discount = entity.Discount;
-                _context.SaveChanges();
+                _context.Update(Entity);
+
             }
+            {
+
+                _context.Add(Entity);
+
+            }
+            _context.SaveChanges();
+
         }
         public void Delete(int id)
         {
             _context.Remove(_context.products.Find(id));
-
-        }
-
-        public ProductVm Get(int id)
-        {
-
-
-            return _mapper.Map<ProductVm>(_context.products.Find(id));
-
-            return _context.products.Where(i => i.Id == id).Select(i => new ProductVm
-            {
-                Id = i.Id,
-                ProductName = i.ProductName,
-                Description = i.Description,
-                Discount = i.Discount,
-                CategoryId = i.CategoryId,
-                CreationTime = i.CreationTime,
-                Price = i.Price,
-                Qantity = i.Qantity
-            }).FirstOrDefault();
-
-        }
-
-
-
-
-
-
-        //public IPagedList<RoomlDto> Seach(RoomSM DtoSearch)
-        //{
-        //    var Qarable =
-
-
-        //        _context.Rooms.Include(i => i.Department).Where(
-        //        Departments =>
-
-        //        (DtoSearch.Id == 0 || DtoSearch.Id == null || Departments.Id == DtoSearch.Id)
-
-
-        //              && (DtoSearch.DepartmentName == null || Departments.Department.DepartmentName.Contains(DtoSearch.DepartmentName))
-
-        //              &&
-        //              (DtoSearch.Building == null || Departments.Building.Contains(DtoSearch.DepartmentName)) &&
-        //              (DtoSearch.RoomNumber == null || Departments.RoomNumber.Contains(DtoSearch.RoomNumber))
-
-
-        //              )
-        //        .Select(Departments => new RoomlDto
-        //        {
-        //            Id = Departments.Id,
-        //            DepartmentName = Departments.Department.DepartmentName,
-        //            Building = DtoSearch.Building,
-        //            RoomNumber = Departments.RoomNumber,
-        //            Capacity = Departments.Capacity,
-        //            DepartmentId = Departments.DepartmentId
-
-
-
-        //        }).OrderBy(g => g.Id);
-        //    var IPagedList = GetPagedData(Qarable, DtoSearch.PageNumber);
-
-        //    return IPagedList;
-        //}
-
-
-
-
-
-
-
-
-        public IPagedList<ProductVm> GetAll(int pageNumber, int pageSize)
-        {
-            return _context.products.Include(s=> s.Category).Select(i => new ProductVm
-            {
-                Id = i.Id,
-                ProductName = i.ProductName,
-                Description = i.Description,
-                Discount = i.Discount,
-                CategoryId = i.CategoryId,
-                CreationTime = i.CreationTime,
-                Price = i.Price,
-                Qantity = i.Qantity,
-                Category = new CategoryVm
-                {
-                    Id = i.Category.Id,
-                    CategoryName = i.Category.CategoryName,
-                    Description = i.Category.Description,
-                }
-            }).ToPagedList(pageNumber, pageSize);
-        }
-
-
-
-        public void Save()
-        {
             _context.SaveChanges();
+
         }
 
-        public IPagedList<ProductVm> Search(ProductVm criteria)
+        public productVM Get(int id)
         {
-            var Qarable =
 
 
-                _context.products.Where(
+            return _mapper.Map<productVM>(_context.products.Find(id));
+
+            
+
+        }
+
+        public IPagedList<productVM> Search(productVM criteria)
+        {
+            var queryable = _context.products.Include(i => i.Category).Where(
                 product =>
+                    (criteria.ProductName == null || product.ProductName.Contains(criteria.ProductName))
+                    && (criteria.Description == null || product.Description.Contains(criteria.Description)))
+                .Select(i => new productVM
+                {
+                    Id = i.Id,
+                    ProductName = i.ProductName,
+                    Description = i.Description,
+                    Discount = i.Discount,
+                    CategoryId = i.CategoryId,
+                    Price = i.Price,
+                    Qantity = i.Qantity
+                     , CategoryName= i.Category.CategoryName,
+                })
+                .OrderBy(g => g.Id);
 
-                    (criteria.Id == 0 || criteria.Id == null || product.Id == criteria.Id)
-                          && (criteria.ProductName == null || product.ProductName.Contains(criteria.ProductName))
-                          && (criteria.Description == null || product.Description.Contains(criteria.Description)))
-                    .Select(i => new ProductVm
-                    {
-                        Id = i.Id,
-                        ProductName = i.ProductName,
-                        Description = i.Description,
-                        Discount = i.Discount,
-                        CategoryId = i.CategoryId,
-                        CreationTime = i.CreationTime,
-                        Price = i.Price,
-                        Qantity = i.Qantity
-                    }).OrderBy(g => g.Id);
-            var IPagedList = GetPagedData(Qarable);
+            // Provide a default value for PageNumber if it's null
+            int pageNumber = criteria.PageNumber ?? 1;
 
-            return IPagedList;
+            var pagedList = GetPagedData(queryable, pageNumber);
+
+            return pagedList;
         }
 
-        public IEnumerable<ProductVm> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+
+
+
     }
 }

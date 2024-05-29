@@ -1,8 +1,13 @@
-﻿@model Cf_Viewmodels.ProductVm
+﻿@model Cf_Viewmodels.productVM
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 
 @{
-    ViewBag.Title = "Create Product";
+    Layout = "_Layout";
+
+    ViewBag.Title = "Save Product";
 }
+<partial name="_AlertMessage" model="Model" />
 
 <h2>Create Product</h2>
 
@@ -10,7 +15,7 @@
 <hr />
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Create">
+        <form asp-action="Save">
             <div class="form-group">
                 <label asp-for="ProductName" class="control-label"></label>
                 <input asp-for="ProductName" class="form-control" />
@@ -26,11 +31,14 @@
                 <input asp-for="Qantity" class="form-control" />
                 <span asp-validation-for="Qantity" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+            <div class="col">
+                <label asp-for="CategoryId" class="form-label" style="font-weight: bold;">CategoryId:</label>
+                        <select class="form-select  glass-select same-width" asp-for="CategoryId" asp-items="Model.CategoryIdList"
+                        data-placeholder="Select CategoryId" style="z-index: 1;">
+                            <option value=""></option>
+                        </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
+                    </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
@@ -42,9 +50,23 @@
                 <span asp-validation-for="Discount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <div class="button-group">
+
+                    <button type="submit" id="savedata" class="btn btn-primary">
+                        @if (Model.Id > 0)
+                        {
+                            @:Update
+                        }
+                        else
+                        {
+                            @:Add New
+                        }
+                    </button>
+
+                </div> 
+                
                 <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-            </div>
+
         </form>
     </div>
 </div>

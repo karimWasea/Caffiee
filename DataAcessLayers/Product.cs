@@ -19,6 +19,7 @@ namespace DataAcessLayers
 
         public Category Category { get; set; }
         public ICollection<PriceProductebytypes> PriceProductebytypes { get; set; }
+        public ICollection<ProductAttachment> ProductAttachment { get; set; }
     }
 
 }

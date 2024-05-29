@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using C_Utilities;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Caffiee.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area(ConstsntValuse.Admin)]
     //[Authorize(Roles = SystemRols.SuperAdmin)]
     public class HomeController : Controller
     {

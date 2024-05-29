@@ -14,6 +14,7 @@ namespace DataAcessLayers
         public string? Description { get; set; }
 
         public ICollection<Product> Products { get; set; }
+        public ICollection<CategoryAttachment> CategoryAttachment { get; set; }
     }
 
 }

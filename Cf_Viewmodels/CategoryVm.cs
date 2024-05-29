@@ -3,7 +3,9 @@
     public class BaseVM
     {
         public int Id { get; set; }
-        public int PageNumber { get; set; }
+        public int ?PageNumber { get; set; }
+      public  int pageSize { get; set; }
+
 
 
     }

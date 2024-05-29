@@ -24,12 +24,13 @@ builder.Services.AddTransient<UnitOfWork>();
 builder.Services.AddTransient<ICustomerTypeServess>();
 builder.Services.AddTransient<lookupServess>();
 builder.Services.AddTransient<CustomerType>();
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDBcontext>();
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDBcontext>();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
-builder.Services.AddTransient<CategoryServess>();
+//builder.Services.AddTransient<CategoryServess>();
 builder.Services.AddTransient<ProductService>();
  builder.Services.AddRazorPages();
 builder.Services.AddScoped<IEmailSender, Emailsender>();
+builder.Services.AddTransient<Imgoperation>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(MappingProfile));

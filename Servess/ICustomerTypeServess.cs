@@ -30,6 +30,8 @@ namespace Servess
          return   _context.CustomerTypes.Any(i => i.Id != entity.Id && i.Types == entity.Types);
                 }
 
+      
+
         public void Delete(int id)
         {
              _context.Remove(_context.CustomerTypes.Find(id));
@@ -60,11 +62,18 @@ namespace Servess
           return   GetPagedData<CustomerTypeVm>(CustomerTypeVm);
          }
 
+        public IPagedList<CustomerTypeVm> GetAll(int pageNumber, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Save(CustomerTypeVm entity)
         {
            if(entity.Id > 0) { }else {  }
             _context.SaveChanges();
         }
+
+       
 
         public IPagedList<CustomerTypeVm> Search(CustomerTypeVm criteria)
         {
@@ -76,9 +85,15 @@ namespace Servess
 
 
             });
-            return GetPagedData<CustomerTypeVm>(CustomerTypeVm, pageNumber: criteria.PageNumber);
+            return GetPagedData<CustomerTypeVm>(CustomerTypeVm, pageNumber: (int)criteria.PageNumber);
         }
 
+        public void Update(CustomerTypeVm entity)
+        {
+            throw new NotImplementedException();
+        }
+
+       
 
 
 

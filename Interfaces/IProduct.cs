@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Interfaces
 {
-    public interface IProduct : IGenericService<ProductVm>
+    public interface IProduct : IGenericService<productVM>
     {
     }
 }

@@ -45,6 +45,14 @@ namespace DataAcessLayers
               .HasDefaultValueSql("GETDATE()");
                builder.Entity<CustomerType>()
               .Property(e => e.CreationTime)
+              .HasDefaultValueSql("GETDATE()"); 
+            
+            
+            builder.Entity<CategoryAttachment>()
+              .Property(e => e.CreationTime)
+              .HasDefaultValueSql("GETDATE()"); 
+            builder.Entity<ProductAttachment>()
+              .Property(e => e.CreationTime)
               .HasDefaultValueSql("GETDATE()");
 
 
@@ -58,6 +66,8 @@ namespace DataAcessLayers
         public DbSet<PriceProductebytypes> PriceProductebytypes { get; set; }
         public DbSet<NotPayedmoney> NotPayedmoney { get; set; }
         public DbSet<CustomerType> CustomerTypes { get; set; }
+        public DbSet<CategoryAttachment> CategoryAttachments { get; set; }
+        public DbSet<ProductAttachment> ProductAttachments { get; set; }
         // DbSet properties for other entities...
     }
 }

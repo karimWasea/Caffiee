@@ -11,6 +11,8 @@ namespace Interfaces
         
         public List<SelectListItem> GetCustomerType();
         public IQueryable<SelectListItem> GetCustomerTypesId(int selectedId = 0);
+        public IQueryable<SelectListItem> GetCategories(int selectedId = 0);
+
 
 
 
