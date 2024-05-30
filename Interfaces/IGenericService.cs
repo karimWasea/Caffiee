@@ -8,8 +8,7 @@ namespace Interfaces
         void Delete(int id);
         IPagedList<T> Search(T criteria);
         T Get(int id);
-        IPagedList<T> GetAll();
-        bool CheckIfExisit(T entity);
+         bool CheckIfExisit(T entity);
     }
  
 }

@@ -32,6 +32,11 @@ namespace Servess
             return _context.PriceProductebytypes.Any(i => i.Id != entity.Id && i.ProductId== entity.ProductId &&i.CustomerTypeId==entity.CustomerTypeId&&i.price==entity.price);
         }
 
+namespace Servess
+{
+    public class PriceProductebytypesServess : PaginationHelper<PriceProductebytypesVM>, IPriceProductebytypesServess
+    {
+        public readonly ApplicationDBcontext _context;
 
         public void Save(PriceProductebytypesVM criteria)
         {
@@ -62,7 +67,7 @@ namespace Servess
 
             return _mapper.Map<PriceProductebytypesVM>(_context.PriceProductebytypes.Find(id));
 
-            
+
 
         }
 
