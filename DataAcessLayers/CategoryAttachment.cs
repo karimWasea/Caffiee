@@ -11,6 +11,8 @@ namespace DataAcessLayers
         public string FileType { get; set; } // MIME type of the file
         public int ProductId { get; set; }
         public Category Category { get; set; }
+        public string SystemUserId { get; set; }
+        public string SystemUserName { get; set; }
         public DateTime CreationTime { get; set; } = DateTime.Now;
 
     }

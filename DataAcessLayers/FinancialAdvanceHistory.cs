@@ -9,6 +9,8 @@ namespace DataAcessLayers
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public string SystemUserId { get; set; }
+        public string SystemUserName { get; set; }
         public DateTime CreationTime { get; set; } = DateTime.Now;
         public decimal? OldAmount { get; set; }
         public decimal? NewAmount { get; set; }

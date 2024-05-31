@@ -36,7 +36,8 @@
             <th>
                 @Html.DisplayNameFor(model => model.First().Discount)
             </th>
-            <th></th>
+            <th>خيارات</th>
+            <th>اضافه اسعار المنجات للعمل</th>
         </tr>
     </thead>
     <tbody>
@@ -62,9 +63,13 @@
                     @Html.DisplayFor(modelItem => item.Discount)
                 </td>
                 <td>
+                    <a asp-area="Admin" asp-controller="PriceProductebytypes" asp-action="Save" asp-route-ProductId="@item.Id">اضافه اسعار المنجات للعملاء</a> 
                     <a asp-action="Save" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a href="javascript:void(0);" class="delete-link" data-id="@item.Id">Delete</a>
+                </td> <td>
+                    <a asp-area="Admin" asp-controller="PriceProductebytypes" asp-action="Save" asp-route-ProductId="@item.Id">اضافه اسعار المنجات  </a> 
+                    
                 </td>
             </tr>
         }

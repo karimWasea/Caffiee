@@ -3,7 +3,7 @@
 
 @{ 
     Layout = "_Layout";
-        ViewData["Title"] = " Products  ";
+    ViewData["Title"] = " PriceProductebytypes  ";
 }
  
 <form id="search-form" method="get" action="@Url.Action("Index")">
@@ -12,7 +12,7 @@
 <partial name="_AlertMessage" model="Model" />
  
 <p>
-    <a asp-area="Admin" asp-controller="Product" asp-action="Save" class="btn btn-primary">Create New</a>
+    <a asp-area="Admin" asp-controller="PriceProductebytypes" asp-action="Save" class="btn btn-primary">Create New</a>
 </p>
 
 <table class="table">

@@ -1,6 +1,9 @@
 using C_Utilities;
 using Caffiee.Models;
 
+using DataAcessLayers;
+
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 using Servess;
@@ -14,7 +17,10 @@ namespace Caffiee.Areas.Admin.Controllers
     //[Authorize(Roles = SystemRols.SuperAdmin)]
     public class CustomerTypeController : BaseController
     {
-        public CustomerTypeController(UnitOfWork unitOfWork) : base(unitOfWork)
+        public CustomerTypeController(
+         UnitOfWork unitOfWork,
+         UserManager<Applicaionuser> userManager,
+         SignInManager<Applicaionuser> signInManager) : base(unitOfWork, userManager, signInManager)
         {
 
         }

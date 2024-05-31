@@ -15,7 +15,9 @@
         public int? Qantity { get; set; }
         public int? price { get; set; }
         public DateTime Date { get; set; }
-         public FinancialAdvanceType FinancialAdvanceType { get; set; }
+        public string SystemUserId { get; set; }
+        public string SystemUserName { get; set; }
+        public FinancialAdvanceType FinancialAdvanceType { get; set; }
         public int PriceProductebytypesId { get; set; }
          public ICollection< PriceProductebytypes > PriceProductebytypes { get; set; }
  

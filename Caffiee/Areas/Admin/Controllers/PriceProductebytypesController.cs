@@ -25,7 +25,8 @@ namespace Caffiee.Areas.Admin.Controllers
             
         }
 
-      
+
+        [Route("Admin/PriceProductebytypes/Index")]
 
         public IActionResult Index(PriceProductebytypesVM Entity, int? page )
         { 
@@ -64,7 +65,7 @@ namespace Caffiee.Areas.Admin.Controllers
             else
             { var Entitys = new PriceProductebytypesVM();
                 Entitys.ProductId = ProductId;
-                Entitys.CustomerTypeIdList = _unitOfWork._Ilookup.GetCategories();
+                Entitys.CustomerTypeIdList = _unitOfWork._Ilookup.GetCustomerTypesId();
 
                 return View(Entitys);
 

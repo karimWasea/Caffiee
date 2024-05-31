@@ -7,9 +7,11 @@ using static C_Utilities.Enumes;
 namespace DataAcessLayers
 {
   
-    public class Applicaionuser : IdentityUser 
+    public class Applicaionuser : IdentityUser
     {
-         public DateTime CreationTime { get; set; } = DateTime.Now;
+        public string SystemUserId { get; set; }
+        public string SystemUserName { get; set; }
+        public DateTime CreationTime { get; set; } = DateTime.Now;
       
         public CustomerType CustomerType { get; set; }
         public int  CustomerTypeId { get; set; }

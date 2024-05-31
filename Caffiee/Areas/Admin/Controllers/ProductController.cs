@@ -3,6 +3,8 @@
 using Cf_Viewmodels;
 using DataAcessLayers;
 using Interfaces;
+
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Servess;
@@ -14,7 +16,10 @@ namespace Caffiee.Areas.Admin.Controllers
     public class ProductController :  BaseController
     {
 
-        public ProductController(UnitOfWork unitOfWork) : base(unitOfWork)
+        public ProductController(
+        UnitOfWork unitOfWork,
+        UserManager<Applicaionuser> userManager,
+        SignInManager<Applicaionuser> signInManager) : base(unitOfWork, userManager, signInManager)
         {
 
         }

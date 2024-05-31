@@ -17,7 +17,8 @@ namespace DataAcessLayers
         public ICollection<PriceProductebytypes> PriceProductebytypes { get; set; }
 
 
-
+        public string SystemUserId { get; set; }
+        public string SystemUserName { get; set; }
 
     }
 
