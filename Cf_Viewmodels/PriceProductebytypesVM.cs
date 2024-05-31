@@ -15,6 +15,8 @@ namespace Cf_Viewmodels
         public IEnumerable<SelectListItem>? CustomerTypeIdList { get; set; } = Enumerable.Empty<SelectListItem>();
 
         public int ProductId { get; set; }
+        public int ProductName { get; set; }
+        public int CustomerTypeName { get; set; }
         public int CustomerTypeId { get; set; }
         public int? Qantity { get; set; }
         public int? Discount { get; set; } // Nullable discount property

@@ -11,16 +11,16 @@
 </form>
 <partial name="_AlertMessage" model="Model" />
  
-<p>
+@* <p>
     <a asp-area="Admin" asp-controller="PriceProductebytypes" asp-action="Save" class="btn btn-primary">Create New</a>
 </p>
-
+ *@
 <table class="table">
     <thead>
         <tr>
-           @*  <th>
+            <th>
                 @Html.DisplayNameFor(model => model.First().ProductName)
-            </th> *@
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().price)
             </th>
@@ -28,36 +28,36 @@
                 @Html.DisplayNameFor(model => model.First().Qantity)
             </th>
             
-        @*     <th>
-                @Html.DisplayNameFor(model => model.First().Description)
-            </th><th>
-                @Html.DisplayNameFor(model => model.First().CategoryName)
-            </th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.First().CustomerTypeName)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().Discount)
             </th>
-            <th></th>
+            <th> خيارات</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-               @*  <td>
+                <td>
                     @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td> *@
+                    @Html.DisplayFor(modelItem => item.price)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Qantity)
                 </td>
                
-              @*   <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>    <td>
-                    @Html.DisplayFor(modelItem => item.CategoryName)
-                </td> *@
+               <td>
+                    @Html.DisplayFor(modelItem => item.CustomerTypeName)
+                </td> 
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Discount)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Discount)
                 </td>
