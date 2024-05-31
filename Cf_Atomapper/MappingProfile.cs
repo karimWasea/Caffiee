@@ -12,6 +12,7 @@ namespace Cf_Atomapper
         {
             CreateMap<Category, CategoryVm>().ReverseMap();
             CreateMap<Product, productVM>().ReverseMap();
+            CreateMap<PriceProductebytypes, PriceProductebytypesVM>().ReverseMap();
 
             //CreateMap<Data__Access__layer.Room, RoomlDto>().ForMember(dest => dest.DepartmentName,
             //    src => src.MapFrom(src => src.Department.DepartmentName)).ReverseMap();

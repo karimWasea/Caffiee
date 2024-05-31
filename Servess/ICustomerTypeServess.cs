@@ -69,7 +69,13 @@ namespace Servess
 
         public void Save(CustomerTypeVm entity)
         {
-           if(entity.Id > 0) { }else {  }
+           if(entity.Id > 0) {
+
+                //_context.CustomerTypes.Update(entity);
+                    
+                    
+                    
+                    } else {  }
             _context.SaveChanges();
         }
 
@@ -88,10 +94,7 @@ namespace Servess
             return GetPagedData<CustomerTypeVm>(CustomerTypeVm, pageNumber: (int)criteria.PageNumber);
         }
 
-        public void Update(CustomerTypeVm entity)
-        {
-            throw new NotImplementedException();
-        }
+      
 
        
 

@@ -13,6 +13,7 @@ namespace Servess
  
         public ICustomerType _CustomerType { get; }
         public Ilookup _Ilookup { get; }
+        public IPriceProductebytypes _PriceProductebytypes { get; }
 
         public readonly ApplicationDBcontext _context;
 
@@ -20,9 +21,10 @@ namespace Servess
             
             //CategoryServess categoryServess ,
             
-            ApplicationDBcontext context, ProductService productService, ICustomerTypeServess customerTypeServess , lookupServess lookupServess
+            ApplicationDBcontext context, ProductService productService, ICustomerTypeServess customerTypeServess , lookupServess lookupServess , PriceProductebytypesServess priceProductebytypesServess
             )
         {
+            _PriceProductebytypes= priceProductebytypesServess; 
             _CustomerType = customerTypeServess;
             _context = context;
             //_Category = categoryServess;

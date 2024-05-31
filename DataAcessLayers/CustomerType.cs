@@ -11,8 +11,8 @@ namespace DataAcessLayers
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public DateTime CreationTime { get; set; } = DateTime.Now;
-         public int Types { get; set; }  
-         public string TypesName { get; set; }  
+         public int? Types { get; set; }  
+         public string? TypesName { get; set; }  
           public Applicaionuser ApplicationUser { get; set; }
         public ICollection<PriceProductebytypes> PriceProductebytypes { get; set; }
 

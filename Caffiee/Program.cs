@@ -31,6 +31,7 @@ builder.Services.AddTransient<ProductService>();
  builder.Services.AddRazorPages();
 builder.Services.AddScoped<IEmailSender, Emailsender>();
 builder.Services.AddTransient<Imgoperation>();
+builder.Services.AddTransient<PriceProductebytypesServess>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(MappingProfile));

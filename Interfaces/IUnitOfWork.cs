@@ -7,6 +7,8 @@
         ICustomerType _CustomerType { get; }
         Ilookup _Ilookup { get; }
           IProduct _Product { get;   }
+          IPriceProductebytypes _PriceProductebytypes { get;   }
+    
     }
      
 }
