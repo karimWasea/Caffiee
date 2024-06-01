@@ -4,6 +4,7 @@ using DataAcessLayers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAcessLayers.Migrations
 {
     [DbContext(typeof(ApplicationDBcontext))]
-    partial class ApplicationDBcontextModelSnapshot : ModelSnapshot
+    [Migration("20240601140145_deletcustermar")]
+    partial class deletcustermar
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,6 +43,9 @@ namespace DataAcessLayers.Migrations
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<int>("CustomerType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CustomerTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")

@@ -39,9 +39,22 @@
                     </div>
                     <span asp-validation-for="Input.Gender" class="text-danger"></span>
                 </div>
+            </div> 
+            
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="form-floating">
+                        <select asp-for="Input.Custemertype" asp-items="@Html.GetEnumSelectList<CustomerType>()"
+                                aria-required="true" class="form-select" id="genderSelect">
+                            <option value="" disabled selected>Choose Custemertype</option>
+                        </select>
+                        <label for="Custemertype" class="form-label">Custemertype</label>
+                    </div>
+                    <span asp-validation-for="Input.Custemertype" class="text-danger"></span>
+                </div>
             </div>
 
-            <div class="row mb-3">
+          @*   <div class="row mb-3">
                 <div class="col-md-12">
                     <div class="form-floating">
                         <label asp-for="Input.CustemertypId" class="control-label"></label>
@@ -50,7 +63,7 @@
                     </select>
                     <span asp-validation-for="Input.CustemertypId" class="text-danger"></span>
                 </div>
-            </div>
+            </div> *@
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
     </div>

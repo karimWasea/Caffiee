@@ -87,7 +87,7 @@ namespace Caffiee.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            public int? CustemertypId { get; set; }
+            public CustomerType Custemertype { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -110,11 +110,11 @@ namespace Caffiee.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Gender")]
             public Gender Gender { get; set; }
-            List<SelectListItem> Custemertyp { get; set; } = new List<SelectListItem>();    
+            List<SelectListItem> CustomerType { get; set; } = new List<SelectListItem>();
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+            /// </summaryCustemertype
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
@@ -125,9 +125,9 @@ namespace Caffiee.Areas.Identity.Pages.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             // Fetch department options and store them in ViewData
-            var Custemertyp = _unitOfWork._Ilookup.GetCustomerTypesId();
+            var Custemertyp = _unitOfWork._Ilookup.GetCustomerType();
            
-            ViewData["CustemertypId"] = Custemertyp;
+            ViewData["CustomerType"] = Custemertyp;
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -140,7 +140,7 @@ namespace Caffiee.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
                 user.Gender = Input.Gender;
-                user.CustomerTypeId = (int)Input.CustemertypId;
+                user.CustomerType =  Input.Custemertype;
 
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);

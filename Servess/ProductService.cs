@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using C_Utilities;
+
 using Cf_Viewmodels;
 using DataAcessLayers;
 using Interfaces;
@@ -12,16 +14,21 @@ using System.Text;
 using System.Threading.Tasks;
 using X.PagedList;
 
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
 namespace Servess
 {
     public class ProductService : PaginationHelper<productVM>, IProduct
     {
-        public readonly ApplicationDBcontext _context;
+        public readonly ApplicationDBcontext _context; 
+        Imgoperation _Imgoperation;
 
         private readonly IMapper _mapper;
 
-        public ProductService(ApplicationDBcontext context, IMapper mapper)
+        public ProductService(ApplicationDBcontext context, IMapper mapper    ,     Imgoperation imgoperation
+)
         {
+            _Imgoperation = imgoperation;
             _context = context;
             _mapper = mapper;
 
@@ -38,14 +45,28 @@ namespace Servess
             var Entity = _mapper.Map< DataAcessLayers.Product  >(criteria);
             if (criteria.Id > 0)
             {
-                _context.Update(Entity);
+              var updated =  _context.Update(Entity);
+                var path = _Imgoperation.UploadFile(criteria.Cover, "Product", Entity.ProductName);
+                var ProductAttachment = new ProductAttachment();
+
+                ProductAttachment.ProductId = updated.Entity.Id;
+                ProductAttachment.FilePath = path;
 
             }
             {
 
-                _context.Add(Entity);
+               var add= _context.Add(Entity);
+                var path = _Imgoperation.UploadFile(criteria.Cover, "Product", Entity.ProductName);
+                var ProductAttachment = new ProductAttachment();
 
+                ProductAttachment.ProductId = add.Entity.Id;
+                ProductAttachment.FilePath = path;
+ 
             }
+        
+
+
+
             _context.SaveChanges();
 
         }

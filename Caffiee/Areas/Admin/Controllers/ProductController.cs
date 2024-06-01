@@ -15,13 +15,13 @@ namespace Caffiee.Areas.Admin.Controllers
 
     public class ProductController :  BaseController
     {
-
+        Imgoperation Imgoperation;
         public ProductController(
-        UnitOfWork unitOfWork,
+        UnitOfWork unitOfWork, Imgoperation imgoperation,
         UserManager<Applicaionuser> userManager,
         SignInManager<Applicaionuser> signInManager) : base(unitOfWork, userManager, signInManager)
         {
-
+            Imgoperation=imgoperation;
         }
 
         // GET: Products
@@ -77,7 +77,7 @@ namespace Caffiee.Areas.Admin.Controllers
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public IActionResult Save(productVM productVm)
-        {
+        { 
             productVm.CategoryIdList = _unitOfWork._Ilookup.GetCategories();
             ModelState.Remove("CategoryName");
 
@@ -86,7 +86,12 @@ namespace Caffiee.Areas.Admin.Controllers
                 return View(productVm);
 
             }
-             if(!_unitOfWork._Product .CheckIfExisit(productVm))
+            if (productVm.Files == null || productVm.Files.Count == 0)
+            {
+                ModelState.AddModelError("", "Please select files to upload.");
+                return View(productVm);
+            }
+            if (!_unitOfWork._Product .CheckIfExisit(productVm))
             {
                 _unitOfWork._Product.Save(productVm);
                 TempData["Message"] = $" successfully Add!";

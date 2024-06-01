@@ -1,14 +1,14 @@
-﻿using Cf_Viewmodels;
+﻿//using Cf_Viewmodels;
 
-using X.PagedList;
+//using X.PagedList;
 
-namespace Interfaces
-{
-    public interface ICustomerType : IGenericService<CustomerTypeVm>
-    {
+//namespace Interfaces
+//{
+//    public interface ICustomerType : IGenericService<CustomerTypeVm>
+//    {
       
 
 
 
-    }
-}
+//    }
+//}

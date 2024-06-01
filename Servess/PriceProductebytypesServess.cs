@@ -72,7 +72,7 @@ namespace Servess
 
         public IPagedList<PriceProductebytypesVM> Search(PriceProductebytypesVM criteria)
         {
-            var queryable = _context.PriceProductebytypes.Include(i => i.Product).Include(p => p.CustomerType).Where(
+            var queryable = _context.PriceProductebytypes.Include(i => i.Product).Where(
                 product =>
                     (criteria.ProductId == null || product.ProductId == criteria.ProductId)
                     && (criteria.CustomerTypeId == null || product.CustomerTypeId == criteria.CustomerTypeId))
@@ -89,7 +89,7 @@ namespace Servess
                 .OrderBy(g => g.Id);
 
             // Provide a default value for PageNumber if it's null
-            int pageNumber = (int)criteria.PageNumber;
+            int pageNumber = criteria.PageNumber ?? 1;
 
             var pagedList = GetPagedData(queryable, pageNumber);
 

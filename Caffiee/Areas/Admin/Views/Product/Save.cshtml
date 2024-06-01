@@ -1,78 +1,123 @@
 ﻿@model Cf_Viewmodels.productVM
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
-
 @{
     Layout = "_Layout";
-
     ViewBag.Title = "Save Product";
 }
-<partial name="_AlertMessage" model="Model" />
 
-<h2>Create Product</h2>
+<partial name="_AlertMessage" model="Model" enctype="multipart/form-data">
 
-<h4>Product</h4>
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Save">
-            <div class="form-group">
-                <label asp-for="ProductName" class="control-label"></label>
-                <input asp-for="ProductName" class="form-control" />
-                <span asp-validation-for="ProductName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Qantity" class="control-label"></label>
-                <input asp-for="Qantity" class="form-control" />
-                <span asp-validation-for="Qantity" class="text-danger"></span>
-            </div>
-            <div class="col">
-                <label asp-for="CategoryId" class="form-label" style="font-weight: bold;">CategoryId:</label>
-                        <select class="form-select  glass-select same-width" asp-for="CategoryId" asp-items="Model.CategoryIdList"
-                        data-placeholder="Select CategoryId" style="z-index: 1;">
-                            <option value=""></option>
-                        </select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+    <h2>Create Product</h2>
+
+    <h4>Product</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Save" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="ProductName" class="control-label"></label>
+                    <input asp-for="ProductName" class="form-control" />
+                    <span asp-validation-for="ProductName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Qantity" class="control-label"></label>
+                    <input asp-for="Qantity" class="form-control" />
+                    <span asp-validation-for="Qantity" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="CategoryId" class="form-label" style="font-weight: bold;">CategoryId:</label>
+                    <select class="form-select glass-select same-width" asp-for="CategoryId" asp-items="Model.CategoryIdList"
+                            data-placeholder="Select CategoryId" style="z-index: 1;">
+                        <option value=""></option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Discount" class="control-label"></label>
+                    <input asp-for="Discount" class="form-control" />
+                    <span asp-validation-for="Discount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Cover" class="control-label"></label>
+                    <input type="file" name="Cover" class="form-control" multiple onchange="previewImages(event)" />
+                </div>
+                <div class="form-group">
+                    <div id="imagePreview" class="row"></div>
+                </div>
+                <div class="form-group">
+                    <div class="button-group">
+                        <button type="submit" id="savedata" class="btn btn-primary">
+                            @if (Model.Id > 0)
+                            {
+                                @:Update
+                            }
+                            else
+                            {
+                                @:Add New
+                            }
+                        </button>
                     </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Discount" class="control-label"></label>
-                <input asp-for="Discount" class="form-control" />
-                <span asp-validation-for="Discount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="button-group">
-
-                    <button type="submit" id="savedata" class="btn btn-primary">
-                        @if (Model.Id > 0)
-                        {
-                            @:Update
-                        }
-                        else
-                        {
-                            @:Add New
-                        }
-                    </button>
-
-                </div> 
-                
-                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-
-        </form>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    @section Scripts {
+        <script>
+            function previewImages(event) {
+                var files = event.target.files;
+                var preview = document.getElementById('imagePreview');
+                preview.innerHTML = ''; // Clear the preview container
+
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        var imgDiv = document.createElement('div');
+                        imgDiv.classList.add('col-md-3');
+
+                        var img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.classList.add('img-thumbnail');
+                        img.style.maxWidth = '150px';
+                        img.style.margin = '10px';
+
+                        var delButton = document.createElement('button');
+                        delButton.textContent = 'Delete';
+                        delButton.classList.add('btn', 'btn-danger', 'btn-sm');
+                        delButton.style.display = 'block';
+                        delButton.style.margin = '10px';
+                        delButton.onclick = function () {
+                            imgDiv.remove();
+                            // Reset file input field
+                            document.querySelector('input[type="file"]').value = '';
+                        };
+
+                        imgDiv.appendChild(img);
+                        imgDiv.appendChild(delButton);
+                        preview.appendChild(imgDiv);
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            }
+        </script>
+
+        </script>
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
     }
-}

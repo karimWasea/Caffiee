@@ -34,7 +34,7 @@ namespace Servess
 
 
         }
-          
+
         public List<SelectListItem> GetCustomerType()
         {
             var weekdays = Enum.GetValues(typeof(CustomerType))
@@ -52,20 +52,20 @@ namespace Servess
 
         
 
-        public IQueryable<SelectListItem> GetCustomerTypesId(int selectedId=0)
-        {
+        //public IQueryable<SelectListItem> GetCustomerTypesId(int selectedId=0)
+        //{
 
-            IQueryable<SelectListItem>? applicationuser = _applicationDBcontext.CustomerTypes.Select(x => new SelectListItem {
+        //    IQueryable<SelectListItem>? applicationuser = _applicationDBcontext.CustomerTypes.Select(x => new SelectListItem {
                 
-                Value = x.Id.ToString(), 
+        //        Value = x.Id.ToString(), 
                 
-                Text = x.TypesName ,
-                Selected = x.Id == selectedId
+        //        Text = x.TypesName ,
+        //        Selected = x.Id == selectedId
 
 
-            }).OrderBy(c => c.Text).AsNoTracking();
-            return applicationuser;
-        } 
+        //    }).OrderBy(c => c.Text).AsNoTracking();
+        //    return applicationuser;
+        //} 
         
         public IQueryable<SelectListItem> GetCategories(int selectedId=0)
         {

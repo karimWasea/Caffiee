@@ -65,7 +65,7 @@ namespace Caffiee.Areas.Admin.Controllers
             else
             { var Entitys = new PriceProductebytypesVM();
                 Entitys.ProductId = ProductId;
-                Entitys.CustomerTypeIdList = _unitOfWork._Ilookup.GetCustomerTypesId();
+                Entitys.CustomerTypeIdList = _unitOfWork._Ilookup.GetCustomerType();
 
                 return View(Entitys);
 
@@ -81,7 +81,7 @@ namespace Caffiee.Areas.Admin.Controllers
         //[ValidateAntiForgeryToken]
         public IActionResult Save(PriceProductebytypesVM Entity)
         {
-            Entity. CustomerTypeIdList = _unitOfWork._Ilookup.GetCustomerTypesId();
+            Entity. CustomerTypeIdList = _unitOfWork._Ilookup.GetCustomerType();
             ModelState.Remove("CategoryName");
 
             if (!ModelState.IsValid)

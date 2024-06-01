@@ -21,12 +21,12 @@ builder.Services.AddIdentity<Applicaionuser, IdentityRole>(options => options.Si
 .AddEntityFrameworkStores<ApplicationDBcontext>().AddDefaultTokenProviders();
 
 builder.Services.AddTransient<UnitOfWork>();
-builder.Services.AddTransient<ICustomerTypeServess>();
+//builder.Services.AddTransient<ICustomerTypeServess>();
 builder.Services.AddTransient<lookupServess>();
-builder.Services.AddTransient<CustomerType>();
+//builder.Services.AddTransient<CustomerType>();
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDBcontext>();
-builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
-//builder.Services.AddTransient<CategoryServess>();
+builder.Services.AddScoped<UnitOfWork>();
+builder.Services.AddTransient<CategoryServess>();
 builder.Services.AddTransient<ProductService>();
  builder.Services.AddRazorPages();
 builder.Services.AddScoped<IEmailSender, Emailsender>();
@@ -53,7 +53,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Home/Index");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }

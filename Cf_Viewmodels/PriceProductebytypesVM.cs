@@ -8,11 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using static C_Utilities.Enumes;
+
 namespace Cf_Viewmodels
 {
     public class PriceProductebytypesVM : BaseVM
     {
         public IEnumerable<SelectListItem>? CustomerTypeIdList { get; set; } = Enumerable.Empty<SelectListItem>();
+        public CustomerType CustomerType { get; set; }
 
         public int ProductId { get; set; }
         public int ProductName { get; set; }
