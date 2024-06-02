@@ -9,9 +9,10 @@
 }
 <partial name="_AlertMessage" model="Model" />
 
-<h2>Create Product</h2>
-
-<h4>Product</h4>
+<h2>Create PriceProductebytypes</h2>
+ 
+<h4>     productName:@Model.ProductName</h4>
+<h4>    orginal productName:@Model.ProductOldPrice</h4>
 <hr />
 <div class="row">
     <div class="col-md-6">
@@ -30,12 +31,12 @@
                 <span asp-validation-for="Qantity" class="text-danger"></span>
             </div>
             <div class="col">
-                <label asp-for="CustomerTypeId" class="form-label" style="font-weight: bold;">CategoryId:</label>
-                <select class="form-select  glass-select same-width" asp-for="CustomerTypeId" asp-items="Model.CustomerTypeIdList"
+                <label asp-for="CustomerType" class="form-label" style="font-weight: bold;">CustomerTypeId:</label>
+                <select class="form-select  glass-select same-width" asp-for="CustomerType" asp-items="Model.CustomerTypeIdList"
                         data-placeholder="Select CategoryId" style="z-index: 1;">
                             <option value=""></option>
                         </select>
-                <span asp-validation-for="CustomerTypeId" class="text-danger"></span>
+                <span asp-validation-for="CustomerType" class="text-danger"></span>
                     </div>
           
             <div class="form-group">

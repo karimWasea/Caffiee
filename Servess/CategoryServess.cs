@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 
+using C_Utilities;
+
 using Cf_Viewmodels;
 
 using DataAcessLayers;
@@ -17,13 +19,17 @@ namespace Servess
     public class CategoryServess : PaginationHelper<CategoryVm>, ICategory
     {
         public readonly ApplicationDBcontext _context;
+        Imgoperation _Imgoperation;
+
 
         private readonly IMapper _mapper;
 
-        public CategoryServess(ApplicationDBcontext context, IMapper mapper)
+        public CategoryServess(ApplicationDBcontext context, IMapper mapper , Imgoperation Imgoperation)
         {
             _context = context;
             _mapper = mapper;
+            _Imgoperation = Imgoperation;   
+
 
         }
         public bool CheckIfExisit(CategoryVm entity)
@@ -56,12 +62,36 @@ namespace Servess
             var Entity = _mapper.Map<DataAcessLayers.Category>(criteria);
             if (criteria.Id > 0)
             {
-                _context.Update(Entity);
+                var updated = _context.Update(Entity);
+              var update=  _context.SaveChanges();
+                if (update > 0)
+                {
+                    var path = _Imgoperation.UploadFile(criteria.Imge, "Category", Entity.CategoryName);
+                    var ProductAttachment = new CategoryAttachment();
 
-            }
+                    ProductAttachment.CategoryId = updated.Entity.Id;
+                    ProductAttachment.FilePath = path;
+                    ProductAttachment.FileType = "Category";
+                    _context.Add(ProductAttachment);
+                    _context.SaveChanges();
+                }
+              
+            }else
             {
 
-                _context.Add(Entity);
+           var add =     _context.Add(Entity);
+              var saved=   _context.SaveChanges();
+                if(saved>0)
+                {
+                    var path = _Imgoperation.UploadFile(criteria.Imge, "Category", Entity.CategoryName);
+                    var ProductAttachment = new CategoryAttachment();
+
+                    ProductAttachment.CategoryId = add.Entity.Id;
+                    ProductAttachment.FilePath = path;
+                    ProductAttachment.FileType = "Category";
+                    _context.Add(ProductAttachment);
+                }
+           
 
             }
             _context.SaveChanges();

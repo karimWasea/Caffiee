@@ -72,8 +72,8 @@ namespace C_Utilities
                 throw new ArgumentNullException(nameof(file));
             }
 
-            if (IsImage(file) || IsPDF(file))
-            {
+            //if (IsPDF(file))
+            //{
                 // Get the file extension
                 string fileExtension = Path.GetExtension(file.FileName);
                 if (string.IsNullOrEmpty(fileExtension))
@@ -115,9 +115,9 @@ namespace C_Utilities
 
                     throw new ApplicationException("An error occurred while uploading the file.", ex);
                 }
-            }
+            //}
 
-            return null;
+            //return null;
         }
 
         private bool IsImage(IFormFile file)

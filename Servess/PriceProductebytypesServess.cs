@@ -34,7 +34,9 @@ namespace Servess
 
         public bool CheckIfExisit(PriceProductebytypesVM entity)
         {
-            return _context.PriceProductebytypes.Any(i => i.Id != entity.Id && i.ProductId == entity.ProductId && i.CustomerTypeId == entity.CustomerTypeId && i.price == entity.price);
+            return _context.PriceProductebytypes.Any(i => i.Id != entity.Id && i.ProductId == entity.ProductId 
+            
+            && i.CustomerType == entity.CustomerType && i.price == entity.price);
         }
 
         public void Save(PriceProductebytypesVM criteria)
@@ -74,12 +76,13 @@ namespace Servess
         {
             var queryable = _context.PriceProductebytypes.Include(i => i.Product).Where(
                 product =>
-                    (criteria.ProductId == null || product.ProductId == criteria.ProductId)
-                    && (criteria.CustomerTypeId == null || product.CustomerTypeId == criteria.CustomerTypeId))
+                    (criteria.ProductId == null || criteria.ProductId == 0 || product.ProductId == criteria.ProductId)
+                    && (criteria.CustomerType == null|| criteria.CustomerType == 0 || product.CustomerType == criteria.CustomerType))
                 .Select(i => new PriceProductebytypesVM
                 {
-                     CustomerTypeId = i.CustomerTypeId,
-                      ProductId = i.ProductId,
+                    ProductName=i.Product.ProductName,
+                     CustomerType = i.CustomerType,
+                       ProductId = i.ProductId,
                        Id = i.Id,
                           Discount = i.Discount,
  Qantity = i.Qantity,

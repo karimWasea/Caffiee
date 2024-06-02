@@ -19,7 +19,7 @@ namespace Cf_Viewmodels
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public IEnumerable<SelectListItem>? CategoryIdList { get; set; } = Enumerable.Empty<SelectListItem>();
-        public List<IFormFile> Files { get; set; }
+        //public List<IFormFile> Files { get; set; }
 
         //[AllowedExtensions(FileSettings.AllowedExtensions),
         //    MaxFileSize(FileSettings.MaxFileSizeInBytes)]

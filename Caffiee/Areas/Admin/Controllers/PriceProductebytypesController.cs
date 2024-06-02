@@ -56,6 +56,8 @@ namespace Caffiee.Areas.Admin.Controllers
 
                 var Entity = _unitOfWork._PriceProductebytypes.Get(Id);
                  Entity.ProductId = ProductId;
+                Entity.ProductName = _unitOfWork._Product.Get(ProductId).ProductName;
+                Entity.ProductOldPrice = (int?)_unitOfWork._Product.Get(ProductId).Price;
                 //product.CategoryIdList = _unitOfWork._Ilookup.GetCategories();
 
 
@@ -65,6 +67,9 @@ namespace Caffiee.Areas.Admin.Controllers
             else
             { var Entitys = new PriceProductebytypesVM();
                 Entitys.ProductId = ProductId;
+                Entitys.ProductName = _unitOfWork._Product.Get(ProductId).ProductName;
+                Entitys.ProductOldPrice = (int?)_unitOfWork._Product.Get(ProductId).Price;
+
                 Entitys.CustomerTypeIdList = _unitOfWork._Ilookup.GetCustomerType();
 
                 return View(Entitys);
@@ -83,6 +88,8 @@ namespace Caffiee.Areas.Admin.Controllers
         {
             Entity. CustomerTypeIdList = _unitOfWork._Ilookup.GetCustomerType();
             ModelState.Remove("CategoryName");
+            ModelState.Remove("ProductName");
+            ModelState.Remove("CustomerTypeName");
 
             if (!ModelState.IsValid)
             {

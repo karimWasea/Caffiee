@@ -46,22 +46,32 @@ namespace Servess
             if (criteria.Id > 0)
             {
               var updated =  _context.Update(Entity);
+                _context.SaveChanges();
+
                 var path = _Imgoperation.UploadFile(criteria.Cover, "Product", Entity.ProductName);
                 var ProductAttachment = new ProductAttachment();
 
                 ProductAttachment.ProductId = updated.Entity.Id;
                 ProductAttachment.FilePath = path;
+                ProductAttachment.FileType = "Product";
+                _context.Add(ProductAttachment);
+
 
             }
             {
 
                var add= _context.Add(Entity);
+                _context.SaveChanges();
+
                 var path = _Imgoperation.UploadFile(criteria.Cover, "Product", Entity.ProductName);
                 var ProductAttachment = new ProductAttachment();
 
                 ProductAttachment.ProductId = add.Entity.Id;
                 ProductAttachment.FilePath = path;
- 
+                ProductAttachment.FileType = "Product";
+                _context.Add(ProductAttachment);
+
+
             }
         
 

@@ -1,18 +1,22 @@
-﻿namespace Cf_Viewmodels
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Cf_Viewmodels
 {
     public class BaseVM
     {
         public int Id { get; set; }
         public int ?PageNumber { get; set; }
       public  int pageSize { get; set; }
-        public string SystemUserId { get; set; }
-        public string SystemUserName { get; set; }
+        public string SystemUserId { get; set; } =string.Empty;
+        public string SystemUserName { get; set; }=
+        string.Empty;
 
 
     }
     public class CategoryVm: BaseVM
     {
          public string? CategoryName { get; set; }
+         public IFormFile? Imge { get; set; }
         public string? Description { get; set; }
     }
 }

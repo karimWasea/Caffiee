@@ -58,15 +58,27 @@ public enum CustomerType
     }
 }
 
- 
- 
+
+
 
 public static class EnumExtensions
 {
     public static string GetDescription(this Enum value)
     {
+        if (value == null)
+        {
+            throw new ArgumentNullException(nameof(value));
+        }
+
         var field = value.GetType().GetField(value.ToString());
+
+        if (field == null)
+        {
+            throw new ArgumentException($"Invalid enum value '{value}' for enum type '{value.GetType()}'");
+        }
+
         var attribute = (DescriptionAttribute)Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute));
         return attribute == null ? value.ToString() : attribute.Description;
     }
 }
+

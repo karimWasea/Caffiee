@@ -80,7 +80,7 @@ namespace Caffiee.Areas.Admin.Controllers
         //[ValidateAntiForgeryToken]
         public IActionResult Save(CategoryVm Entity  )
         {
-             ModelState.Remove("CategoryName");
+             //ModelState.Remove("CategoryName");
 
             if (!ModelState.IsValid)
             {

@@ -16,12 +16,13 @@ namespace Cf_Viewmodels
     {
         public IEnumerable<SelectListItem>? CustomerTypeIdList { get; set; } = Enumerable.Empty<SelectListItem>();
         public CustomerType CustomerType { get; set; }
+        public string CustomerTypeName { get; set; } // Call extension method on the instance
+        //public string CustomerTypeName => CustomerType.GetDescription();  // Call extension method on the instance
 
         public int ProductId { get; set; }
-        public int ProductName { get; set; }
-        public int CustomerTypeName { get; set; }
-        public int CustomerTypeId { get; set; }
-        public int? Qantity { get; set; }
+        public string ProductName { get; set; }
+        public decimal? ProductOldPrice { get; set; }
+          public int? Qantity { get; set; }
         public int? Discount { get; set; } // Nullable discount property
         public int? price { get; set; }
 

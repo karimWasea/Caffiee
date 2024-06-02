@@ -81,12 +81,14 @@ namespace Caffiee.Areas.Admin.Controllers
             productVm.CategoryIdList = _unitOfWork._Ilookup.GetCategories();
             ModelState.Remove("CategoryName");
 
+            //productVm.SystemUserId= GetCurrentUserInfo().Result.UserId;
+            //productVm.SystemUserName= GetCurrentUserInfo().Result.UserName;
             if (!ModelState.IsValid)
             {
                 return View(productVm);
 
             }
-            if (productVm.Files == null || productVm.Files.Count == 0)
+            if (productVm.Cover == null  )
             {
                 ModelState.AddModelError("", "Please select files to upload.");
                 return View(productVm);
