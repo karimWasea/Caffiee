@@ -9,8 +9,8 @@ namespace DataAcessLayers
   
     public class Applicaionuser : IdentityUser
     {
-        public string SystemUserId { get; set; }
-        public string SystemUserName { get; set; }
+        public string? SystemUserId { get; set; }
+        public string? SystemUserName { get; set; }
         public DateTime CreationTime { get; set; } = DateTime.Now;
       
         public CustomerType CustomerType { get; set; }

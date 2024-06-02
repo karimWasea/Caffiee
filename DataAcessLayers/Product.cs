@@ -16,8 +16,8 @@ namespace DataAcessLayers
         public string? Description { get; set; }
         public int? Discount { get; set; } // Nullable discount property
 
-        public string SystemUserId { get; set; }
-        public string SystemUserName { get; set; }
+        public string? SystemUserId { get; set; }
+        public string? SystemUserName { get; set; }
         public Category Category { get; set; }
         public ICollection<PriceProductebytypes> PriceProductebytypes { get; set; }
         public ICollection<ProductAttachment> ProductAttachment { get; set; }

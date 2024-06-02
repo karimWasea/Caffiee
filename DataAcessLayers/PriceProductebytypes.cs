@@ -13,8 +13,8 @@ namespace DataAcessLayers
         public DateTime CreationTime { get; set; } = DateTime.Now;
          public  Product Product  { get; set; }
         public ICollection<NotPayedmoney> NotPayedmoney { get; set; }
-        public string SystemUserId { get; set; }
-        public string SystemUserName { get; set; }
+        public string? SystemUserId { get; set; }
+        public string? SystemUserName { get; set; }
         public int ProductId { get; set; }
          public CustomerType CustomerType { get; set; }
         public int ? Qantity { get; set; }

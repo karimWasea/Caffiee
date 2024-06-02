@@ -10,9 +10,9 @@ namespace DataAcessLayers
         public string ?FileType { get; set; } // MIME type of the file
         public int ProductId { get; set; }
         public Product Product { get; set; }
-        public DateTime CreationTime { get; set; } = DateTime.Now; 
-        public string ? SystemUserId { get; set; }
-        public string ? SystemUserName { get; set; }
+        public DateTime CreationTime { get; set; } = DateTime.Now;
+        public string? SystemUserId { get; set; }
+        public string? SystemUserName { get; set; }
 
     }
 
