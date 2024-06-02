@@ -60,6 +60,7 @@ namespace Caffiee.Areas.Admin.Controllers
                 Entity.ProductOldPrice = (int?)_unitOfWork._Product.Get(ProductId).Price;
                 //product.CategoryIdList = _unitOfWork._Ilookup.GetCategories();
 
+                Entity.CustomerTypeIdList = _unitOfWork._Ilookup.GetCustomerType();
 
                 return View(Entity);
 
