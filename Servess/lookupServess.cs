@@ -10,7 +10,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 
 using X.PagedList;
 
@@ -37,28 +39,28 @@ namespace Servess
 
         public List<SelectListItem> GetCustomerType()
         {
-            var weekdays = Enum.GetValues(typeof(CustomerType))
+            var CustomerType = Enum.GetValues(typeof(CustomerType))
                                .Cast<C_Utilities.Enumes.CustomerType>()
                                .Select(d => new SelectListItem
                                {
                                    Value = ((int)d).ToString(),
-                                   Text = d.ToString()
+                                   Text = DescriptionEnum.GetDescription(d)
                                })
                                .ToList();
 
-            return weekdays;
+            return CustomerType;
         }
 
 
-        
+
 
         //public IQueryable<SelectListItem> GetCustomerTypesId(int selectedId=0)
         //{
 
         //    IQueryable<SelectListItem>? applicationuser = _applicationDBcontext.CustomerTypes.Select(x => new SelectListItem {
-                
+
         //        Value = x.Id.ToString(), 
-                
+
         //        Text = x.TypesName ,
         //        Selected = x.Id == selectedId
 
@@ -66,27 +68,64 @@ namespace Servess
         //    }).OrderBy(c => c.Text).AsNoTracking();
         //    return applicationuser;
         //} 
-        
-        public IQueryable<SelectListItem> GetCategories(int selectedId=0)
+
+        //public IQueryable<SelectListItem> GetCategories(int selectedId=0)
+        //{
+
+        //    IQueryable<SelectListItem>? applicationuser = _applicationDBcontext.Categories.Select(x => new SelectListItem {
+
+        //        Value = x.Id.ToString(), 
+
+        //        Text = x.CategoryName ,
+        //        Selected = x.Id == selectedId
+
+
+        //    }).OrderBy(c => c.Text).AsNoTracking();
+        //    return applicationuser;
+        //}
+
+
+
+
+
+
+        public List<SelectListItem> GetCategoryType()
         {
+            var CustomerType = Enum.GetValues(typeof(CategoryType))
+                                   .Cast<CategoryType>()
+                                   .Select(d => new SelectListItem
+                                   {
+                                       Value = ((int)d).ToString(),
+                                       Text = DescriptionEnum.GetDescription(d)
+                                   })
+                                   .ToList();
 
-            IQueryable<SelectListItem>? applicationuser = _applicationDBcontext.Categories.Select(x => new SelectListItem {
-                
-                Value = x.Id.ToString(), 
-                
-                Text = x.CategoryName ,
-                Selected = x.Id == selectedId
-
-
-            }).OrderBy(c => c.Text).AsNoTracking();
-            return applicationuser;
+            return CustomerType;
         }
-         
 
-     
+        
+    }
 
 
 
+
+
+  public static   class DescriptionEnum{
+
+        public  static string GetDescription(CategoryType categoryType)
+        {
+            var fieldInfo = typeof(CategoryType).GetField(categoryType.ToString());
+            var descriptionAttribute = fieldInfo?.GetCustomAttribute<DescriptionAttribute>();
+            return descriptionAttribute?.Description ?? categoryType.ToString();
+        }
+         public  static string GetDescription(CustomerType CustomerType)
+        {
+            var fieldInfo = typeof(CustomerType).GetField(CustomerType.ToString());
+            var descriptionAttribute = fieldInfo?.GetCustomAttribute<DescriptionAttribute>();
+            return descriptionAttribute?.Description ?? CustomerType.ToString();
+        }
+
+       
 
     }
 }

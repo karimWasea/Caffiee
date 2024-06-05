@@ -107,10 +107,7 @@ namespace DataAcessLayers.Migrations
             modelBuilder.Entity("DataAcessLayers.Category", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CategoryName")
                         .HasColumnType("nvarchar(max)");
@@ -145,6 +142,9 @@ namespace DataAcessLayers.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CategoryId1")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreationTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
@@ -164,7 +164,7 @@ namespace DataAcessLayers.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CategoryId1");
 
                     b.ToTable("CategoryAttachments");
                 });
@@ -378,6 +378,9 @@ namespace DataAcessLayers.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CategoryId1")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreationTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
@@ -406,7 +409,7 @@ namespace DataAcessLayers.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CategoryId1");
 
                     b.ToTable("products");
                 });
@@ -584,7 +587,7 @@ namespace DataAcessLayers.Migrations
                 {
                     b.HasOne("DataAcessLayers.Category", "Category")
                         .WithMany("CategoryAttachment")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("CategoryId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -644,7 +647,7 @@ namespace DataAcessLayers.Migrations
                 {
                     b.HasOne("DataAcessLayers.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("CategoryId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

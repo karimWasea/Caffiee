@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAcessLayers.Migrations
 {
     /// <inheritdoc />
-    public partial class SalseProductUserd : Migration
+    public partial class f : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,16 +30,11 @@ namespace DataAcessLayers.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    SystemUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SystemUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IdentifierImge = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Job = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CustomerType = table.Column<int>(type: "int", nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false),
-                    IdentifierNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -64,15 +59,37 @@ namespace DataAcessLayers.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SystemUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SystemUserName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FinancialAdvances",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    Qantity = table.Column<int>(type: "int", nullable: true),
+                    PayedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    NotpayedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SystemUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SystemUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FinancialAdvanceType = table.Column<int>(type: "int", nullable: false),
+                    PriceProductebytypesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FinancialAdvances", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -121,8 +138,8 @@ namespace DataAcessLayers.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -166,8 +183,8 @@ namespace DataAcessLayers.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -182,25 +199,26 @@ namespace DataAcessLayers.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FinancialAdvances",
+                name: "CategoryAttachments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ApplicaionuserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FinancialAdvanceType = table.Column<int>(type: "int", nullable: false)
+                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId1 = table.Column<int>(type: "int", nullable: false),
+                    SystemUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SystemUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FinancialAdvances", x => x.Id);
+                    table.PrimaryKey("PK_CategoryAttachments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FinancialAdvances_AspNetUsers_ApplicaionuserId",
-                        column: x => x.ApplicaionuserId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_CategoryAttachments_Categories_CategoryId1",
+                        column: x => x.CategoryId1,
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -216,15 +234,110 @@ namespace DataAcessLayers.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Qantity = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Discount = table.Column<int>(type: "int", nullable: true),
+                    SystemUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SystemUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CategoryId1 = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_products_Categories_CategoryId",
-                        column: x => x.CategoryId,
+                        name: "FK_products_Categories_CategoryId1",
+                        column: x => x.CategoryId1,
                         principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PriceProductebytypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    SystemUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SystemUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    CustomerType = table.Column<int>(type: "int", nullable: false),
+                    Qantity = table.Column<int>(type: "int", nullable: true),
+                    Discount = table.Column<int>(type: "int", nullable: true),
+                    price = table.Column<int>(type: "int", nullable: true),
+                    FinancialUserCashId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PriceProductebytypes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PriceProductebytypes_FinancialAdvances_FinancialUserCashId",
+                        column: x => x.FinancialUserCashId,
+                        principalTable: "FinancialAdvances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PriceProductebytypes_products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductAttachments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    SystemUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SystemUserName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductAttachments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductAttachments_products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NotPayedmoney",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    SalasDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalPayedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    TotalNotpayedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    ChangedByUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NotpayedmoneyId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserNotPayedmoneyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    SystemUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SystemUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PriceProductebytypesid = table.Column<int>(type: "int", nullable: false),
+                    PaymentStatus = table.Column<int>(type: "int", nullable: false),
+                    Stutes = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotPayedmoney", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NotPayedmoney_AspNetUsers_UserNotPayedmoneyId",
+                        column: x => x.UserNotPayedmoneyId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_NotPayedmoney_PriceProductebytypes_PriceProductebytypesid",
+                        column: x => x.PriceProductebytypesid,
+                        principalTable: "PriceProductebytypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -235,82 +348,32 @@ namespace DataAcessLayers.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    SystemUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SystemUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    OldAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    NewAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PayedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    NotpayedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     ChangeDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ChangedByUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FinancialAdvanceId = table.Column<int>(type: "int", nullable: false)
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NotPayedmoneyId = table.Column<int>(type: "int", nullable: false),
+                    Stutes = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FinancialAdvanceHistories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FinancialAdvanceHistories_FinancialAdvances_FinancialAdvanceId",
-                        column: x => x.FinancialAdvanceId,
-                        principalTable: "FinancialAdvances",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SalseProductUserTyps",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    CustomerType = table.Column<int>(type: "int", nullable: false),
-                    Qantity = table.Column<int>(type: "int", nullable: true),
-                    price = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SalseProductUserTyps", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SalseProductUserTyps_products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserProducts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    SalasDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ApplicaionuserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    SalseProductUserId = table.Column<int>(type: "int", nullable: false),
-                    PaymentStatus = table.Column<int>(type: "int", nullable: false),
-                    QantityBuy = table.Column<int>(type: "int", nullable: true),
-                    SalseProductUserTypsId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserProducts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserProducts_AspNetUsers_ApplicaionuserId",
-                        column: x => x.ApplicaionuserId,
+                        name: "FK_FinancialAdvanceHistories_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_UserProducts_SalseProductUserTyps_SalseProductUserTypsId",
-                        column: x => x.SalseProductUserTypsId,
-                        principalTable: "SalseProductUserTyps",
+                        name: "FK_FinancialAdvanceHistories_NotPayedmoney_NotPayedmoneyId",
+                        column: x => x.NotPayedmoneyId,
+                        principalTable: "NotPayedmoney",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserProducts_products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "products",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -353,39 +416,49 @@ namespace DataAcessLayers.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FinancialAdvanceHistories_FinancialAdvanceId",
+                name: "IX_CategoryAttachments_CategoryId1",
+                table: "CategoryAttachments",
+                column: "CategoryId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FinancialAdvanceHistories_ApplicationUserId",
                 table: "FinancialAdvanceHistories",
-                column: "FinancialAdvanceId");
+                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FinancialAdvances_ApplicaionuserId",
-                table: "FinancialAdvances",
-                column: "ApplicaionuserId");
+                name: "IX_FinancialAdvanceHistories_NotPayedmoneyId",
+                table: "FinancialAdvanceHistories",
+                column: "NotPayedmoneyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_products_CategoryId",
+                name: "IX_NotPayedmoney_PriceProductebytypesid",
+                table: "NotPayedmoney",
+                column: "PriceProductebytypesid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NotPayedmoney_UserNotPayedmoneyId",
+                table: "NotPayedmoney",
+                column: "UserNotPayedmoneyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PriceProductebytypes_FinancialUserCashId",
+                table: "PriceProductebytypes",
+                column: "FinancialUserCashId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PriceProductebytypes_ProductId",
+                table: "PriceProductebytypes",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductAttachments_ProductId",
+                table: "ProductAttachments",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_products_CategoryId1",
                 table: "products",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SalseProductUserTyps_ProductId",
-                table: "SalseProductUserTyps",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserProducts_ApplicaionuserId",
-                table: "UserProducts",
-                column: "ApplicaionuserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserProducts_ProductId",
-                table: "UserProducts",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserProducts_SalseProductUserTypsId",
-                table: "UserProducts",
-                column: "SalseProductUserTypsId");
+                column: "CategoryId1");
         }
 
         /// <inheritdoc />
@@ -407,22 +480,28 @@ namespace DataAcessLayers.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CategoryAttachments");
+
+            migrationBuilder.DropTable(
                 name: "FinancialAdvanceHistories");
 
             migrationBuilder.DropTable(
-                name: "UserProducts");
+                name: "ProductAttachments");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "FinancialAdvances");
-
-            migrationBuilder.DropTable(
-                name: "SalseProductUserTyps");
+                name: "NotPayedmoney");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "PriceProductebytypes");
+
+            migrationBuilder.DropTable(
+                name: "FinancialAdvances");
 
             migrationBuilder.DropTable(
                 name: "products");

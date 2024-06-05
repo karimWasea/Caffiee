@@ -9,7 +9,6 @@
 <form id="search-form" method="get" action="@Url.Action("Index")">
     <input type="text" name="search" value="@ViewBag.Search" placeholder="Search..." id="search-input">
 </form>
-<partial name="_AlertMessage" model="Model" />
 
 <p>
     <a asp-area="Admin" asp-controller="Category" asp-action="Save" class="btn btn-primary">Create New</a>
@@ -33,9 +32,9 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CategoryName)
+                    @Servess.DescriptionEnum.GetDescription(item.Id)
                 </td>
               
                 <td>
@@ -54,6 +53,8 @@
     </tbody>
 </table>
 <partial name="_PaginationPartial" model="Model" />
+<partial name="_AlertMessage"   />
+
 @section Scripts {
     <script src="~/js/devicindex.js"></script>
 }

@@ -6,7 +6,6 @@
     ViewBag.Title = "Save Product";
 }
 
-<partial name="_AlertMessage" model="Model" enctype="multipart/form-data">
 
     <h2>Create Product</h2>
 
@@ -73,6 +72,7 @@
             </form>
         </div>
     </div>
+<partial name="_AlertMessage"   />
 
     @section Scripts {
         <script>
@@ -116,8 +116,7 @@
             }
         </script>
 
-        </script>
-        @{
+         @{
             await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }
     }

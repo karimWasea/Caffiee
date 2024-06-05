@@ -6,9 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using X.PagedList;
+
 namespace Interfaces
 {
     public interface IPriceProductebytypes : IGenericService<PriceProductebytypesVM>
     {
+        public IPagedList<PriceProductebytypesVM> SearchForTypes(PriceProductebytypesVM criteria);
     }
 }

@@ -10,7 +10,7 @@ namespace Servess
     {
         public IPagedList<T> GetPagedData<T>(IQueryable<T> data, int pageNumber = 1)
         {
-            pageNumber = 1;
+            //pageNumber = 1;
             int pageSize = 10; // Set the page size to 10
             int totalItemCount = data.Count();
             int totalPages = (int)Math.Ceiling(totalItemCount / (double)pageSize);

@@ -17,6 +17,9 @@ using System.Threading.Tasks;
 
 using X.PagedList;
 
+using static C_Utilities.Enumes;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 namespace Servess
 {
     public class PriceProductebytypesServess : PaginationHelper<PriceProductebytypesVM>, IPriceProductebytypes
@@ -76,8 +79,8 @@ namespace Servess
         {
             var queryable = _context.PriceProductebytypes.Include(i => i.Product).Where(
                 product =>
-                    (criteria.ProductId == null || criteria.ProductId == 0 || product.ProductId == criteria.ProductId)
-                    && (criteria.CustomerType == null|| criteria.CustomerType == 0 || product.CustomerType == criteria.CustomerType))
+                    (  criteria.ProductId == 0 || product.ProductId == criteria.ProductId)
+                    && (  criteria.CustomerType == 0 || product.CustomerType == criteria.CustomerType))
                 .Select(i => new PriceProductebytypesVM
                 {
                     ProductName=i.Product.ProductName,
@@ -99,6 +102,37 @@ namespace Servess
             return pagedList;
         }
 
+        public IPagedList<PriceProductebytypesVM> SearchForTypes(PriceProductebytypesVM searchCriteria)
+        {
+            var query = _context.PriceProductebytypes
+                .Include(i => i.Product)
+                    .ThenInclude(p => p.Category)
+                .Include(i => i.Product)
+                    .ThenInclude(i => i.ProductAttachment)
+                .Where(product =>
+                    (searchCriteria.CustomerType == 0 || product.CustomerType == searchCriteria.CustomerType) &&
+                    (searchCriteria.Catid == 0 || product.Product.Category.Id == searchCriteria.Catid) &&
+                    (searchCriteria.ProductName == null || product.Product.ProductName.Contains(searchCriteria.ProductName)))
+                .Select(i => new PriceProductebytypesVM
+                {
+                    ProductName = i.Product.ProductName,
+                    CustomerType = i.CustomerType,
+                    ProductId = i.ProductId,
+                    Id = i.Id,
+                    Discount = i.Discount,
+                    Qantity = i.Qantity,
+                    price = i.price,
+                    Catid = i.Product.Category.Id,
+                    ProductImg = i.Product.ProductAttachment
+                                    .OrderByDescending(att => att.Id)
+                                    .FirstOrDefault().FilePath ?? "default_image_path"
+                })
+                .OrderBy(g => g.Id);
+
+            int pageNumber = searchCriteria.PageNumber ?? 1;
+            var data = GetPagedData(query, pageNumber);
+            return data;
+        }
 
 
 

@@ -9,10 +9,10 @@ namespace Interfaces
     public interface Ilookup
     {
         
-        public List<SelectListItem> GetCustomerType();
+          List<SelectListItem> GetCustomerType();
+          List<SelectListItem> GetCategoryType();
         //public IQueryable<SelectListItem> GetCustomerTypesId(int selectedId = 0);
-        public IQueryable<SelectListItem> GetCategories(int selectedId = 0);
-
+ 
 
 
 

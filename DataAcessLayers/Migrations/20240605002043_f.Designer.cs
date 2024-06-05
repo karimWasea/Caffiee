@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAcessLayers.Migrations
 {
     [DbContext(typeof(ApplicationDBcontext))]
-    [Migration("20240531005955_sysuser")]
-    partial class sysuser
+    [Migration("20240605002043_f")]
+    partial class f
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,7 +42,7 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<int>("CustomerTypeId")
+                    b.Property<int>("CustomerType")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -82,11 +82,9 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SystemUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SystemUserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -97,9 +95,6 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerTypeId")
-                        .IsUnique();
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -115,10 +110,7 @@ namespace DataAcessLayers.Migrations
             modelBuilder.Entity("DataAcessLayers.Category", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CategoryName")
                         .HasColumnType("nvarchar(max)");
@@ -132,11 +124,9 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SystemUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SystemUserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -155,67 +145,31 @@ namespace DataAcessLayers.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CategoryId1")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreationTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("FilePath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FileType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SystemUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SystemUserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CategoryId1");
 
                     b.ToTable("CategoryAttachments");
-                });
-
-            modelBuilder.Entity("DataAcessLayers.CustomerType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreationTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("SystemUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SystemUserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Types")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TypesName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CustomerTypes");
                 });
 
             modelBuilder.Entity("DataAcessLayers.FinancialAdvanceHistory", b =>
@@ -244,24 +198,22 @@ namespace DataAcessLayers.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("NewAmount")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("NotPayedmoneyId")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("OldAmount")
+                    b.Property<decimal?>("NotpayedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("PayedAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Stutes")
                         .HasColumnType("int");
 
                     b.Property<string>("SystemUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SystemUserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -292,6 +244,12 @@ namespace DataAcessLayers.Migrations
                     b.Property<int>("FinancialAdvanceType")
                         .HasColumnType("int");
 
+                    b.Property<decimal?>("NotpayedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("PayedAmount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("PriceProductebytypesId")
                         .HasColumnType("int");
 
@@ -299,15 +257,10 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SystemUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SystemUserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("price")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -321,6 +274,10 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ChangedByUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
                         .ValueGeneratedOnAdd()
@@ -337,9 +294,6 @@ namespace DataAcessLayers.Migrations
                     b.Property<int>("PriceProductebytypesid")
                         .HasColumnType("int");
 
-                    b.Property<int?>("QantityBuy")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("SalasDateTime")
                         .HasColumnType("datetime2");
 
@@ -347,12 +301,16 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SystemUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SystemUserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("TotalNotpayedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("TotalPayedAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserNotPayedmoneyId")
                         .HasColumnType("nvarchar(450)");
@@ -379,7 +337,7 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<int>("CustomerTypeId")
+                    b.Property<int>("CustomerType")
                         .HasColumnType("int");
 
                     b.Property<int?>("Discount")
@@ -395,19 +353,15 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SystemUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SystemUserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("price")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerTypeId");
 
                     b.HasIndex("FinancialUserCashId");
 
@@ -425,6 +379,9 @@ namespace DataAcessLayers.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId1")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreationTime")
@@ -448,16 +405,14 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("SystemUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SystemUserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CategoryId1");
 
                     b.ToTable("products");
                 });
@@ -480,18 +435,15 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FileType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<string>("SystemUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SystemUserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -634,22 +586,11 @@ namespace DataAcessLayers.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("DataAcessLayers.Applicaionuser", b =>
-                {
-                    b.HasOne("DataAcessLayers.CustomerType", "CustomerType")
-                        .WithOne("ApplicationUser")
-                        .HasForeignKey("DataAcessLayers.Applicaionuser", "CustomerTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CustomerType");
-                });
-
             modelBuilder.Entity("DataAcessLayers.CategoryAttachment", b =>
                 {
                     b.HasOne("DataAcessLayers.Category", "Category")
                         .WithMany("CategoryAttachment")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("CategoryId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -692,12 +633,6 @@ namespace DataAcessLayers.Migrations
 
             modelBuilder.Entity("DataAcessLayers.PriceProductebytypes", b =>
                 {
-                    b.HasOne("DataAcessLayers.CustomerType", "CustomerType")
-                        .WithMany("PriceProductebytypes")
-                        .HasForeignKey("CustomerTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DataAcessLayers.FinancialUserCash", null)
                         .WithMany("PriceProductebytypes")
                         .HasForeignKey("FinancialUserCashId");
@@ -708,8 +643,6 @@ namespace DataAcessLayers.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CustomerType");
-
                     b.Navigation("Product");
                 });
 
@@ -717,7 +650,7 @@ namespace DataAcessLayers.Migrations
                 {
                     b.HasOne("DataAcessLayers.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("CategoryId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -796,14 +729,6 @@ namespace DataAcessLayers.Migrations
                     b.Navigation("CategoryAttachment");
 
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("DataAcessLayers.CustomerType", b =>
-                {
-                    b.Navigation("ApplicationUser")
-                        .IsRequired();
-
-                    b.Navigation("PriceProductebytypes");
                 });
 
             modelBuilder.Entity("DataAcessLayers.FinancialUserCash", b =>

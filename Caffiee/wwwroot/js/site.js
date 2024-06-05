@@ -1,4 +1,8 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿$(document).ready(function () {
+    $('.nav-link').click(function () {
+        $('.nav-link').removeClass('active'); // Remove active class from all links
+        $(this).addClass('active'); // Add active class to the clicked link
+        $('.nav-link').css('border-color', 'transparent'); // Reset border color for all links
+        $(this).css('border-color', 'green'); // Set border color to green for the clicked link
+    });
+});

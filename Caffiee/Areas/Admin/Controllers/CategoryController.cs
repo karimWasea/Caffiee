@@ -26,15 +26,15 @@ namespace Caffiee.Areas.Admin.Controllers
         {
 
         }
-         
+
         // GET: Products
-        [Route("Admin/Category/Index")]
+        [HttpGet]
 
         public IActionResult Index(CategoryVm Entity, int? page)
         {
-            int pageNumber = page ?? 1;
+            //int pageNumber = page ?? 1;
 
-            Entity.PageNumber = pageNumber;
+            Entity.PageNumber = page ?? 1;
             var products = _unitOfWork._Category.Search(Entity);
             return View(products);
         }
@@ -57,16 +57,18 @@ namespace Caffiee.Areas.Admin.Controllers
             {
 
                 var   Entity = _unitOfWork._Category.Get(Id);
- 
+                Entity.CategoryIdList = _unitOfWork._Ilookup.GetCategoryType();
+
 
                 return View(  Entity);
 
             }
             else
-            {
-           
+            { var cat= new CategoryVm();
+                cat.CategoryIdList = _unitOfWork._Ilookup.GetCategoryType();
 
-                return View();
+
+                return View(cat);
 
 
             }
@@ -80,12 +82,19 @@ namespace Caffiee.Areas.Admin.Controllers
         //[ValidateAntiForgeryToken]
         public IActionResult Save(CategoryVm Entity  )
         {
-             //ModelState.Remove("CategoryName");
+            Entity.CategoryIdList = _unitOfWork._Ilookup.GetCategoryType();
 
             if (!ModelState.IsValid)
             {
+                TempData["Message"] = "Cannot save the category. Please check the form.";
+                TempData["MessageType"] = "danger";
                 return View(Entity);
 
+            }
+            if (Entity.Imge == null)
+            {
+                TempData["Message"] = "Cannot save the category. Please check the form.";
+                TempData["MessageType"] = "danger";
             }
             if (!_unitOfWork._Category.CheckIfExisit(Entity))
             {

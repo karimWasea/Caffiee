@@ -3,25 +3,26 @@ using System.Reflection;
 
 namespace C_Utilities
 {
+    
     public class Enumes
     {
     
 
 public enum CustomerType
     {
-        [Description("Nursing")]
+        [Description("تمريض")]
         Nursing = 1,
 
-        [Description("Hospital Management")]
+        [Description(" بون  ")]
         HospitalManagement = 2,
 
-        [Description("Doctor")]
-        Doctor = 3,
+        [Description("عمليات")]
+        oprations = 3,
 
-        [Description("Worker")]
+        [Description("عمال")]
         Worker = 4,
 
-        [Description("Other People")]
+        [Description("حالات  ")]
         OtherPeople = 5
     }
 
@@ -54,6 +55,21 @@ public enum CustomerType
             Completed,
             Failed
         }
+
+        public enum CategoryType
+        {
+           
+            [Description(" مشروب بارد  ")]
+            ColdDrink=1,
+            [Description("  مشروب ساخن")]
+            HotDrink=2,
+            [Description("اضافات")]
+            Addon=3,
+
+        }
+
+
+
 
     }
 }

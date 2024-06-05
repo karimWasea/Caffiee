@@ -9,7 +9,6 @@
 <form id="search-form" method="get" action="@Url.Action("Index")">
     <input type="text" name="search" value="@ViewBag.Search" placeholder="Search..." id="search-input">
 </form>
-<partial name="_AlertMessage" model="Model" />
  
 <p>
     <a asp-area="Admin" asp-controller="Product" asp-action="Save" class="btn btn-primary">Create New</a>
@@ -57,8 +56,8 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>    <td>
-                    @Html.DisplayFor(modelItem => item.CategoryName)
-                </td>
+                    @Servess.DescriptionEnum.GetDescription(item.CategoryId)
+                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Discount)
                 </td>
@@ -74,6 +73,8 @@
         }
     </tbody>
 </table>
+<partial name="_AlertMessage"  />
+
 <partial name="_PaginationPartial" model="Model" />
 @section Scripts {
     <script src="~/js/devicindex.js"></script>
@@ -81,8 +82,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-@Html.AntiForgeryToken()
-
+@* @Html.AntiForgeryToken()
+ *@
 <script>
     $(document).ready(function () {
         // Set up the AJAX request to include the anti-forgery token

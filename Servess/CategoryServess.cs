@@ -14,6 +14,8 @@ using System.Linq;
 
 using X.PagedList;
 
+using static C_Utilities.Enumes;
+
 namespace Servess
 {
     public class CategoryServess : PaginationHelper<CategoryVm>, ICategory
@@ -34,10 +36,18 @@ namespace Servess
         }
         public bool CheckIfExisit(CategoryVm entity)
         {
-            return _context.Categories.Any(i => i.Id != entity.Id && i.CategoryName == entity.CategoryName);
+            CategoryType id = (CategoryType)entity.Id;
+            var res = _context.Categories.Find(id);
+            if (res == null)
+            {
+                return false;
+            }
+            return true;    
+
+
         }
 
-      
+
 
         public void Delete(int id)
         {
@@ -60,16 +70,18 @@ namespace Servess
         public void Save(CategoryVm criteria)
         {
             var Entity = _mapper.Map<DataAcessLayers.Category>(criteria);
-            if (criteria.Id > 0)
+            //_context.Categories.FirstOrDefault(i=>i.Id==criteria.Id);
+            if (CheckIfExisit(criteria))
             {
                 var updated = _context.Update(Entity);
+                
               var update=  _context.SaveChanges();
                 if (update > 0)
                 {
                     var path = _Imgoperation.UploadFile(criteria.Imge, "Category", Entity.CategoryName);
                     var ProductAttachment = new CategoryAttachment();
 
-                    ProductAttachment.CategoryId = updated.Entity.Id;
+                    ProductAttachment.CategoryId = (int)updated.Entity.Id;
                     ProductAttachment.FilePath = path;
                     ProductAttachment.FileType = "Category";
                     _context.Add(ProductAttachment);
@@ -86,7 +98,7 @@ namespace Servess
                     var path = _Imgoperation.UploadFile(criteria.Imge, "Category", Entity.CategoryName);
                     var ProductAttachment = new CategoryAttachment();
 
-                    ProductAttachment.CategoryId = add.Entity.Id;
+                    ProductAttachment.CategoryId = (int)add.Entity.Id;
                     ProductAttachment.FilePath = path;
                     ProductAttachment.FileType = "Category";
                     _context.Add(ProductAttachment);
@@ -110,7 +122,7 @@ namespace Servess
                           && (criteria.Description == null || category.Description.Contains(criteria.Description)))
                     .Select(category => new CategoryVm
                     {
-                        Id = category.Id,
+                        Id = (Enumes.CategoryType)category.Id,
                         CategoryName = category.CategoryName,
                         Description = category.Description,
                     }).OrderBy(g => g.Id);
@@ -122,6 +134,8 @@ namespace Servess
 
             return pagedList;
         }
+
+        
     }
 
          

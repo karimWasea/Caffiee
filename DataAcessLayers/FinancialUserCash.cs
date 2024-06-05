@@ -13,7 +13,7 @@
         public int Id { get; set; }
         public DateTime CreationTime { get; set; } = DateTime.Now;
         public int? Qantity { get; set; }
-        public decimal? PayedAmount { get; set; }
+        public decimal? PayedAmount { get; set; } 
         public decimal? NotpayedAmount { get; set; }
 
         public DateTime Date { get; set; }

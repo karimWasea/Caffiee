@@ -9,7 +9,6 @@
 <form id="search-form" method="get" action="@Url.Action("Index")">
     <input type="text" name="search" value="@ViewBag.Search" placeholder="Search..." id="search-input">
 </form>
-<partial name="_AlertMessage" model="Model" />
  
 @* <p>
     <a asp-area="Admin" asp-controller="PriceProductebytypes" asp-action="Save" class="btn btn-primary">Create New</a>
@@ -37,39 +36,35 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model){
-
-
-            item.CustomerTypeName = item.CustomerType.GetDescription();
-
-        <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Qantity)
-                </td>
-               
-               <td>
-                    @Html.DisplayFor(modelItem => item.CustomerTypeName)
-                </td> 
-                
-              
-                <td>
-                    @Html.DisplayFor(modelItem => item.Discount)
-                </td>
-                <td>
-                    <a asp-action="Save" asp-route-ProductId="@item.ProductId" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details"              asp-route-id="@item.Id">Details</a> |
-                    <a href="javascript:void(0);" class="delete-link" data-id="@item.Id">Delete</a>
-                </td>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                item.CustomerTypeName = item.CustomerType.GetDescription();
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.price)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Qantity)</td>
+                    <td>@Servess.DescriptionEnum.GetDescription(item.CustomerType)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Discount)</td>
+                    <td>
+                        <a asp-action="Save" asp-route-ProductId="@item.ProductId" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a href="javascript:void(0);" class="delete-link" data-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6">No items to display.</td>
             </tr>
         }
     </tbody>
 </table>
+<partial name="_AlertMessage"  />
+
 <partial name="_PaginationPartial" model="Model" />
 @section Scripts {
     <script src="~/js/devicindex.js"></script>

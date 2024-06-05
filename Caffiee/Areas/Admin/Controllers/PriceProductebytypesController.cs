@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Servess;
 
+using static C_Utilities.Enumes;
+
 namespace Caffiee.Areas.Admin.Controllers
 {
     [Area(ConstsntValuse.Admin)]
@@ -26,16 +28,31 @@ namespace Caffiee.Areas.Admin.Controllers
         }
 
 
-        [Route("Admin/PriceProductebytypes/Index")]
+         [HttpGet]
+        public IActionResult Index(PriceProductebytypesVM Entity, int? page)
+        {
 
-        public IActionResult Index(PriceProductebytypesVM Entity, int? page )
-        { 
-            int pageNumber = page ?? 1;
-
-            Entity.PageNumber = pageNumber; 
+            Entity.PageNumber = page ?? 1;
             var Entitys = _unitOfWork._PriceProductebytypes.Search(Entity);
             return View(Entitys);
         }
+
+
+
+        [HttpGet]
+        
+        public IActionResult GetProductbytyp(PriceProductebytypesVM Entity , int? page)
+        {
+            ViewBag.CustomerType=Entity.CustomerType;   
+      
+            Entity.PageNumber = page ?? 1;
+            var Entitys = _unitOfWork._PriceProductebytypes.SearchForTypes(Entity);
+            return View(Entitys);
+        }
+
+
+
+
 
         // GET: Products/Details/5
         public IActionResult Details(int id)
@@ -100,14 +117,15 @@ namespace Caffiee.Areas.Admin.Controllers
              if(!_unitOfWork._PriceProductebytypes .CheckIfExisit(Entity))
             {
                 _unitOfWork._PriceProductebytypes.Save(Entity);
-                TempData["Message"] = $" successfully Add!";
-                TempData["MessageType"] = "Save";
+                TempData["Message"] = "Cannot save the category. Please check the form.";
+                TempData["MessageType"] = "danger";
+
                 return RedirectToAction(nameof(Index));
 
 
             }
-            TempData["Message"] = $" cannott save!";
-            TempData["MessageType"] = "Delete";
+            TempData["Message"] = "Cannot save the category. Please check the form.";
+            TempData["MessageType"] = "danger";
 
             return View(Entity);
 
@@ -119,7 +137,9 @@ namespace Caffiee.Areas.Admin.Controllers
             try
             {
                 _unitOfWork._PriceProductebytypes.Delete(id);
-                 return Json(new { success = true, message = "Successfully deleted!" });
+                TempData["Message"] = "Cannot save the category. Please check the form.";
+                TempData["MessageType"] = "danger";
+                return Json(new { success = true, message = "Successfully deleted!" });
             }
             catch (Exception ex)
             {

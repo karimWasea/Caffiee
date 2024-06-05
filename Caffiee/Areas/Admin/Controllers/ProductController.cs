@@ -25,13 +25,12 @@ namespace Caffiee.Areas.Admin.Controllers
         }
 
         // GET: Products
-        [Route("Admin/Product/Index")]
+        [HttpGet]
 
         public IActionResult Index(productVM Entity, int? page )
         {
-            int pageNumber = page ?? 1;
 
-            Entity.PageNumber = pageNumber; 
+            Entity.PageNumber = page ?? 1;
             var products = _unitOfWork._Product.Search(Entity);
             return View(products);
         }
@@ -54,7 +53,7 @@ namespace Caffiee.Areas.Admin.Controllers
             {
 
                 var product = _unitOfWork._Product.Get(Id);
-                product.CategoryIdList = _unitOfWork._Ilookup.GetCategories();
+                product.CategoryIdList = _unitOfWork._Ilookup.GetCategoryType();
 
 
                 return View(product);
@@ -62,7 +61,7 @@ namespace Caffiee.Areas.Admin.Controllers
             }
             else
             { var Poduct= new productVM();
-                Poduct.CategoryIdList = _unitOfWork._Ilookup.GetCategories();
+                Poduct.CategoryIdList = _unitOfWork._Ilookup.GetCategoryType();
 
                 return View(Poduct);
 
@@ -78,32 +77,37 @@ namespace Caffiee.Areas.Admin.Controllers
         //[ValidateAntiForgeryToken]
         public IActionResult Save(productVM productVm)
         { 
-            productVm.CategoryIdList = _unitOfWork._Ilookup.GetCategories();
+            productVm.CategoryIdList = _unitOfWork._Ilookup.GetCategoryType();
             ModelState.Remove("CategoryName");
 
             //productVm.SystemUserId= GetCurrentUserInfo().Result.UserId;
             //productVm.SystemUserName= GetCurrentUserInfo().Result.UserName;
+           
+            if (productVm.Cover == null && productVm.CoverString==null)
+
+            {
+                TempData["Message"] = "Cannot save the category. Please check the form.";
+                TempData["MessageType"] = "danger";
+                return View(productVm);
+            }
             if (!ModelState.IsValid)
             {
+                TempData["Message"] = "Cannot save the category. Please check the form.";
+                TempData["MessageType"] = "danger";
                 return View(productVm);
 
-            }
-            if (productVm.Cover == null  )
-            {
-                ModelState.AddModelError("", "Please select files to upload.");
-                return View(productVm);
             }
             if (!_unitOfWork._Product .CheckIfExisit(productVm))
             {
                 _unitOfWork._Product.Save(productVm);
-                TempData["Message"] = $" successfully Add!";
-                TempData["MessageType"] = "Save";
+                TempData["Message"] = "Cannot save the category. Please check the form.";
+                TempData["MessageType"] = "danger";
                 return RedirectToAction(nameof(Index));
 
 
             }
-            TempData["Message"] = $" cannott save!";
-            TempData["MessageType"] = "Delete";
+            TempData["Message"] = "Cannot save the category. Please check the form.";
+            TempData["MessageType"] = "danger";
 
             return View(productVm);
 
@@ -115,7 +119,11 @@ namespace Caffiee.Areas.Admin.Controllers
             try
             {
                 _unitOfWork._Product.Delete(id);
-                 return Json(new { success = true, message = "Successfully deleted!" });
+
+                TempData["Message"] = "Cannot save the category. Please check the form.";
+                TempData["MessageType"] = "danger";
+                return Json(new { success = true, message = "Successfully deleted!" });
+
             }
             catch (Exception ex)
             {

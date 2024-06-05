@@ -5,6 +5,7 @@ using Cf_Viewmodels;
 using DataAcessLayers;
 using Interfaces;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -36,7 +37,7 @@ namespace Servess
 
         public bool CheckIfExisit(productVM entity)
         {
-            return _context.products.Any(i => i.Id != entity.Id && i.ProductName == entity.ProductName &&i.CategoryId==entity.CategoryId&&i.Price==entity.Price);
+            return _context.products.Any(i => i.Id != entity.Id && i.ProductName == entity.ProductName &&i.Price==entity.Price);
         }
 
 
@@ -47,17 +48,35 @@ namespace Servess
             {
               var updated =  _context.Update(Entity);
                 _context.SaveChanges();
-
-                var path = _Imgoperation.UploadFile(criteria.Cover, "Product", Entity.ProductName);
-                var ProductAttachment = new ProductAttachment();
-
-                ProductAttachment.ProductId = updated.Entity.Id;
-                ProductAttachment.FilePath = path;
-                ProductAttachment.FileType = "Product";
-                _context.Add(ProductAttachment);
+                if (criteria.Cover == null)
+                {
 
 
-            }
+                    var path = criteria.CoverString;
+                    var ProductAttachment = new ProductAttachment();
+
+                    ProductAttachment.ProductId = updated.Entity.Id;
+                    ProductAttachment.FilePath = path;
+                    ProductAttachment.FileType = "Product";
+                    _context.Add(ProductAttachment);
+ 
+                }
+                else
+                {
+                    var path = _Imgoperation.UploadFile(criteria.Cover, "Product", Entity.ProductName);
+                     var ProductAttachment = new ProductAttachment();
+
+                    ProductAttachment.ProductId = updated.Entity.Id;
+                    ProductAttachment.FilePath = path;
+                    ProductAttachment.FileType = "Product";
+                    _context.Add(ProductAttachment);
+
+
+                }
+                _context.SaveChanges();
+
+
+            }else
             {
 
                var add= _context.Add(Entity);
@@ -109,10 +128,11 @@ namespace Servess
                     ProductName = i.ProductName,
                     Description = i.Description,
                     Discount = i.Discount,
-                    CategoryId = i.CategoryId,
+                    CategoryId = (Enumes.CategoryType)i.CategoryId,
                     Price = i.Price,
                     Qantity = i.Qantity
                      , CategoryName= i.Category.CategoryName,
+                     CoverString= _context.ProductAttachments.Where(p=>p.ProductId==i.Id).OrderByDescending(i=>i.ProductId).FirstOrDefault().FilePath,
                 })
                 .OrderBy(g => g.Id);
 

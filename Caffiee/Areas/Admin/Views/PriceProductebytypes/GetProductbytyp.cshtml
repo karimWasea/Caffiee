@@ -1,0 +1,138 @@
+﻿@model X.PagedList.IPagedList<Cf_Viewmodels.PriceProductebytypesVM>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "All Products";
+}
+
+<style>
+    .shopping-bag {
+        background-color: #f8f9fa; /* Example background color */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    /* Add CSS styles for the background image */
+
+    body {
+        background-image: url('/Images/CafeBackground.jpg'); /* Change to the background image for a cafe */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    /* Card Styles */
+    .product-card {
+        border: 1px solid #dee2e6;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: auto;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+    .product-details {
+        padding: 1.25rem;
+    }
+
+    .product-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .product-price {
+        font-size: 1rem;
+        color: #007bff;
+        margin-bottom: 0.5rem;
+    }
+
+    .product-category {
+        font-size: 0.875rem;
+        color: #6c757d;
+    }
+</style>
+<div class="shopping-bag">
+
+<!-- Add the search input form -->
+<div class="input-group mt-4">
+    <input type="text" class="form-control" placeholder="Search..." aria-label="Search" aria-describedby="button-addon2" id="search-input">
+    <div class="input-group-append">
+        <button class="btn btn-primary" type="button" id="button-addon2">
+             بحث
+         </button>
+    </div>
+</div>
+
+<div class="container-fluid mt-4">
+    <div class="row product-list">
+        @foreach (var product in Model)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="product-card">
+                    <img class="card-img-top" src="~/@product.ProductImg" alt="@product.ProductName">
+                    <div class="product-details">
+                        <h5 class="product-title">@product.ProductName</h5>
+                        <p class="product-price">Price: @product.price</p>
+                            <p class="product-category">Category: @Servess.DescriptionEnum.GetDescription(product.Catid)</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+            <a class="page-link" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerTypec" asp-route-page="1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                <a class="page-link" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-page="@i">@i</a>
+            </li>
+        }
+        <li class="page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
+            <a class="page-link" asp-action="GetProductbytyp" asp-route-page="@Model.PageCount" asp-route-CustomerType="@ViewBag.CustomerType" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+</div>
+
+<!-- Latest Font Awesome CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      integrity="sha512-WNCh7c2E5fJjcS4zqph4erOcGJRJ9RXAz3/a8bPT6XlZaE6LWzU6fQ2mR2VRPTSSUJYgHjWwfaOvzKpdVbjtSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#search-input').on('keyup', function () {
+                var searchText = $(this).val().toLowerCase();
+                $('.product-card').each(function () {
+                    var titleText = $(this).find('.product-title').text().toLowerCase();
+                    if (titleText.indexOf(searchText) === -1) {
+                        $(this).hide();
+                    } else {
+                        $(this).show();
+                    }
+                });
+            });
+        });
+    </script>
+}
