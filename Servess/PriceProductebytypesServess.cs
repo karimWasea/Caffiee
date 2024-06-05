@@ -105,13 +105,11 @@ namespace Servess
         public IPagedList<PriceProductebytypesVM> SearchForTypes(PriceProductebytypesVM searchCriteria)
         {
             var query = _context.PriceProductebytypes
-                .Include(i => i.Product)
-                    .ThenInclude(p => p.Category)
-                .Include(i => i.Product)
+                  .Include(i => i.Product)
                     .ThenInclude(i => i.ProductAttachment)
                 .Where(product =>
                     (searchCriteria.CustomerType == 0 || product.CustomerType == searchCriteria.CustomerType) &&
-                    (searchCriteria.Catid == 0 || product.Product.Category.Id == searchCriteria.Catid) &&
+                    (searchCriteria.Catid == 0 || product.Product.CategoryTyPe == (int)searchCriteria.Catid) &&
                     (searchCriteria.ProductName == null || product.Product.ProductName.Contains(searchCriteria.ProductName)))
                 .Select(i => new PriceProductebytypesVM
                 {
@@ -122,7 +120,7 @@ namespace Servess
                     Discount = i.Discount,
                     Qantity = i.Qantity,
                     price = i.price,
-                    Catid = i.Product.Category.Id,
+                    Catid = (CategoryType)i.Product.CategoryTyPe,
                     ProductImg = i.Product.ProductAttachment
                                     .OrderByDescending(att => att.Id)
                                     .FirstOrDefault().FilePath ?? "default_image_path"

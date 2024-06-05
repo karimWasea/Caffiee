@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAcessLayers.Migrations
 {
     /// <inheritdoc />
-    public partial class f : Migration
+    public partial class io : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -233,22 +233,21 @@ namespace DataAcessLayers.Migrations
                     ProductName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Qantity = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    CategoryTyPe = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Discount = table.Column<int>(type: "int", nullable: true),
                     SystemUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SystemUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoryId1 = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_products_Categories_CategoryId1",
-                        column: x => x.CategoryId1,
+                        name: "FK_products_Categories_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -456,9 +455,9 @@ namespace DataAcessLayers.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_products_CategoryId1",
+                name: "IX_products_CategoryId",
                 table: "products",
-                column: "CategoryId1");
+                column: "CategoryId");
         }
 
         /// <inheritdoc />

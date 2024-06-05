@@ -13,8 +13,8 @@ public enum CustomerType
         [Description("تمريض")]
         Nursing = 1,
 
-        [Description(" بون  ")]
-        HospitalManagement = 2,
+        //[Description(" بون  ")]
+        //HospitalManagement = 2,
 
         [Description("عمليات")]
         oprations = 3,

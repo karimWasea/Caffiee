@@ -375,10 +375,10 @@ namespace DataAcessLayers.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId1")
+                    b.Property<int>("CategoryTyPe")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreationTime")
@@ -409,7 +409,7 @@ namespace DataAcessLayers.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId1");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("products");
                 });
@@ -645,13 +645,9 @@ namespace DataAcessLayers.Migrations
 
             modelBuilder.Entity("DataAcessLayers.Product", b =>
                 {
-                    b.HasOne("DataAcessLayers.Category", "Category")
+                    b.HasOne("DataAcessLayers.Category", null)
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
+                        .HasForeignKey("CategoryId");
                 });
 
             modelBuilder.Entity("DataAcessLayers.ProductAttachment", b =>

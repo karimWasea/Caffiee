@@ -118,7 +118,7 @@ namespace Servess
 
         public IPagedList<productVM> Search(productVM criteria)
         {
-            var queryable = _context.products.Include(i => i.Category).Where(
+            var queryable = _context.products.Where(
                 product =>
                     (criteria.ProductName == null || product.ProductName.Contains(criteria.ProductName))
                     && (criteria.Description == null || product.Description.Contains(criteria.Description)))
@@ -128,10 +128,10 @@ namespace Servess
                     ProductName = i.ProductName,
                     Description = i.Description,
                     Discount = i.Discount,
-                    CategoryId = (Enumes.CategoryType)i.CategoryId,
+                    CategoryTyPe = (Enumes.CategoryType)i.CategoryTyPe,
                     Price = i.Price,
-                    Qantity = i.Qantity
-                     , CategoryName= i.Category.CategoryName,
+                    Qantity = i.Qantity,
+                     //, CategoryName= i.Category.CategoryName,
                      CoverString= _context.ProductAttachments.Where(p=>p.ProductId==i.Id).OrderByDescending(i=>i.ProductId).FirstOrDefault().FilePath,
                 })
                 .OrderBy(g => g.Id);

@@ -39,8 +39,8 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" asp-controller="PriceProductebytypes" asp-action="Index">اعدادات الاسعار</a>
                                 <a class="dropdown-item" asp-controller="Product" asp-action="Index">اعدادات االمنتجات</a>
-                                <a class="dropdown-item" asp-controller="Category" asp-action="Index">اعدادت الانواع</a>
-                            </div>
+@*                                 <a class="dropdown-item" asp-controller="Category" asp-action="Index">اعدادت الانواع</a>
+ *@                            </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="PriceProductebytypes" asp-action="GetProductbytyp" asp-route-CustomerType="@C_Utilities.Enumes.CustomerType.OtherPeople">ألاسعار للحالات</a>
@@ -50,11 +50,11 @@
                             <a class="nav-link text-dark" asp-controller="PriceProductebytypes" asp-action="GetProductbytyp" asp-route-CustomerType="@C_Utilities.Enumes.CustomerType.Nursing">ألاسعار للتمريض</a>
                         </li>
                         
-                        <li class="nav-item">
+                   @*      <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="PriceProductebytypes" asp-action="GetProductbytyp" asp-route-CustomerType="@C_Utilities.Enumes.CustomerType.HospitalManagement">الاسعار للمستشفى  </a>
-                        </li>   
+                        </li>  *@  
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="PriceProductebytypes" asp-action="GetProductbytyp" asp-route-CustomerType="@C_Utilities.Enumes.CustomerType.OtherPeople"> الاسعار للعمليات  </a>
+                            <a class="nav-link text-dark" asp-controller="PriceProductebytypes" asp-action="GetProductbytyp" asp-route-CustomerType="@C_Utilities.Enumes.CustomerType.oprations"> الاسعار للعمليات  </a>
                         </li> 
                         
                         <li class="nav-item">

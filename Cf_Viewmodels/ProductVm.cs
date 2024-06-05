@@ -18,7 +18,7 @@ namespace Cf_Viewmodels
          public string? ProductName { get; set; }
         public decimal? Price { get; set; }
         public decimal? Qantity { get; set; }
-        public CategoryType CategoryId { get; set; }
+        public CategoryType CategoryTyPe { get; set; }
 
          public string CategoryName { get; set; }
         public IEnumerable<SelectListItem>? CategoryIdList { get; set; } = Enumerable.Empty<SelectListItem>();
