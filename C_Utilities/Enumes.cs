@@ -10,7 +10,7 @@ namespace C_Utilities
 
 public enum CustomerType
     {
-        [Description("تمريض")]
+             [Description("تمريض")]
         Nursing = 1,
 
         //[Description(" بون  ")]

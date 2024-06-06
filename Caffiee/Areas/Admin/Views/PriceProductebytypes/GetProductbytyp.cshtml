@@ -73,7 +73,20 @@
              بحث
          </button>
     </div>
+  
+
 </div>
+ <br />
+    <div>
+   
+        <a class="btn btn-primary" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="@C_Utilities.Enumes.CategoryType.HotDrink"> مشروبات ساخنه</a>
+        <a class="btn btn-secondary" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="@C_Utilities.Enumes.CategoryType.ColdDrink">مشروبات بارده</a>
+        <a class="btn btn-success" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="@C_Utilities.Enumes.CategoryType.Addon">اضافات</a>
+         
+       
+       
+    </div>
+
 
 <div class="container-fluid mt-4">
     <div class="row product-list">
@@ -119,7 +132,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
       integrity="sha512-WNCh7c2E5fJjcS4zqph4erOcGJRJ9RXAz3/a8bPT6XlZaE6LWzU6fQ2mR2VRPTSSUJYgHjWwfaOvzKpdVbjtSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-@section Scripts {
+
+
+
+
+
+
+
+
+
+ @section Scripts {
     <script>
         $(document).ready(function () {
             $('#search-input').on('keyup', function () {
@@ -136,3 +158,4 @@
         });
     </script>
 }
+ 

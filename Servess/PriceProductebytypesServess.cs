@@ -104,17 +104,17 @@ namespace Servess
 
         public IPagedList<PriceProductebytypesVM> SearchForTypes(PriceProductebytypesVM searchCriteria)
         {
-            var query = _context.PriceProductebytypes
+             var query = _context.PriceProductebytypes
                   .Include(i => i.Product)
                     .ThenInclude(i => i.ProductAttachment)
                 .Where(product =>
-                    (searchCriteria.CustomerType == 0 || product.CustomerType == searchCriteria.CustomerType) &&
+                    (  product.CustomerType == searchCriteria.CustomerType) &&
                     (searchCriteria.Catid == 0 || product.Product.CategoryTyPe == (int)searchCriteria.Catid) &&
                     (searchCriteria.ProductName == null || product.Product.ProductName.Contains(searchCriteria.ProductName)))
                 .Select(i => new PriceProductebytypesVM
                 {
                     ProductName = i.Product.ProductName,
-                    CustomerType = i.CustomerType,
+                    CustomerType = searchCriteria.CustomerType,
                     ProductId = i.ProductId,
                     Id = i.Id,
                     Discount = i.Discount,
@@ -128,7 +128,7 @@ namespace Servess
                 .OrderBy(g => g.Id);
 
             int pageNumber = searchCriteria.PageNumber ?? 1;
-            var data = GetPagedData(query, pageNumber);
+                              var data = GetPagedData(query, pageNumber);
             return data;
         }
 
