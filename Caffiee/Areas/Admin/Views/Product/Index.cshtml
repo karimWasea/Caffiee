@@ -5,7 +5,8 @@
     Layout = "_Layout";
         ViewData["Title"] = " Products  ";
 }
- 
+<partial name="_AlertMessage" />
+
 <form id="search-form" method="get" action="@Url.Action("Index")">
     <input type="text" name="search" value="@ViewBag.Search" placeholder="Search..." id="search-input">
 </form>

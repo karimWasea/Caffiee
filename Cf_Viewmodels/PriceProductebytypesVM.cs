@@ -25,10 +25,12 @@ namespace Cf_Viewmodels
         public CategoryType Catid { get; set; }  
         public decimal? ProductOldPrice { get; set; }
           public int? Qantity { get; set; }
+          public int? ShopingCaterQantity { get; set; }
         public int? Discount { get; set; } // Nullable discount property
         public int? price { get; set; }
-
-
+        public int ShopingCaterid { get; set; }
+        public decimal? totalprice { get; set; }
+ 
 
     }
 }

@@ -42,10 +42,12 @@ namespace DataAcessLayers
             
             builder.Entity<PriceProductebytypes>()
               .Property(e => e.CreationTime)
-              .HasDefaultValueSql("GETDATE()");
-              // builder.Entity<CustomerType>()
-              //.Property(e => e.CreationTime)
-              //.HasDefaultValueSql("GETDATE()"); 
+              .HasDefaultValueSql("GETDATE()"); 
+            builder.Entity<FinancialUserCashHistoryPriceProductebytypes>()
+              .Property(e => e.CreationTime)
+              .HasDefaultValueSql("GETDATE()"); 
+           
+  
             
             
             builder.Entity<CategoryAttachment>()
@@ -54,12 +56,15 @@ namespace DataAcessLayers
             builder.Entity<ProductAttachment>()
               .Property(e => e.CreationTime)
               .HasDefaultValueSql("GETDATE()");
+              builder.Entity<FinancialUserCashHistory>()
+              .Property(e => e.CreationTime)
+              .HasDefaultValueSql("GETDATE()");
 
 
 
         }
 
-        public DbSet<FinancialUserCash> FinancialAdvances { get; set; }
+        public DbSet<FinancialUserCash> FinancialUserCash { get; set; }
         public DbSet<FinancialAdvanceHistory>  FinancialAdvanceHistories { get; set; }
         public DbSet<Category>   Categories { get; set; }
         public DbSet<Product>    products { get; set; }
@@ -68,6 +73,10 @@ namespace DataAcessLayers
         //public DbSet<CustomerType> CustomerTypes { get; set; }
         public DbSet<CategoryAttachment> CategoryAttachments { get; set; }
         public DbSet<ProductAttachment> ProductAttachments { get; set; }
+        public DbSet<FinancialUserCashHistory> FinancialUserCashHistories { get; set; }
+        public DbSet<FinancialUserCashHistoryPriceProductebytypes> FinancialUserCashHistoryPriceProductebytypes { get; set; } 
+        
+        public DbSet<ShopingCaterCashHistory> ShopingCaterCashHistory { get; set; }
         // DbSet properties for other entities...
     }
 }

@@ -1,9 +1,10 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
+ <!-- Set language to Arabic and text direction to right-to-left -->
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Caffiee</title>
+    <title>@ViewData["Title"] - الكافيه</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Caffiee.styles.css" asp-append-version="true" />
@@ -61,7 +62,7 @@
                             <a class="nav-link text-dark" asp-controller="PriceProductebytypes" asp-action="GetProductbytyp" asp-route-CustomerType="@C_Utilities.Enumes.CustomerType.Worker">ألاسعار للعمال</a>
                         </li>
                     </ul>
-                   
+
                     <partial name="_LoginPartial" />
 
                 </div>
@@ -75,9 +76,7 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - Caffiee - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+      
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -87,3 +86,4 @@
 </html>
  
  
+

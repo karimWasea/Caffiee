@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAcessLayers.Migrations
 {
     /// <inheritdoc />
-    public partial class io : Migration
+    public partial class hdxeddffddd : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -72,24 +72,35 @@ namespace DataAcessLayers.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FinancialAdvances",
+                name: "FinancialUserCash",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    Qantity = table.Column<int>(type: "int", nullable: true),
-                    PayedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    NotpayedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PayedTotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     SystemUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SystemUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FinancialAdvanceType = table.Column<int>(type: "int", nullable: false),
+                    PaymentStatus = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FinancialUserCash", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ShopingCaterCashHistory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Qantity = table.Column<int>(type: "int", nullable: true),
+                    PayedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     PriceProductebytypesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FinancialAdvances", x => x.Id);
+                    table.PrimaryKey("PK_ShopingCaterCashHistory", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -251,6 +262,31 @@ namespace DataAcessLayers.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FinancialUserCashHistories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Qantity = table.Column<int>(type: "int", nullable: true),
+                    PayedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    PaymentStatus = table.Column<int>(type: "int", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    SystemUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SystemUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FinancialUserCashId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FinancialUserCashHistories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FinancialUserCashHistories_FinancialUserCash_FinancialUserCashId",
+                        column: x => x.FinancialUserCashId,
+                        principalTable: "FinancialUserCash",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PriceProductebytypes",
                 columns: table => new
                 {
@@ -263,17 +299,11 @@ namespace DataAcessLayers.Migrations
                     CustomerType = table.Column<int>(type: "int", nullable: false),
                     Qantity = table.Column<int>(type: "int", nullable: true),
                     Discount = table.Column<int>(type: "int", nullable: true),
-                    price = table.Column<int>(type: "int", nullable: true),
-                    FinancialUserCashId = table.Column<int>(type: "int", nullable: true)
+                    price = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PriceProductebytypes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PriceProductebytypes_FinancialAdvances_FinancialUserCashId",
-                        column: x => x.FinancialUserCashId,
-                        principalTable: "FinancialAdvances",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_PriceProductebytypes_products_ProductId",
                         column: x => x.ProductId,
@@ -307,38 +337,62 @@ namespace DataAcessLayers.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FinancialUserCashHistoryPriceProductebytypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    financialUserCashHistoryid = table.Column<int>(type: "int", nullable: false),
+                    PriceProductebytypesid = table.Column<int>(type: "int", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FinancialUserCashHistoryPriceProductebytypes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FinancialUserCashHistoryPriceProductebytypes_FinancialUserCashHistories_financialUserCashHistoryid",
+                        column: x => x.financialUserCashHistoryid,
+                        principalTable: "FinancialUserCashHistories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FinancialUserCashHistoryPriceProductebytypes_PriceProductebytypes_PriceProductebytypesid",
+                        column: x => x.PriceProductebytypesid,
+                        principalTable: "PriceProductebytypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "NotPayedmoney",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    SalasDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TotalPayedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     TotalNotpayedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     ChangedByUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NotpayedmoneyId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserNotPayedmoneyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ChangeDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SystemUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SystemUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PriceProductebytypesid = table.Column<int>(type: "int", nullable: false),
                     PaymentStatus = table.Column<int>(type: "int", nullable: false),
-                    Stutes = table.Column<int>(type: "int", nullable: false)
+                    ApplicaionuserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    PriceProductebytypesId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_NotPayedmoney", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_NotPayedmoney_AspNetUsers_UserNotPayedmoneyId",
-                        column: x => x.UserNotPayedmoneyId,
+                        name: "FK_NotPayedmoney_AspNetUsers_ApplicaionuserId",
+                        column: x => x.ApplicaionuserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_NotPayedmoney_PriceProductebytypes_PriceProductebytypesid",
-                        column: x => x.PriceProductebytypesid,
+                        name: "FK_NotPayedmoney_PriceProductebytypes_PriceProductebytypesId",
+                        column: x => x.PriceProductebytypesId,
                         principalTable: "PriceProductebytypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -354,23 +408,30 @@ namespace DataAcessLayers.Migrations
                     NotpayedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     ChangeDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ChangedByUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NotPayedmoneyId = table.Column<int>(type: "int", nullable: false),
-                    Stutes = table.Column<int>(type: "int", nullable: false)
+                    PaymentStatus = table.Column<int>(type: "int", nullable: false),
+                    PriceProductebytypesid = table.Column<int>(type: "int", nullable: false),
+                    UserNotPayedmoneyId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    NotPayedmoneyId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FinancialAdvanceHistories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FinancialAdvanceHistories_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_FinancialAdvanceHistories_AspNetUsers_UserNotPayedmoneyId",
+                        column: x => x.UserNotPayedmoneyId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_FinancialAdvanceHistories_NotPayedmoney_NotPayedmoneyId",
                         column: x => x.NotPayedmoneyId,
                         principalTable: "NotPayedmoney",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_FinancialAdvanceHistories_PriceProductebytypes_PriceProductebytypesid",
+                        column: x => x.PriceProductebytypesid,
+                        principalTable: "PriceProductebytypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -420,29 +481,44 @@ namespace DataAcessLayers.Migrations
                 column: "CategoryId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FinancialAdvanceHistories_ApplicationUserId",
-                table: "FinancialAdvanceHistories",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_FinancialAdvanceHistories_NotPayedmoneyId",
                 table: "FinancialAdvanceHistories",
                 column: "NotPayedmoneyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_NotPayedmoney_PriceProductebytypesid",
-                table: "NotPayedmoney",
+                name: "IX_FinancialAdvanceHistories_PriceProductebytypesid",
+                table: "FinancialAdvanceHistories",
                 column: "PriceProductebytypesid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_NotPayedmoney_UserNotPayedmoneyId",
-                table: "NotPayedmoney",
+                name: "IX_FinancialAdvanceHistories_UserNotPayedmoneyId",
+                table: "FinancialAdvanceHistories",
                 column: "UserNotPayedmoneyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PriceProductebytypes_FinancialUserCashId",
-                table: "PriceProductebytypes",
+                name: "IX_FinancialUserCashHistories_FinancialUserCashId",
+                table: "FinancialUserCashHistories",
                 column: "FinancialUserCashId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FinancialUserCashHistoryPriceProductebytypes_financialUserCashHistoryid",
+                table: "FinancialUserCashHistoryPriceProductebytypes",
+                column: "financialUserCashHistoryid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FinancialUserCashHistoryPriceProductebytypes_PriceProductebytypesid",
+                table: "FinancialUserCashHistoryPriceProductebytypes",
+                column: "PriceProductebytypesid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NotPayedmoney_ApplicaionuserId",
+                table: "NotPayedmoney",
+                column: "ApplicaionuserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NotPayedmoney_PriceProductebytypesId",
+                table: "NotPayedmoney",
+                column: "PriceProductebytypesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PriceProductebytypes_ProductId",
@@ -485,7 +561,13 @@ namespace DataAcessLayers.Migrations
                 name: "FinancialAdvanceHistories");
 
             migrationBuilder.DropTable(
+                name: "FinancialUserCashHistoryPriceProductebytypes");
+
+            migrationBuilder.DropTable(
                 name: "ProductAttachments");
+
+            migrationBuilder.DropTable(
+                name: "ShopingCaterCashHistory");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -494,13 +576,16 @@ namespace DataAcessLayers.Migrations
                 name: "NotPayedmoney");
 
             migrationBuilder.DropTable(
+                name: "FinancialUserCashHistories");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "PriceProductebytypes");
 
             migrationBuilder.DropTable(
-                name: "FinancialAdvances");
+                name: "FinancialUserCash");
 
             migrationBuilder.DropTable(
                 name: "products");

@@ -5,8 +5,16 @@
     Layout = "_Layout";
     ViewData["Title"] = "All Products";
 }
+<!-- Modal HTML -->
+<div id="customModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="modalMessage"></div>
+    </div>
+</div>
 
 <style>
+     
     .shopping-bag {
         background-color: #f8f9fa; /* Example background color */
         padding: 20px;
@@ -65,6 +73,7 @@
 </style>
 <div class="shopping-bag">
 
+
 <!-- Add the search input form -->
 <div class="input-group mt-4">
     <input type="text" class="form-control" placeholder="Search..." aria-label="Search" aria-describedby="button-addon2" id="search-input">
@@ -82,31 +91,49 @@
         <a class="btn btn-primary" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="@C_Utilities.Enumes.CategoryType.HotDrink"> مشروبات ساخنه</a>
         <a class="btn btn-secondary" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="@C_Utilities.Enumes.CategoryType.ColdDrink">مشروبات بارده</a>
         <a class="btn btn-success" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="@C_Utilities.Enumes.CategoryType.Addon">اضافات</a>
-         
-       
+        <a class="btn btn-success" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="">الكل</a>
+        <a class="btn btn-success" asp-area="Admin" asp-action="GetallfromShopingCart" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="">السله</a>
+ 
+ 
        
     </div>
 
 
-<div class="container-fluid mt-4">
-    <div class="row product-list">
-        @foreach (var product in Model)
-        {
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="product-card">
-                    <img class="card-img-top" src="~/@product.ProductImg" alt="@product.ProductName">
-                    <div class="product-details">
-                        <h5 class="product-title">@product.ProductName</h5>
-                        <p class="product-price">Price: @product.price</p>
-                            <p class="product-category">Category: @Servess.DescriptionEnum.GetDescription(product.Catid)</p>
+    <div class="container-fluid mt-4">
+        <div class="row product-list">
+            @foreach (var product in Model)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card product-card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.ProductName</h5>
+                            <p class="card-text">السعر: @product.price</p>
+                            <p class="card-text">النوع: @Servess.DescriptionEnum.GetDescription(product.Catid)</p>
+                        </div>
+                        <div class="card-footer">
+ 
+                            <form id="shoppingForm" class="form-inline">
+                                <input type="hidden" id="Id" name="Id" value="@product.Id" asp-for="@product.Id" />
+                                <input type="hidden" id="catId" name="catId" value="@product.Catid" asp-for="@product.Catid" />
+                                <input type="hidden" id="price" name="price" value="@product.price" asp-for="@product.price" />
+                                <input type="hidden" id="CustomerType" name="CustomerType" value="@product.CustomerType" asp-for="@product.CustomerType" />
+                                <input type="hidden" id="ProductName" name="ProductName" value="@product.ProductName" asp-for="@product.ProductName" />
+
+                                <input type="number" min="1" class="form-control" id="ShopingCaterQantity" name="ShopingCaterQantity" placeholder="الكميه" />
+                                <br />
+                                <div class="btn-group d-flex w-100 justify-content-between ml-2" role="group" aria-label="Product Type Buttons">
+                                    <button class="btn btn-secondary flex-grow-1 mr-1 cashButton" type="button">كاش</button>
+                                    <button class="btn btn-success flex-grow-1 ml-1 creditButton" type="button">اجل</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
-</div>
-
-<nav aria-label="Page navigation example">
+@*     <button id="printButton">printButton</button>
+ *@<nav aria-label="Page navigation example">
     <ul class="pagination">
         <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
             <a class="page-link" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerTypec" asp-route-page="1" aria-label="Previous">
@@ -127,35 +154,187 @@
     </ul>
 </nav>
 </div>
+ 
+ 
+<!-- Modal HTML -->
+<div id="customModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="modalMessage"></div>
+    </div>
+</div>
 
-<!-- Latest Font Awesome CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-      integrity="sha512-WNCh7c2E5fJjcS4zqph4erOcGJRJ9RXAz3/a8bPT6XlZaE6LWzU6fQ2mR2VRPTSSUJYgHjWwfaOvzKpdVbjtSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    /* Modal styles */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
 
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30%; /* Could be more or less, depending on screen size */
+    }
 
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
 
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+</style>
 
-
-
-
-
-
-
- @section Scripts {
+@section Scripts {
     <script>
-        $(document).ready(function () {
-            $('#search-input').on('keyup', function () {
-                var searchText = $(this).val().toLowerCase();
-                $('.product-card').each(function () {
-                    var titleText = $(this).find('.product-title').text().toLowerCase();
-                    if (titleText.indexOf(searchText) === -1) {
-                        $(this).hide();
-                    } else {
-                        $(this).show();
-                    }
+        document.addEventListener("DOMContentLoaded", function () {
+            // Search functionality
+            document.getElementById('search-input').addEventListener('keyup', function () {
+                var searchText = this.value.toLowerCase();
+                document.querySelectorAll('.product-card').forEach(function (card) {
+                    var titleText = card.querySelector('.card-title').textContent.toLowerCase();
+                    card.style.display = titleText.includes(searchText) ? '' : 'none';
                 });
+            });
+
+            // Event listeners for cash and credit buttons
+            document.querySelectorAll(".cashButton").forEach(function (cashButton) {
+                cashButton.addEventListener("click", function () {
+                    submitForm(cashButton, "cash");
+                });
+            });
+
+            document.querySelectorAll(".creditButton").forEach(function (creditButton) {
+                creditButton.addEventListener("click", function () {
+                    submitForm(creditButton, "credit");
+                });
+            });
+
+            // Print button functionality
+            // document.getElementById("printButton").addEventListener("click", function () {
+            //     var productList = document.querySelector(".product-list");
+            //     var otherContent = document.querySelectorAll("body > *:not(.container-fluid)");
+
+            //     // Hide other content
+            //     otherContent.forEach(function (element) {
+            //         element.style.display = "none";
+            //     });
+
+            //     // Show only product list
+            //     productList.style.display = "block";
+
+            //     // Print
+            //     window.print();
+
+            //     // Restore display of other content
+            //     otherContent.forEach(function (element) {
+            //         element.style.display = "";
+            //     });
+
+            //     // Restore display of product list
+            //     productList.style.display = "";
+            // });
+
+            // Form submission handler
+            function submitForm(button, paymentType) {
+                const shoppingForm = button.closest("form");
+                const quantityInput = shoppingForm.querySelector("#ShopingCaterQantity");
+                const errorSpan = document.createElement("span");
+                errorSpan.className = "text-danger error-message";
+                errorSpan.textContent = "Please enter a quantity.";
+
+                if (!quantityInput.value || quantityInput.value.trim() === "") {
+                    quantityInput.parentNode.insertBefore(errorSpan, quantityInput.nextSibling);
+                    return;
+                }
+
+                // If input is valid, remove any existing error message
+                const existingErrorMessage = shoppingForm.querySelector(".error-message");
+                if (existingErrorMessage) {
+                    existingErrorMessage.remove();
+                }
+
+                const formData = new FormData(shoppingForm);
+                formData.append("paymentType", paymentType);
+
+                fetch("/Admin/PriceProductebytypes/AddShopingCaterCashHistory", {
+                    method: "POST",
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showModal(data.message);
+                        } else {
+                            showModal("An error occurred while saving your data. Please try again later.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        showModal("An error occurred while saving your data. Please try again later.");
+                    });
+            }
+
+            // Get the modal
+            var modal = document.getElementById("customModal");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // Function to show the modal with a message
+            function showModal(message) {
+                var modalMessage = document.getElementById("modalMessage");
+                modalMessage.innerHTML = message;
+                modal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            // Event listener for shopping cart button
+            document.getElementById("shoppingCartButton").addEventListener("click", function (e) {
+                e.preventDefault(); // Prevent the default action of the button
+
+                fetch("/Admin/PriceProductebytypes/GetallfromShopingCart", {
+                    method: "GET",
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        // Update the content with the response
+                        document.getElementById('shoppingCartContent').innerHTML = data;
+                        console.log(data);
+                        // Show the modal
+                        $('#shoppingCartModal').modal('show');
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
             });
         });
     </script>
 }
- 

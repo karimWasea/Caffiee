@@ -83,13 +83,7 @@ namespace Caffiee.Areas.Admin.Controllers
             //productVm.SystemUserId= GetCurrentUserInfo().Result.UserId;
             //productVm.SystemUserName= GetCurrentUserInfo().Result.UserName;
            
-            if (productVm.Cover == null && productVm.CoverString==null)
-
-            {
-                TempData["Message"] = "Cannot save the category. Please check the form.";
-                TempData["MessageType"] = "danger";
-                return View(productVm);
-            }
+       
             if (!ModelState.IsValid)
             {
                 TempData["Message"] = "Cannot save the category. Please check the form.";

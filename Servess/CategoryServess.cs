@@ -76,33 +76,33 @@ namespace Servess
                 var updated = _context.Update(Entity);
                 
               var update=  _context.SaveChanges();
-                if (update > 0)
-                {
-                    var path = _Imgoperation.UploadFile(criteria.Imge, "Category", Entity.CategoryName);
-                    var ProductAttachment = new CategoryAttachment();
+                //if (update > 0)
+                //{
+                //    var path = _Imgoperation.UploadFile(criteria.Imge, "Category", Entity.CategoryName);
+                //    var ProductAttachment = new CategoryAttachment();
 
-                    ProductAttachment.CategoryId = (int)updated.Entity.Id;
-                    ProductAttachment.FilePath = path;
-                    ProductAttachment.FileType = "Category";
-                    _context.Add(ProductAttachment);
-                    _context.SaveChanges();
-                }
+                //    ProductAttachment.CategoryId = (int)updated.Entity.Id;
+                //    ProductAttachment.FilePath = path;
+                //    ProductAttachment.FileType = "Category";
+                //    _context.Add(ProductAttachment);
+                //    _context.SaveChanges();
+                //}
               
             }else
             {
 
            var add =     _context.Add(Entity);
-              var saved=   _context.SaveChanges();
-                if(saved>0)
-                {
-                    var path = _Imgoperation.UploadFile(criteria.Imge, "Category", Entity.CategoryName);
-                    var ProductAttachment = new CategoryAttachment();
+              //var saved=   _context.SaveChanges();
+              //  if(saved>0)
+              //  {
+              //      var path = _Imgoperation.UploadFile(criteria.Imge, "Category", Entity.CategoryName);
+              //      var ProductAttachment = new CategoryAttachment();
 
-                    ProductAttachment.CategoryId = (int)add.Entity.Id;
-                    ProductAttachment.FilePath = path;
-                    ProductAttachment.FileType = "Category";
-                    _context.Add(ProductAttachment);
-                }
+              //      ProductAttachment.CategoryId = (int)add.Entity.Id;
+              //      ProductAttachment.FilePath = path;
+              //      ProductAttachment.FileType = "Category";
+              //      _context.Add(ProductAttachment);
+              //  }
            
 
             }

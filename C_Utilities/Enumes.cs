@@ -45,9 +45,16 @@ public enum CustomerType
 
         public enum PaymentStatus
         {
-            Paid,
-            NotPaid
+            [Description("Paid")]
+            Paid = 1,
+
+            [Description("Not Paid")]
+            NotPaid = 2,
+
+            [Description("Partial Payment")]
+            PartialPaid = 3
         }
+
         public enum Status
         {
             New,

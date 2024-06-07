@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Cf_Viewmodels.PriceProductebytypesVM>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "All Products";
+}
+
+<!-- Styling -->
+<style>
+    /* Add your custom CSS styles here */
+    .table-striped {
+        /* Add styling for striped table */
+    }
+
+    .custom-table {
+         width: 50%; /* Set table width to 50% */
+    }
+</style>
+
+<table class="table table-striped custom-table">
+    <thead>
+        <tr>
+            <th>اسم المنتج</th>
+            <th>السعر</th>
+            <th>الكمية</th> <!-- Corrected spelling -->
+            <th>النوع</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.totalprice</td>
+                <td>@item.ShopingCaterQantity</td> <!-- Corrected typo in Quantity -->
+                <td>@Servess.DescriptionEnum.GetDescription(item.Catid)</td> <!-- Ensure GetDescription works properly -->
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3">الإجمالي:</td>
+
+            <td>@Model.Sum(i => i.totalprice) Egp</td> <!-- Display total price -->
+
+        </tr>
+    </tfoot>
+</table>
+
+
+<div id="buttonprint">
+    <button id="printButton" class="btn btn-primary">طباعة الفاتوره</button> <!-- Print button with an id -->
+
+    <a class="btn btn-success flex-grow-1 ml-1 Save" asp-area="Admin" asp-action="FreeFinancialUserCash" asp-route-CustomerType="@ViewBag.CustomerType">انهاء الفاتوره</a>
+
+
+</div>
+
+<script>
+    // JavaScript to handle printing functionality
+    document.getElementById("printButton").addEventListener("click", function () {
+        var headerElement = document.getElementsByTagName('header')[0];
+              headerElement.style.display = 'none';
+        buttonprint.style.display = 'none';
+        window.print(); // Print the table
+        headerElement.style.display = 'block';
+        buttonprint.style.display = 'block';
+     });
+</script>
+  

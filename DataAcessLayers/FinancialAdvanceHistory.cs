@@ -16,11 +16,12 @@ namespace DataAcessLayers
         public decimal? NotpayedAmount { get; set; }
         public DateTime  ChangeDate { get; set; }
         public string ChangedByUserId { get; set; }
-         public virtual Applicaionuser ApplicationUser { get; set; }
-        public string ?Description { get; set; }
+         public string ?Description { get; set; }
+        public int PaymentStatus { get; set; }
+        public int PriceProductebytypesid { get; set; }
+        public PriceProductebytypes PriceProductebytypes { get; set; }
+         public Applicaionuser UserNotPayedmoney { get; set; }
         public int NotPayedmoneyId { get; set; }
-        public Status Stutes { get; set; }
-
 
         public virtual NotPayedmoney NotPayedmoneys { get; set; }
     }

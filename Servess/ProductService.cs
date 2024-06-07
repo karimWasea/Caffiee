@@ -48,32 +48,32 @@ namespace Servess
             {
               var updated =  _context.Update(Entity);
                 _context.SaveChanges();
-                if (criteria.Cover == null)
-                {
+                //if (criteria.Cover == null)
+                //{
 
 
-                    var path = criteria.CoverString;
-                    var ProductAttachment = new ProductAttachment();
+                //    var path = criteria.CoverString;
+                //    var ProductAttachment = new ProductAttachment();
 
-                    ProductAttachment.ProductId = updated.Entity.Id;
-                    ProductAttachment.FilePath = path;
-                    ProductAttachment.FileType = "Product";
-                    _context.Add(ProductAttachment);
+                //    ProductAttachment.ProductId = updated.Entity.Id;
+                //    ProductAttachment.FilePath = path;
+                //    ProductAttachment.FileType = "Product";
+                //    _context.Add(ProductAttachment);
  
-                }
-                else
-                {
-                    var path = _Imgoperation.UploadFile(criteria.Cover, "Product", Entity.ProductName);
-                     var ProductAttachment = new ProductAttachment();
+                //}
+                //else
+                //{
+                //    var path = _Imgoperation.UploadFile(criteria.Cover, "Product", Entity.ProductName);
+                //     var ProductAttachment = new ProductAttachment();
 
-                    ProductAttachment.ProductId = updated.Entity.Id;
-                    ProductAttachment.FilePath = path;
-                    ProductAttachment.FileType = "Product";
-                    _context.Add(ProductAttachment);
+                //    ProductAttachment.ProductId = updated.Entity.Id;
+                //    ProductAttachment.FilePath = path;
+                //    ProductAttachment.FileType = "Product";
+                //    _context.Add(ProductAttachment);
 
 
-                }
-                _context.SaveChanges();
+                //}
+                //_context.SaveChanges();
 
 
             }else
@@ -82,13 +82,13 @@ namespace Servess
                var add= _context.Add(Entity);
                 _context.SaveChanges();
 
-                var path = _Imgoperation.UploadFile(criteria.Cover, "Product", Entity.ProductName);
-                var ProductAttachment = new ProductAttachment();
+                //var path = _Imgoperation.UploadFile(criteria.Cover, "Product", Entity.ProductName);
+                //var ProductAttachment = new ProductAttachment();
 
-                ProductAttachment.ProductId = add.Entity.Id;
-                ProductAttachment.FilePath = path;
-                ProductAttachment.FileType = "Product";
-                _context.Add(ProductAttachment);
+                //ProductAttachment.ProductId = add.Entity.Id;
+                //ProductAttachment.FilePath = path;
+                //ProductAttachment.FileType = "Product";
+                //_context.Add(ProductAttachment);
 
 
             }
