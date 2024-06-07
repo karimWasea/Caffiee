@@ -44,7 +44,7 @@ namespace Caffiee.Areas.Admin.Controllers
         public IActionResult GetProductbytyp(PriceProductebytypesVM Entity, int? page)
         {
             ViewBag.CustomerType = Entity.CustomerType;
-
+            ViewBag.UsersLists = _unitOfWork._Ilookup.Users();
             Entity.PageNumber = page ?? 1;
             var Entitys = _unitOfWork._PriceProductebytypes.SearchForTypes(Entity);
             return View(Entitys);
@@ -150,9 +150,21 @@ namespace Caffiee.Areas.Admin.Controllers
 
         [HttpPost]
         public IActionResult AddShopingCaterCashHistory(PriceProductebytypesVM Entity)
+        
         {
+            
             Entity.totalprice = Entity.price * Entity.ShopingCaterQantity;
             _unitOfWork._PriceProductebytypes.AddShopingCaterCashHistory(Entity);
+            TempData["Message"] = $"{Entity.totalprice}  تم اضافه المنتج بسعر "; // "Added successfully"
+            TempData["MessageType"] = "Save";
+
+            return Json(new { success = true, message = TempData["Message"] });
+        }    public IActionResult UpdateShopingCaterCashHistory(PriceProductebytypesVM Entity)
+        
+        {
+            
+            Entity.totalprice = Entity.price * Entity.ShopingCaterQantity;
+            _unitOfWork._PriceProductebytypes.UpdateShopingCaterCashHistory(Entity);
             TempData["Message"] = $"{Entity.totalprice}  تم اضافه المنتج بسعر "; // "Added successfully"
             TempData["MessageType"] = "Save";
 
@@ -176,8 +188,7 @@ namespace Caffiee.Areas.Admin.Controllers
             var Entitys = _unitOfWork._PriceProductebytypes.GetallfromShopingCart(Entity);
             return View(Entitys); // Replace "ShoppingCartPartial" with your actual partial view name
         }
-        //[HttpPost]
-
+ 
 
         [HttpGet]
 
@@ -186,10 +197,27 @@ namespace Caffiee.Areas.Admin.Controllers
 
             var Entity = new PriceProductebytypesVM();
             Entity.CustomerType = (CustomerType)CustomerType;
-                _unitOfWork._PriceProductebytypes.FreeFinancialUserCash( "","");
+                _unitOfWork._PriceProductebytypes.FreeShopingCaterCashHistoryToFinancialUserCash( "","");
             var model = _unitOfWork._PriceProductebytypes.SearchForTypes(Entity);
             return View("GetProductbytyp" , model); // Replace "ShoppingCartPartial" with your actual partial view name
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }

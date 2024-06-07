@@ -15,8 +15,11 @@ namespace Interfaces
         public IPagedList<PriceProductebytypesVM> SearchForTypes(PriceProductebytypesVM criteria);
         public void AddShopingCaterCashHistory(PriceProductebytypesVM criteria);
         public void UpdateShopingCaterCashHistory(PriceProductebytypesVM criteria);
-        public void FreeFinancialUserCash(string? SystemUserId, string? SystemUserName);
         public IEnumerable<PriceProductebytypesVM> GetallfromShopingCart(PriceProductebytypesVM criteria);
+        public void DeleteShopingCaterCashHistory(int id);
+        public void FreeShopingCaterCashHistoryToFinancialUserCash(string? SystemUserId, string? SystemUserName);
+        public void FreeShopingCaterCashHistoryToNotpayed(string? SystemUserId, string? SystemUserName);
+
 
 
 

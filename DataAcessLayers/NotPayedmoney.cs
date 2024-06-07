@@ -13,16 +13,16 @@ namespace DataAcessLayers
         public DateTime CreationTime { get; set; } = DateTime.Now;
          public decimal? TotalPayedAmount { get; set; }
         public decimal? TotalNotpayedAmount { get; set; }
-        public string ChangedByUserId { get; set; }
-        public DateTime ChangeDate { get; set; }
-
+        public string? ChangedByUserId { get; set; }
+ 
         public string ?SystemUserId { get; set; }
         public string? SystemUserName { get; set; }
 
 
         public int PaymentStatus { get; set; }
-
-        public ICollection<FinancialAdvanceHistory> FinancialAdvanceHistory { get; set; }
+        public string UserNotPayedmoneyId { get; set; }
+        public Applicaionuser UserNotPayedmoney { get; set; }
+        public ICollection<NotPayedmoneyHistory> NotPayedmoneyHistory { get; set; }
 
        }
 

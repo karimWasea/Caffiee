@@ -21,8 +21,12 @@ namespace DataAcessLayers
         public int? Discount { get; set; } // Nullable discount property
         public int ? price { get; set; }
          public virtual ShopingCaterCashHistory ShopingCaterCashHistory { get;}
+        [NotMapped]
+         public virtual ShopingCaterNotpayedHistory ShopingCaterNotpayedHistory { get;}
  
-        public virtual ICollection< FinancialUserCashHistoryPriceProductebytypes> FinancialUserCashHistoryPriceProductebytypes { get; set; }
+        public virtual ICollection< FinancialUserCashHistoryPriceProductebytypes> FinancialUserCashHistoryPriceProductebytypes { get; set; } 
+        
+        public virtual ICollection<NotPayedmoneyHistoryPriceProductebytypes> NotPayedmoneyHistoryPriceProductebytypes { get; set; }
     }
 
 }

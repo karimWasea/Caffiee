@@ -91,8 +91,8 @@
         <a class="btn btn-primary" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="@C_Utilities.Enumes.CategoryType.HotDrink"> مشروبات ساخنه</a>
         <a class="btn btn-secondary" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="@C_Utilities.Enumes.CategoryType.ColdDrink">مشروبات بارده</a>
         <a class="btn btn-success" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="@C_Utilities.Enumes.CategoryType.Addon">اضافات</a>
-        <a class="btn btn-success" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="">الكل</a>
-        <a class="btn btn-success" asp-area="Admin" asp-action="GetallfromShopingCart" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="">السله</a>
+        <a class="btn btn-success" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="">كل المنتجات</a>
+        <a class="btn btn-success" asp-area="Admin" asp-action="GetallfromShopingCart" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="">الفاتوره</a>
  
  
        
@@ -120,6 +120,15 @@
                                 <input type="hidden" id="ProductName" name="ProductName" value="@product.ProductName" asp-for="@product.ProductName" />
 
                                 <input type="number" min="1" class="form-control" id="ShopingCaterQantity" name="ShopingCaterQantity" placeholder="الكميه" />
+                                <br />
+                                <div   class="col"  >
+                                  <select asp-for="@product.NotpayedUserid" class="form-select glass-select same-width NotpayedUserid" asp-items="@ViewBag.UsersLists"
+                                            data-placeholder="Select CategoryId" style="z-index: 1;">
+                                        <option value="">العميل</option>
+                                    </select>
+                                    <span asp-validation-for="@product.NotpayedUserid" class="text-danger"></span>
+                                </div>
+
                                 <br />
                                 <div class="btn-group d-flex w-100 justify-content-between ml-2" role="group" aria-label="Product Type Buttons">
                                     <button class="btn btn-secondary flex-grow-1 mr-1 cashButton" type="button">كاش</button>
@@ -216,59 +225,41 @@
             // Event listeners for cash and credit buttons
             document.querySelectorAll(".cashButton").forEach(function (cashButton) {
                 cashButton.addEventListener("click", function () {
-                    submitForm(cashButton, "cash");
+                    submitFormcash(cashButton, "cash");
                 });
             });
 
             document.querySelectorAll(".creditButton").forEach(function (creditButton) {
                 creditButton.addEventListener("click", function () {
-                    submitForm(creditButton, "credit");
+                    submitFormcredit(creditButton, "credit");
                 });
             });
 
-            // Print button functionality
-            // document.getElementById("printButton").addEventListener("click", function () {
-            //     var productList = document.querySelector(".product-list");
-            //     var otherContent = document.querySelectorAll("body > *:not(.container-fluid)");
 
-            //     // Hide other content
-            //     otherContent.forEach(function (element) {
-            //         element.style.display = "none";
-            //     });
-
-            //     // Show only product list
-            //     productList.style.display = "block";
-
-            //     // Print
-            //     window.print();
-
-            //     // Restore display of other content
-            //     otherContent.forEach(function (element) {
-            //         element.style.display = "";
-            //     });
-
-            //     // Restore display of product list
-            //     productList.style.display = "";
-            // });
-
-            // Form submission handler
-            function submitForm(button, paymentType) {
+            function submitFormcash(button, paymentType) {
                 const shoppingForm = button.closest("form");
                 const quantityInput = shoppingForm.querySelector("#ShopingCaterQantity");
+                const NotpayedUserid2 = shoppingForm.querySelector("#NotpayedUserid");
+                console.log(NotpayedUserid2);
+
                 const errorSpan = document.createElement("span");
                 errorSpan.className = "text-danger error-message";
                 errorSpan.textContent = "Please enter a quantity.";
 
-                if (!quantityInput.value || quantityInput.value.trim() === "") {
-                    quantityInput.parentNode.insertBefore(errorSpan, quantityInput.nextSibling);
-                    return;
-                }
-
-                // If input is valid, remove any existing error message
+                // Remove existing error messages
                 const existingErrorMessage = shoppingForm.querySelector(".error-message");
                 if (existingErrorMessage) {
                     existingErrorMessage.remove();
                 }
+
+                if (!quantityInput.value || quantityInput.value.trim() === "") {
+                    // Display error message if quantity is not entered
+                    quantityInput.parentNode.insertBefore(errorSpan, quantityInput.nextSibling);
+                    return;
+                }
+
+               
+
 
                 const formData = new FormData(shoppingForm);
                 formData.append("paymentType", paymentType);
@@ -282,14 +273,71 @@
                         if (data.success) {
                             showModal(data.message);
                         } else {
-                            showModal("An error occurred while saving your data. Please try again later.");
+                            showModal("اختر العميل ");
                         }
                     })
                     .catch(error => {
                         console.error("Error:", error);
-                        showModal("An error occurred while saving your data. Please try again later.");
+                        showModal("اختر العميل");
                     });
             }
+
+
+
+            function submitFormcredit(button, paymentType) {
+                const shoppingForm = button.closest("form");
+                const quantityInput = shoppingForm.querySelector("#ShopingCaterQantity");
+                const NotpayedUserid2 = shoppingForm.querySelector("#NotpayedUserid");
+                console.log(NotpayedUserid2);
+                 
+                const errorSpan = document.createElement("span");
+                errorSpan.className = "text-danger error-message";
+                errorSpan.textContent = "Please enter a quantity.";
+
+                // Remove existing error messages
+                const existingErrorMessage = shoppingForm.querySelector(".error-message");
+                if (existingErrorMessage) {
+                    existingErrorMessage.remove();
+                }
+
+                if (!quantityInput.value || quantityInput.value.trim() === "") {
+                    // Display error message if quantity is not entered
+                    quantityInput.parentNode.insertBefore(errorSpan, quantityInput.nextSibling);
+                    return;
+                }
+
+                 // Now you can perform actions with the select element
+                if (NotpayedUserid2 === null) {
+                     console.log(1)
+                    showModal("اختر العميل ");
+
+                    return;
+
+                }
+            
+
+                const formData = new FormData(shoppingForm);
+                formData.append("paymentType", paymentType);
+
+                fetch("/Admin/PriceProductebytypes/AddShopingCaterCashHistory", {
+                    method: "POST",
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showModal(data.message);
+                        } else {
+                            showModal("اختر العميل ");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        showModal("اختر العميل");
+                    });
+            }
+
+             
 
             // Get the modal
             var modal = document.getElementById("customModal");

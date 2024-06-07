@@ -4,6 +4,7 @@ using DataAcessLayers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAcessLayers.Migrations
 {
     [DbContext(typeof(ApplicationDBcontext))]
-    partial class ApplicationDBcontextModelSnapshot : ModelSnapshot
+    [Migration("20240607190817_ik")]
+    partial class ik
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -169,6 +172,64 @@ namespace DataAcessLayers.Migrations
                     b.ToTable("CategoryAttachments");
                 });
 
+            modelBuilder.Entity("DataAcessLayers.FinancialAdvanceHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("ChangeDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ChangedByUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NotPayedmoneyId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("NotpayedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("PayedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PaymentStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PriceProductebytypesid")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SystemUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SystemUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserNotPayedmoneyId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NotPayedmoneyId");
+
+                    b.HasIndex("PriceProductebytypesid");
+
+                    b.HasIndex("UserNotPayedmoneyId");
+
+                    b.ToTable("FinancialAdvanceHistories");
+                });
+
             modelBuilder.Entity("DataAcessLayers.FinancialUserCash", b =>
                 {
                     b.Property<int>("Id")
@@ -273,7 +334,14 @@ namespace DataAcessLayers.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicaionuserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("ChangeDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("ChangedByUserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
@@ -299,88 +367,13 @@ namespace DataAcessLayers.Migrations
                     b.Property<decimal?>("TotalPayedAmount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("UserNotPayedmoneyId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicaionuserId");
 
                     b.HasIndex("PriceProductebytypesId");
 
-                    b.HasIndex("UserNotPayedmoneyId");
-
                     b.ToTable("NotPayedmoney");
-                });
-
-            modelBuilder.Entity("DataAcessLayers.NotPayedmoneyHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("ChangeDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ChangedByUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreationTime")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NotPayedmoneyId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("NotpayedAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("PaymentStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SystemUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SystemUserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NotPayedmoneyId");
-
-                    b.ToTable("NotPayedmoneyHistory");
-                });
-
-            modelBuilder.Entity("DataAcessLayers.NotPayedmoneyHistoryPriceProductebytypes", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("NotPayedmoneyHistoryid")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PriceProductebytypesid")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NotPayedmoneyHistoryid");
-
-                    b.HasIndex("PriceProductebytypesid");
-
-                    b.ToTable("NotPayedmoneyHistoryPriceProductebytypes");
                 });
 
             modelBuilder.Entity("DataAcessLayers.PriceProductebytypes", b =>
@@ -515,14 +508,17 @@ namespace DataAcessLayers.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("NotpayedUserid")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("PayedAmount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("PriceProductebytypesId")
                         .HasColumnType("int");
 
                     b.Property<int?>("Qantity")
                         .HasColumnType("int");
-
-                    b.Property<decimal?>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("catid")
                         .HasColumnType("int");
@@ -537,41 +533,6 @@ namespace DataAcessLayers.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ShopingCaterCashHistory");
-                });
-
-            modelBuilder.Entity("DataAcessLayers.ShopingCaterNotpayedHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("NotpayedUserid")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PriceProductebytypesId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Qantity")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("catid")
-                        .HasColumnType("int");
-
-                    b.Property<string>("productName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("productid")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ShopingCaterNotpayedHistory");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -718,6 +679,31 @@ namespace DataAcessLayers.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("DataAcessLayers.FinancialAdvanceHistory", b =>
+                {
+                    b.HasOne("DataAcessLayers.NotPayedmoney", "NotPayedmoneys")
+                        .WithMany("FinancialAdvanceHistory")
+                        .HasForeignKey("NotPayedmoneyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAcessLayers.PriceProductebytypes", "PriceProductebytypes")
+                        .WithMany()
+                        .HasForeignKey("PriceProductebytypesid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAcessLayers.Applicaionuser", "UserNotPayedmoney")
+                        .WithMany()
+                        .HasForeignKey("UserNotPayedmoneyId");
+
+                    b.Navigation("NotPayedmoneys");
+
+                    b.Navigation("PriceProductebytypes");
+
+                    b.Navigation("UserNotPayedmoney");
+                });
+
             modelBuilder.Entity("DataAcessLayers.FinancialUserCashHistory", b =>
                 {
                     b.HasOne("DataAcessLayers.FinancialUserCash", "FinancialUserCash")
@@ -750,47 +736,13 @@ namespace DataAcessLayers.Migrations
 
             modelBuilder.Entity("DataAcessLayers.NotPayedmoney", b =>
                 {
+                    b.HasOne("DataAcessLayers.Applicaionuser", null)
+                        .WithMany("NotPayedmoney")
+                        .HasForeignKey("ApplicaionuserId");
+
                     b.HasOne("DataAcessLayers.PriceProductebytypes", null)
                         .WithMany("NotPayedmoney")
                         .HasForeignKey("PriceProductebytypesId");
-
-                    b.HasOne("DataAcessLayers.Applicaionuser", "UserNotPayedmoney")
-                        .WithMany("NotPayedmoney")
-                        .HasForeignKey("UserNotPayedmoneyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserNotPayedmoney");
-                });
-
-            modelBuilder.Entity("DataAcessLayers.NotPayedmoneyHistory", b =>
-                {
-                    b.HasOne("DataAcessLayers.NotPayedmoney", "NotPayedmoneys")
-                        .WithMany("NotPayedmoneyHistory")
-                        .HasForeignKey("NotPayedmoneyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("NotPayedmoneys");
-                });
-
-            modelBuilder.Entity("DataAcessLayers.NotPayedmoneyHistoryPriceProductebytypes", b =>
-                {
-                    b.HasOne("DataAcessLayers.NotPayedmoneyHistory", "NotPayedmoneyHistory")
-                        .WithMany("NotPayedmoneyHistoryPriceProductebytypes")
-                        .HasForeignKey("NotPayedmoneyHistoryid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataAcessLayers.PriceProductebytypes", "PriceProductebytypes")
-                        .WithMany("NotPayedmoneyHistoryPriceProductebytypes")
-                        .HasForeignKey("PriceProductebytypesid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("NotPayedmoneyHistory");
-
-                    b.Navigation("PriceProductebytypes");
                 });
 
             modelBuilder.Entity("DataAcessLayers.PriceProductebytypes", b =>
@@ -897,12 +849,7 @@ namespace DataAcessLayers.Migrations
 
             modelBuilder.Entity("DataAcessLayers.NotPayedmoney", b =>
                 {
-                    b.Navigation("NotPayedmoneyHistory");
-                });
-
-            modelBuilder.Entity("DataAcessLayers.NotPayedmoneyHistory", b =>
-                {
-                    b.Navigation("NotPayedmoneyHistoryPriceProductebytypes");
+                    b.Navigation("FinancialAdvanceHistory");
                 });
 
             modelBuilder.Entity("DataAcessLayers.PriceProductebytypes", b =>
@@ -910,8 +857,6 @@ namespace DataAcessLayers.Migrations
                     b.Navigation("FinancialUserCashHistoryPriceProductebytypes");
 
                     b.Navigation("NotPayedmoney");
-
-                    b.Navigation("NotPayedmoneyHistoryPriceProductebytypes");
                 });
 
             modelBuilder.Entity("DataAcessLayers.Product", b =>

@@ -36,7 +36,12 @@ namespace Servess
 
 
         }
+        public IQueryable<SelectListItem> Users()
+        {
 
+            IQueryable<SelectListItem>? applicationuser = _user.Users.Select(x => new SelectListItem { Value = x.Id, Text = x.UserName });
+            return applicationuser;
+        }
         public List<SelectListItem> GetCustomerType()
         {
             var CustomerType = Enum.GetValues(typeof(CustomerType))

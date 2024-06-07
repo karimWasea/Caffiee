@@ -36,7 +36,7 @@ namespace DataAcessLayers
               .Property(e => e.CreationTime)
               .HasDefaultValueSql("GETDATE()"); 
             
-            builder.Entity<FinancialAdvanceHistory>()
+            builder.Entity<NotPayedmoneyHistory>()
               .Property(e => e.CreationTime)
               .HasDefaultValueSql("GETDATE()");  
             
@@ -65,7 +65,7 @@ namespace DataAcessLayers
         }
 
         public DbSet<FinancialUserCash> FinancialUserCash { get; set; }
-        public DbSet<FinancialAdvanceHistory>  FinancialAdvanceHistories { get; set; }
+        public DbSet<NotPayedmoneyHistory> NotPayedmoneyHistory { get; set; }
         public DbSet<Category>   Categories { get; set; }
         public DbSet<Product>    products { get; set; }
         public DbSet<PriceProductebytypes> PriceProductebytypes { get; set; }
@@ -77,6 +77,7 @@ namespace DataAcessLayers
         public DbSet<FinancialUserCashHistoryPriceProductebytypes> FinancialUserCashHistoryPriceProductebytypes { get; set; } 
         
         public DbSet<ShopingCaterCashHistory> ShopingCaterCashHistory { get; set; }
+        public DbSet<ShopingCaterNotpayedHistory> ShopingCaterNotpayedHistory { get; set; }
         // DbSet properties for other entities...
     }
 }

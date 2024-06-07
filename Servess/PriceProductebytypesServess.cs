@@ -142,7 +142,7 @@ namespace Servess
         {
             var query = _context.ShopingCaterCashHistory.Select(p => new PriceProductebytypesVM {
                 Id = p.PriceProductebytypesId,
-                totalprice = p.PayedAmount,
+                totalprice = p.TotalAmount,
                 ShopingCaterQantity = p.Qantity,
                 ProductName = p.productName,
                 Catid = (CategoryType)p.catid
@@ -153,12 +153,12 @@ namespace Servess
       
             return query;
         }
-
+        #region AddShopingCaterCashHistory
         public void AddShopingCaterCashHistory(PriceProductebytypesVM criteria)
         {
              var Entity = new ShopingCaterCashHistory
             {
-                PayedAmount = criteria.totalprice,
+                 TotalAmount = criteria.totalprice,
                 PriceProductebytypesId = criteria.Id,
                 Qantity = criteria.ShopingCaterQantity,
                   productName= criteria.ProductName,
@@ -176,7 +176,7 @@ namespace Servess
              
             var Entity = new ShopingCaterCashHistory
             { Id = criteria.ShopingCaterid,
-                PayedAmount = criteria.price,
+                TotalAmount = criteria.totalprice,
                 PriceProductebytypesId = criteria.Id,
                 Qantity = criteria.ShopingCaterQantity,
             };
@@ -186,21 +186,38 @@ namespace Servess
 
         }
 
-        public void FreeFinancialUserCash(string? SystemUserId, string? SystemUserName)
+
+
+        public void DeleteShopingCaterCashHistory(int id)
+        {
+            
+
+            _context.Remove(_context.ShopingCaterCashHistory.Find(id));
+            _context.SaveChanges();
+
+        }
+
+
+
+
+
+
+        #endregion
+        public void FreeShopingCaterCashHistoryToFinancialUserCash(string? SystemUserId, string? SystemUserName)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
                 try
                 {
                     var newCashHistory = _context.ShopingCaterCashHistory.ToList();
-                    var totalAmount = newCashHistory.Sum(i => i.PayedAmount);
+                    var totalAmount = newCashHistory.Sum(i => i.TotalAmount);
 
                     var financialUserCash = new FinancialUserCash
                     {
                         PayedTotalAmount = totalAmount,
                         SystemUserId = SystemUserId,
                         SystemUserName = SystemUserName,
-                        PaymentStatus = (int)PaymentStatus.PartialPaid
+                        PaymentStatus = (int)PaymentStatus.Paid
                     };
 
                     var addFinancialUserCash = _context.Add(financialUserCash);
@@ -217,7 +234,7 @@ namespace Servess
                             SystemUserId = SystemUserId ?? "",
                             SystemUserName = SystemUserName ?? "",
                             PaymentStatus = (int)PaymentStatus.Paid,
-                            PayedAmount = item.PayedAmount
+                            PayedAmount = item.TotalAmount
                         };
 
                         var addedHistoryCash = _context.Add(historyCash);
@@ -318,8 +335,70 @@ namespace Servess
             }
         }
 
+        public void FreeShopingCaterCashHistoryToNotpayed(string? SystemUserId, string? SystemUserName)
+        {
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var newNotpayedHistory = _context.ShopingCaterNotpayedHistory.ToList();
+                    var totalAmount = newNotpayedHistory.Sum(i => i.TotalAmount);
 
+                    var NotPayedmoney = new NotPayedmoney
+                    {
+                        UserNotPayedmoneyId = newNotpayedHistory.FirstOrDefault().NotpayedUserid??"",
+                        TotalNotpayedAmount = totalAmount,
+                        SystemUserId = SystemUserId,
+                        SystemUserName = SystemUserName,
+                        ChangedByUserId = SystemUserId,
+                        PaymentStatus = (int)PaymentStatus.NotPaid
+                    };
 
+                    var ADDNotPayedmoney = _context.Add(NotPayedmoney);
+                    _context.SaveChanges();
 
+                    var ADDNotPayedmoneyId = ADDNotPayedmoney.Entity.Id;
+
+                    foreach (var item in newNotpayedHistory)
+                    {
+                         var historyCash = new NotPayedmoneyHistory
+                        {
+                             NotPayedmoneyId = ADDNotPayedmoneyId,
+                            SystemUserId = SystemUserId ?? "",
+                            SystemUserName = SystemUserName ?? "",
+                             NotpayedAmount= item.TotalAmount,
+
+                            PaymentStatus = (int)PaymentStatus.NotPaid,
+                         };
+
+                        var ADDNotPayedmoneyIdHistoryCash = _context.Add(historyCash);
+                        _context.SaveChanges();
+
+                        var historyPriceProduct = new NotPayedmoneyHistoryPriceProductebytypes
+                        {
+                            NotPayedmoneyHistoryid = ADDNotPayedmoneyIdHistoryCash.Entity.Id,
+                            PriceProductebytypesid = item.PriceProductebytypesId
+                        };
+
+                        _context.Add(historyPriceProduct);
+                        _context.SaveChanges();
+
+                    }
+
+                    _context.ShopingCaterNotpayedHistory.RemoveRange(newNotpayedHistory);
+                    _context.SaveChanges();
+
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    // Log the original exception for debugging
+                    // Optionally, rethrow the original exception or handle it as needed
+                    throw;
+                }
+            }
+
+        }
     }
 }

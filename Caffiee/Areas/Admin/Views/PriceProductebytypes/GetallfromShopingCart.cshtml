@@ -3,7 +3,8 @@
 
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "All Products";
+    ViewData["Title"] = $"{Model.Sum(i => i.totalprice)}   فاتوره رقم";
+    
 }
 
 <!-- Styling -->
@@ -42,7 +43,7 @@
         <tr>
             <td colspan="3">الإجمالي:</td>
 
-            <td>@Model.Sum(i => i.totalprice) Egp</td> <!-- Display total price -->
+            <td>@Model.Sum(i => i.totalprice) جنيه</td> <!-- Display total price -->
 
         </tr>
     </tfoot>
