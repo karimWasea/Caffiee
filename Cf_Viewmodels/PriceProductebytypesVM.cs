@@ -15,12 +15,13 @@ namespace Cf_Viewmodels
     public class PriceProductebytypesVM : BaseVM
     {
         public string NotpayedUserid { get; set; }  
-        public bool ischosuser { get; set; } =false;
+        public bool ishospital { get; set; }  
 
         public IEnumerable<SelectListItem>? CustomerTypeIdList { get; set; } = Enumerable.Empty<SelectListItem>();
         public IEnumerable<SelectListItem>? UsersLists { get; set; } = Enumerable.Empty<SelectListItem>();
         public CustomerType CustomerType { get; set; }
-         public string CustomerTypeName { get; set; } // Call extension method on the instance
+         public string CustomerTypeName { get; set; } =string.Empty;
+        // Call extension method on the instance
         //public string CustomerTypeName => CustomerType.GetDescription();  // Call extension method on the instance
 
         public int ProductId { get; set; }

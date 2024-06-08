@@ -4,6 +4,7 @@ using DataAcessLayers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAcessLayers.Migrations
 {
     [DbContext(typeof(ApplicationDBcontext))]
-    partial class ApplicationDBcontextModelSnapshot : ModelSnapshot
+    [Migration("20240608023813_ikddd6jf")]
+    partial class ikddd6jf
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -350,6 +353,7 @@ namespace DataAcessLayers.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserNotPayedmoneyId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("ishospital")
@@ -779,7 +783,9 @@ namespace DataAcessLayers.Migrations
 
                     b.HasOne("DataAcessLayers.Applicaionuser", "UserNotPayedmoney")
                         .WithMany()
-                        .HasForeignKey("UserNotPayedmoneyId");
+                        .HasForeignKey("UserNotPayedmoneyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("NotPayedmoneys");
 

@@ -107,8 +107,20 @@ namespace Servess
 
             return CustomerType;
         }
-
         
+        public List<SelectListItem> HospitalOroprationtyp()
+        {
+            var CustomerType = Enum.GetValues(typeof(HospitalOroprationtyp))
+                                   .Cast<HospitalOroprationtyp>()
+                                   .Select(d => new SelectListItem
+                                   {
+                                       Value = ((int)d).ToString(),
+                                       Text = DescriptionEnum.GetDescription(d)
+                                   })
+                                   .ToList();
+
+            return CustomerType;
+        }
     }
 
 
@@ -120,6 +132,12 @@ namespace Servess
         public  static string GetDescription(CategoryType categoryType)
         {
             var fieldInfo = typeof(CategoryType).GetField(categoryType.ToString());
+            var descriptionAttribute = fieldInfo?.GetCustomAttribute<DescriptionAttribute>();
+            return descriptionAttribute?.Description ?? categoryType.ToString();
+        }  
+        public  static string GetDescription(HospitalOroprationtyp categoryType)
+        {
+            var fieldInfo = typeof(HospitalOroprationtyp).GetField(categoryType.ToString());
             var descriptionAttribute = fieldInfo?.GetCustomAttribute<DescriptionAttribute>();
             return descriptionAttribute?.Description ?? categoryType.ToString();
         }

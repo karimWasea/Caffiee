@@ -73,6 +73,17 @@ public enum CustomerType
             [Description("اضافات")]
             Addon=3,
 
+        } 
+        
+        public enum HospitalOroprationtyp
+        {
+           
+            [Description("اضافه على العمليات  ")]
+            Hospital = 1,
+            [Description("  اضافه على المستشفى")]
+            oprationtyp = 2,
+           
+
         }
 
 

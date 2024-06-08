@@ -187,8 +187,44 @@ namespace Servess
             _context.Add(Entity);
             _context.SaveChanges();
 
-        }
+        }  
+        
+        public void AddShopingCaterNotpayedHistory(PriceProductebytypesVM criteria)
+        {
+             var Entity = new ShopingCaterNotpayedHistory
+            {
+                 TotalAmount = criteria.totalprice,
+                PriceProductebytypesId = criteria.Id,
+                Qantity = criteria.ShopingCaterQantity,
+                  productName= criteria.ProductName,
+               catid= (int)criteria.Catid,    
+               NotpayedUserid= criteria.NotpayedUserid,    
+               ishospital= criteria.ishospital,    
+             
+             };
 
+            _context.Add(Entity);
+            _context.SaveChanges();
+
+        }
+        public void UpdateShopingCaterNotpayedHistory(PriceProductebytypesVM criteria)
+        {
+            var Entity = new ShopingCaterNotpayedHistory
+            {
+                Id = criteria.ShopingCaterid,
+                TotalAmount = criteria.totalprice,
+                PriceProductebytypesId = criteria.Id,
+                Qantity = criteria.ShopingCaterQantity,
+                productName = criteria.ProductName,
+                catid = (int)criteria.Catid,
+                productid = (int)criteria.ProductId,
+                 NotpayedUserid = criteria.NotpayedUserid,
+                 ishospital = criteria.ishospital,
+            };
+
+            _context.Update(Entity);
+            _context.SaveChanges();
+        }
         public void UpdateShopingCaterCashHistory(PriceProductebytypesVM criteria)
         {
              
@@ -197,6 +233,9 @@ namespace Servess
                 TotalAmount = criteria.totalprice,
                 PriceProductebytypesId = criteria.Id,
                 Qantity = criteria.ShopingCaterQantity,
+                 productName = criteria.ProductName,
+                  catid = (int)criteria.Catid,  
+                   productid = (int)criteria.ProductId, 
             };
 
             _context.Update(Entity);
@@ -211,6 +250,14 @@ namespace Servess
             
 
             _context.Remove(_context.ShopingCaterCashHistory.Find(id));
+            _context.SaveChanges();
+
+        } 
+        public void DeleteShopingCaterNotpayedHistory(int id)
+        {
+            
+
+            _context.Remove(_context.ShopingCaterNotpayedHistory.Find(id));
             _context.SaveChanges();
 
         }
@@ -369,6 +416,7 @@ namespace Servess
                         SystemUserName = SystemUserName,
                         ChangedByUserId = SystemUserId,
                         PaymentStatus = (int)PaymentStatus.NotPaid
+                        
                     };
 
                     var ADDNotPayedmoney = _context.Add(NotPayedmoney);
@@ -386,6 +434,7 @@ namespace Servess
                              NotpayedAmount= item.TotalAmount,
                              UserNotPayedmoneyId= item.NotpayedUserid??"",
                             PaymentStatus = (int)PaymentStatus.NotPaid,
+                            ishospital = item.ishospital,
                          };
 
                         var ADDNotPayedmoneyIdHistoryCash = _context.Add(historyCash);
@@ -417,5 +466,7 @@ namespace Servess
             }
 
         }
+
+      
     }
 }

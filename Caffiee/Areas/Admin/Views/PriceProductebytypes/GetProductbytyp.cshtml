@@ -105,7 +105,7 @@
 
     <div>
         <a class="btn btn-primary" asp-area="Admin" asp-action="GetallfromShopingCart" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="">  عرض الفاتوره الكاش</a>
-        <a class="btn btn-dark" asp-area="Admin" asp-action="GetallfromShopingCart" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="">  عرض الفاتوره الاجل</a>
+        <a class="btn btn-dark" asp-area="Admin" asp-action="GetallfromShopingCartNopayed" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="">  عرض الفاتوره الاجل</a>
         <a class="btn btn-secondary" asp-area="Admin" asp-action="GetallfromShopingCart" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid=""> عرض الفاتوره الكاش الاجل  </a>
  
  
@@ -135,13 +135,18 @@
 
                                 <input type="number" min="1" class="form-control" id="ShopingCaterQantity" name="ShopingCaterQantity" placeholder="الكميه" />
                                 <br />
-                                <div   class="col"  >
-                                  <select asp-for="@product.NotpayedUserid" class="form-select glass-select same-width NotpayedUserid" asp-items="@ViewBag.UsersLists"
-                                            data-placeholder="Select CategoryId" style="z-index: 1;">
+                                <div class="col NotpayedUseridselected">
+                                    <select value="NotpayedUserid" name="NotpayedUserid" class="form-select glass-select same-width NotpayedUserid" asp-items="@ViewBag.UsersLists"
+                                            aria-required="true" data-placeholder="Select CategoryId" style="z-index: 1;">
                                         <option value="">العميل</option>
                                     </select>
                                     <span asp-validation-for="@product.NotpayedUserid" class="text-danger"></span>
                                 </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="ishospital" name="ishospital"    />
+                                    <label class="form-check-label" for="ishospital">اضافه على المستشفى</label>
+                                </div>
+                                   
 
                                 <br />
                                 <div class="btn-group d-flex w-100 justify-content-between ml-2" role="group" aria-label="Product Type Buttons">
@@ -226,6 +231,7 @@
 
 @section Scripts {
     <script>
+ 
         document.addEventListener("DOMContentLoaded", function () {
             // Search functionality
             document.getElementById('search-input').addEventListener('keyup', function () {
@@ -235,10 +241,13 @@
                     card.style.display = titleText.includes(searchText) ? '' : 'none';
                 });
             });
+            
 
+           
             // Event listeners for cash and credit buttons
             document.querySelectorAll(".cashButton").forEach(function (cashButton) {
                 cashButton.addEventListener("click", function () {
+                  
                     submitFormcash(cashButton, "cash");
                 });
             });
@@ -321,19 +330,20 @@
                 }
 
                  // Now you can perform actions with the select element
-                if (NotpayedUserid2 === null) {
-                     console.log(1)
-                    showModal("اختر العميل ");
+                // if (NotpayedUserid2 === null) {
+                //      console.log(1)
+                //     showModal("اختر العميل ");
 
-                    return;
+                //     return;
 
-                }
-            
+                // }
+
+                document.getElementById("ishospital").checked = true;
 
                 const formData = new FormData(shoppingForm);
                 formData.append("paymentType", paymentType);
 
-                fetch("/Admin/PriceProductebytypes/AddShopingCaterCashHistory", {
+                fetch("/Admin/PriceProductebytypes/AddShopingCaterNotpayedHistory", {
                     method: "POST",
                     body: formData
                 })

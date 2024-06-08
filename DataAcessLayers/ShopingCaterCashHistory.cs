@@ -21,9 +21,12 @@
     }
     public class ShopingCaterNotpayedHistory
     {
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public bool ishospital { get; set; } = false;
+
         public int? Qantity { get; set; }
         public decimal? TotalAmount { get; set; }
 
