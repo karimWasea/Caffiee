@@ -75,24 +75,38 @@
 
 
 <!-- Add the search input form -->
+ 
 <div class="input-group mt-4">
     <input type="text" class="form-control" placeholder="Search..." aria-label="Search" aria-describedby="button-addon2" id="search-input">
     <div class="input-group-append">
         <button class="btn btn-primary" type="button" id="button-addon2">
              بحث
-         </button>
-    </div>
-  
+            </button>
+        </div>
+       
 
+       
+
+
+    
 </div>
+
  <br />
+ <br />
+  
+        <div>
+
+            <a class="btn btn-danger" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="@C_Utilities.Enumes.CategoryType.HotDrink">بحث مشروبات ساخنه  </a>
+            <a class="btn btn-primary" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="@C_Utilities.Enumes.CategoryType.ColdDrink"> بحث مشروبات بارده</a>
+            <a class="btn btn-success" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="@C_Utilities.Enumes.CategoryType.Addon"> اضافات بحث</a>
+            <a class="btn btn-success" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="">  عرض الكل كل المنتجات</a>
+        </div>
+    <br />
+
     <div>
-   
-        <a class="btn btn-primary" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="@C_Utilities.Enumes.CategoryType.HotDrink"> مشروبات ساخنه</a>
-        <a class="btn btn-secondary" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="@C_Utilities.Enumes.CategoryType.ColdDrink">مشروبات بارده</a>
-        <a class="btn btn-success" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="@C_Utilities.Enumes.CategoryType.Addon">اضافات</a>
-        <a class="btn btn-success" asp-area="Admin" asp-action="GetProductbytyp" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="">كل المنتجات</a>
-        <a class="btn btn-success" asp-area="Admin" asp-action="GetallfromShopingCart" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="">الفاتوره</a>
+        <a class="btn btn-primary" asp-area="Admin" asp-action="GetallfromShopingCart" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="">  عرض الفاتوره الكاش</a>
+        <a class="btn btn-dark" asp-area="Admin" asp-action="GetallfromShopingCart" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid="">  عرض الفاتوره الاجل</a>
+        <a class="btn btn-secondary" asp-area="Admin" asp-action="GetallfromShopingCart" asp-route-CustomerType="@ViewBag.CustomerType" asp-route-Catid=""> عرض الفاتوره الكاش الاجل  </a>
  
  
        

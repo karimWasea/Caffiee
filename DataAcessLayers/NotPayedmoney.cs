@@ -20,8 +20,7 @@ namespace DataAcessLayers
 
 
         public int PaymentStatus { get; set; }
-        public string UserNotPayedmoneyId { get; set; }
-        public Applicaionuser UserNotPayedmoney { get; set; }
+   
         public ICollection<NotPayedmoneyHistory> NotPayedmoneyHistory { get; set; }
 
        }

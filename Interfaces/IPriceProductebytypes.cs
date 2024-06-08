@@ -16,6 +16,7 @@ namespace Interfaces
         public void AddShopingCaterCashHistory(PriceProductebytypesVM criteria);
         public void UpdateShopingCaterCashHistory(PriceProductebytypesVM criteria);
         public IEnumerable<PriceProductebytypesVM> GetallfromShopingCart(PriceProductebytypesVM criteria);
+        public IEnumerable<PriceProductebytypesVM> GetallfromShopingCartNopayed(PriceProductebytypesVM criteria);
         public void DeleteShopingCaterCashHistory(int id);
         public void FreeShopingCaterCashHistoryToFinancialUserCash(string? SystemUserId, string? SystemUserName);
         public void FreeShopingCaterCashHistoryToNotpayed(string? SystemUserId, string? SystemUserName);

@@ -26,16 +26,19 @@
             <th>السعر</th>
             <th>الكمية</th> <!-- Corrected spelling -->
             <th>النوع</th>
+            <th>العميل</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.ProductName</td>
-                <td>@item.totalprice</td>
+               <td>@item.ProductName</td>
                 <td>@item.ShopingCaterQantity</td> <!-- Corrected typo in Quantity -->
                 <td>@Servess.DescriptionEnum.GetDescription(item.Catid)</td> <!-- Ensure GetDescription works properly -->
+                <td>@item.totalprice</td>
+                <td>@item.</td>
+
             </tr>
         }
     </tbody>
@@ -50,10 +53,11 @@
 </table>
 
 
+
 <div id="buttonprint">
     <button id="printButton" class="btn btn-primary">طباعة الفاتوره</button> <!-- Print button with an id -->
 
-    <a class="btn btn-danger flex-grow-1 ml-1 Save" asp-area="Admin" asp-action="FreeFinancialUserCash" asp-route-CustomerType="@ViewBag.CustomerType">حفظ الفاتوره</a>
+    <a class="btn btn-success flex-grow-1 ml-1 Save" asp-area="Admin" asp-action="FreeFinancialUserCash" asp-route-CustomerType="@ViewBag.CustomerType">حفظ الفاتوره</a>
     <a class="btn btn-success flex-grow-1 ml-1 Save" asp-area="Admin" asp-action="FreeFinancialUserCash" asp-route-CustomerType="@ViewBag.CustomerType">تعديل  الفاتوره</a>
     <a class="btn btn-success flex-grow-1 ml-1 Save" asp-area="Admin" asp-action="FreeFinancialUserCash" asp-route-CustomerType="@ViewBag.CustomerType">انها  الفاتوره</a>
 

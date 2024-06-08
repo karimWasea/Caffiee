@@ -152,6 +152,24 @@ namespace Servess
             }).ToList() ;
       
             return query;
+        }  
+        
+        public IEnumerable<PriceProductebytypesVM> GetallfromShopingCartNopayed(PriceProductebytypesVM criteria)
+        {
+            var query = _context.ShopingCaterNotpayedHistory
+                .Select(p => new PriceProductebytypesVM {
+                Id = p.PriceProductebytypesId,
+                totalprice = p.TotalAmount,
+                ShopingCaterQantity = p.Qantity,
+                ProductName = p.productName,
+                Catid = (CategoryType)p.catid,
+                 NotpayedUserid=p.NotpayedUserid,
+
+
+
+            }).ToList() ;
+      
+            return query;
         }
         #region AddShopingCaterCashHistory
         public void AddShopingCaterCashHistory(PriceProductebytypesVM criteria)
@@ -346,8 +364,7 @@ namespace Servess
 
                     var NotPayedmoney = new NotPayedmoney
                     {
-                        UserNotPayedmoneyId = newNotpayedHistory.FirstOrDefault().NotpayedUserid??"",
-                        TotalNotpayedAmount = totalAmount,
+                         TotalNotpayedAmount = totalAmount,
                         SystemUserId = SystemUserId,
                         SystemUserName = SystemUserName,
                         ChangedByUserId = SystemUserId,
@@ -367,7 +384,7 @@ namespace Servess
                             SystemUserId = SystemUserId ?? "",
                             SystemUserName = SystemUserName ?? "",
                              NotpayedAmount= item.TotalAmount,
-
+                             UserNotPayedmoneyId= item.NotpayedUserid??"",
                             PaymentStatus = (int)PaymentStatus.NotPaid,
                          };
 

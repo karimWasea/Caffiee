@@ -188,6 +188,15 @@ namespace Caffiee.Areas.Admin.Controllers
             var Entitys = _unitOfWork._PriceProductebytypes.GetallfromShopingCart(Entity);
             return View(Entitys); // Replace "ShoppingCartPartial" with your actual partial view name
         }
+     [HttpGet]
+        public IActionResult GetallfromShopingCartNopayed(PriceProductebytypesVM Entity, int? page)
+        {
+            ViewBag.CustomerType = Entity.CustomerType;
+            ViewBag.Catid = Entity.Catid;
+            Entity.PageNumber = page ?? 1;
+            var Entitys = _unitOfWork._PriceProductebytypes.GetallfromShopingCart(Entity);
+            return View(Entitys); // Replace "ShoppingCartPartial" with your actual partial view name
+        }
  
 
         [HttpGet]
