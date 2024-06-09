@@ -29,6 +29,7 @@
 
         public int? Qantity { get; set; }
         public decimal? TotalAmount { get; set; }
+        public int HospitalaoOrprationtyp { get; set; }
 
         public int PriceProductebytypesId { get; set; }
         public int productid { get; set; }

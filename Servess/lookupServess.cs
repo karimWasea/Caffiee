@@ -36,10 +36,10 @@ namespace Servess
 
 
         }
-        public IQueryable<SelectListItem> Users()
+        public IQueryable<SelectListItem> Users(CustomerType CustomerType)
         {
 
-            IQueryable<SelectListItem>? applicationuser = _user.Users.Select(x => new SelectListItem { Value = x.Id, Text = x.UserName });
+            IQueryable<SelectListItem>? applicationuser = _user.Users.Where(i=>i.CustomerType== CustomerType).Select(x => new SelectListItem { Value = x.Id, Text = x.UserName });
             return applicationuser;
         }
         public List<SelectListItem> GetCustomerType()
@@ -110,7 +110,7 @@ namespace Servess
         
         public List<SelectListItem> HospitalOroprationtyp()
         {
-            var CustomerType = Enum.GetValues(typeof(HospitalOroprationtyp))
+            var HospitalOroprationtypd = Enum.GetValues(typeof(HospitalOroprationtyp))
                                    .Cast<HospitalOroprationtyp>()
                                    .Select(d => new SelectListItem
                                    {
@@ -119,7 +119,7 @@ namespace Servess
                                    })
                                    .ToList();
 
-            return CustomerType;
+            return HospitalOroprationtypd;
         }
     }
 

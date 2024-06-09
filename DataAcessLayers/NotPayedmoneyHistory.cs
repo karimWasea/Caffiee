@@ -19,6 +19,7 @@ namespace DataAcessLayers
         public string ChangedByUserId { get; set; }
          public string ?Description { get; set; }
         public int PaymentStatus { get; set; }
+        public int HospitalaoOrprationtyp { get; set; }
         public string? UserNotPayedmoneyId { get; set; }
         public Applicaionuser UserNotPayedmoney { get; set; }
         public int NotPayedmoneyId { get; set; }

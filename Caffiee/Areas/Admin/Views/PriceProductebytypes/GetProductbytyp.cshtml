@@ -142,12 +142,20 @@
                                     </select>
                                     <span asp-validation-for="@product.NotpayedUserid" class="text-danger"></span>
                                 </div>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="ishospital" name="ishospital"    />
-                                    <label class="form-check-label" for="ishospital">اضافه على المستشفى</label>
-                                </div>
-                                   
+                                <br />
+                                @if (product.CustomerType == @C_Utilities.Enumes.CustomerType.oprations)
+                                {
+                                    <div class="col  ">
+                                        <select value="HospitalOroprationtypId" name="HospitalOroprationtypId" class="form-select glass-select same-width HospitalOroprationtypId" asp-items="@ViewBag.HospitalOroprationtypLists"
+                                                aria-required="true" data-placeholder="Select CategoryId" style="z-index: 1;">
+                                            <option value="">نوع العميل </option>
+                                        </select>
+                                        <span asp-validation-for="@product.HospitalOroprationtypId" class="text-danger"></span>
+                                    </div>
 
+                                }
+                           
+                               
                                 <br />
                                 <div class="btn-group d-flex w-100 justify-content-between ml-2" role="group" aria-label="Product Type Buttons">
                                     <button class="btn btn-secondary flex-grow-1 mr-1 cashButton" type="button">كاش</button>
@@ -338,8 +346,7 @@
 
                 // }
 
-                document.getElementById("ishospital").checked = true;
-
+ 
                 const formData = new FormData(shoppingForm);
                 formData.append("paymentType", paymentType);
 

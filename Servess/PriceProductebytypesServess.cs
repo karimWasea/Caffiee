@@ -6,6 +6,7 @@ using DataAcessLayers;
 
 using Interfaces;
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,11 +30,15 @@ namespace Servess
         public readonly ApplicationDBcontext _context;
 
         private readonly IMapper _mapper;
+        private readonly UserManager<Applicaionuser> _user;
 
-        public PriceProductebytypesServess(ApplicationDBcontext context, IMapper mapper)
+
+        
+        public PriceProductebytypesServess(ApplicationDBcontext context, IMapper mapper , UserManager<Applicaionuser> userManager)
         {
             _context = context;
             _mapper = mapper;
+            _user = userManager;
 
         }
 
@@ -164,10 +169,10 @@ namespace Servess
                 ProductName = p.productName,
                 Catid = (CategoryType)p.catid,
                  NotpayedUserid=p.NotpayedUserid,
+                    ClientName = _user.Users.Where(i=>i.Id==p.NotpayedUserid).FirstOrDefault().UserName
 
 
-
-            }).ToList() ;
+                }).ToList() ;
       
             return query;
         }
@@ -191,6 +196,7 @@ namespace Servess
         
         public void AddShopingCaterNotpayedHistory(PriceProductebytypesVM criteria)
         {
+            var result = criteria.HospitalOroprationtypId == 0 ? HospitalOroprationtyp.oprationtyp : criteria.HospitalOroprationtypId;
              var Entity = new ShopingCaterNotpayedHistory
             {
                  TotalAmount = criteria.totalprice,
@@ -199,8 +205,9 @@ namespace Servess
                   productName= criteria.ProductName,
                catid= (int)criteria.Catid,    
                NotpayedUserid= criteria.NotpayedUserid,    
-               ishospital= criteria.ishospital,    
-             
+               ishospital= criteria.ishospital,  
+               HospitalaoOrprationtyp= (int)result,
+
              };
 
             _context.Add(Entity);
@@ -209,6 +216,7 @@ namespace Servess
         }
         public void UpdateShopingCaterNotpayedHistory(PriceProductebytypesVM criteria)
         {
+            var result = criteria.HospitalOroprationtypId == 0 ? HospitalOroprationtyp.oprationtyp : criteria.HospitalOroprationtypId;
             var Entity = new ShopingCaterNotpayedHistory
             {
                 Id = criteria.ShopingCaterid,
@@ -220,6 +228,8 @@ namespace Servess
                 productid = (int)criteria.ProductId,
                  NotpayedUserid = criteria.NotpayedUserid,
                  ishospital = criteria.ishospital,
+                HospitalaoOrprationtyp = (int)result,
+
             };
 
             _context.Update(Entity);

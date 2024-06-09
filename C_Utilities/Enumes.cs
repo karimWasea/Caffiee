@@ -78,9 +78,9 @@ public enum CustomerType
         public enum HospitalOroprationtyp
         {
            
-            [Description("اضافه على العمليات  ")]
+            [Description("اضافه على المستشفى  ")]
             Hospital = 1,
-            [Description("  اضافه على المستشفى")]
+            [Description("  اضافه على العمليات")]
             oprationtyp = 2,
            
 

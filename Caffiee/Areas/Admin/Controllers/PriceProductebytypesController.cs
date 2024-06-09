@@ -44,7 +44,8 @@ namespace Caffiee.Areas.Admin.Controllers
         public IActionResult GetProductbytyp(PriceProductebytypesVM Entity, int? page)
         {
             ViewBag.CustomerType = Entity.CustomerType;
-            ViewBag.UsersLists = _unitOfWork._Ilookup.Users();
+            ViewBag.UsersLists = _unitOfWork._Ilookup.Users(Entity.CustomerType);
+            ViewBag.HospitalOroprationtypLists = _unitOfWork._Ilookup.HospitalOroprationtyp( );
             Entity.PageNumber = page ?? 1;
             var Entitys = _unitOfWork._PriceProductebytypes.SearchForTypes(Entity);
             return View(Entitys);
@@ -109,6 +110,8 @@ namespace Caffiee.Areas.Admin.Controllers
             ModelState.Remove("CategoryName");
             ModelState.Remove("ProductName");
             ModelState.Remove("CustomerTypeName");
+            ModelState.Remove("ProductName");
+            ModelState.Remove("NotpayedUserid");
 
             if (!ModelState.IsValid)
             {
@@ -164,7 +167,7 @@ namespace Caffiee.Areas.Admin.Controllers
         
         {
             
-            if(!ModelState.IsValid&&!Entity.ishospital)
+            if(!ModelState.IsValid)
             {
                 TempData["Message"] = " ادخل بيانات العميل";
                 TempData["MessageType"] = "Save";

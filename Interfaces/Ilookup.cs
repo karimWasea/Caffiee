@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 using X.PagedList;
 
+using static C_Utilities.Enumes;
+
 namespace Interfaces
 {
     public interface Ilookup
@@ -12,7 +14,7 @@ namespace Interfaces
           List<SelectListItem> GetCustomerType();
           List<SelectListItem> GetCategoryType();
           List<SelectListItem> HospitalOroprationtyp();
-        public IQueryable<SelectListItem> Users()
+        public IQueryable<SelectListItem> Users(CustomerType CustomerType)
 ;
         //public IQueryable<SelectListItem> GetCustomerTypesId(int selectedId = 0);
 
