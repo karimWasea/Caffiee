@@ -243,18 +243,15 @@ namespace Servess
         }
         public void UpdateShopingCaterCashHistory(PriceProductebytypesVM criteria)
         {
-             
-            var Entity = new ShopingCaterCashHistory
-            { Id = criteria.ShopingCaterId,
-                TotalAmount = criteria.totalprice,
-                PriceProductebytypesId = criteria.Id,
-                Qantity = criteria.ShopingCaterQantity,
-                 productName = criteria.ProductName,
-                  catid = (int)criteria.Catid,  
-                   productid = (int)criteria.ProductId, 
-            };
 
-            _context.Update(Entity);
+            var result = _context.ShopingCaterNotpayedHistory.Find(criteria.ShopingCaterId);
+
+            var product = _context.PriceProductebytypes.Include(p => p.Product).Where(i => i.Id == criteria.Id).FirstOrDefault();
+
+
+            result.Qantity = criteria.ShopingCaterQantity;
+            result.TotalAmount = product.price * criteria.ShopingCaterQantity;
+            _context.Update(result);
             _context.SaveChanges();
 
         }
