@@ -61,8 +61,8 @@
         <tr>
             <td colspan="3">الإجمالي:</td>
 
-@*             <td>@(Model?.Sum(i => i.totalprice) ?? 0) جنيه</td>
- *@            <td colspan="3"> </td>
+            <td>@(Model?.Sum(i => i.totalprice) ?? 0) جنيه</td>
+        <td colspan="3"> </td>
 
 
         </tr>
@@ -115,6 +115,42 @@
     });
 </script>
 
+ 
+@* <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("printButton").addEventListener("click", function () {
+            // Hide the header
+            var headerElement = document.getElementsByTagName('header')[0];
+            headerElement.style.display = 'none';
+            document.querySelectorAll('.Save').forEach(function (element) {
+                element.style.display = 'none';
+            });
+            // Hide elements with class 'save'
+            var saveColumnIndex = $('table th:contains("Save")').index();
+            $('table tr').each(function () {
+                $(this).find('td').eq(saveColumnIndex).hide();
+                $(this).find('th').eq(saveColumnIndex).hide();
+            });
+            // Hide the print button itself
+            var buttonprint = document.getElementById("buttonprint");
+            buttonprint.style.display = 'none';
+
+            // Print the page
+            window.print();
+
+            // Restore the visibility of the header and the print button
+            headerElement.style.display = 'block';
+            buttonprint.style.display = 'block';
+
+            // Restore the visibility of elements with class 'save'
+            $('table tr').each(function () {
+                $(this).find('td').eq(saveColumnIndex).show();
+                $(this).find('th').eq(saveColumnIndex).show();
+            });
+        });
+    });
+</script>
+
 @* <script>
     // JavaScript to handle printing functionality
     document.getElementById("printButton").addEventListener("click", function () {
@@ -126,4 +162,4 @@
         buttonprint.style.display = 'block';
      });
 </script>
- *@  
+ *@
