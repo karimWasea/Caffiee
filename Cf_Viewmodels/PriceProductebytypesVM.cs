@@ -15,8 +15,7 @@ namespace Cf_Viewmodels
     public class PriceProductebytypesVM : BaseVM
     {
         public string NotpayedUserid { get; set; }  
-        public bool ishospital { get; set; }  
-
+        public bool isIncreas { get; set; }
         public IEnumerable<SelectListItem>? CustomerTypeIdList { get; set; } = Enumerable.Empty<SelectListItem>();
         public IEnumerable<SelectListItem>? UsersLists { get; set; } = Enumerable.Empty<SelectListItem>();
         public IEnumerable<SelectListItem>? HospitalaoOrprationtypLists { get; set; } = Enumerable.Empty<SelectListItem>();
@@ -28,6 +27,8 @@ namespace Cf_Viewmodels
         //public string CustomerTypeName => CustomerType.GetDescription();  // Call extension method on the instance
 
         public int ProductId { get; set; }
+        public int ShopingCaterId
+        { get; set; }
         public string ProductName { get; set; } = string.Empty;
         public string ClientName { get; set; }=string.Empty;    
         public string ProductImg{ get; set; } =string.Empty  ;
@@ -37,8 +38,7 @@ namespace Cf_Viewmodels
           public int? ShopingCaterQantity { get; set; }
         public int? Discount { get; set; } // Nullable discount property
         public int? price { get; set; }
-        public int ShopingCaterid { get; set; }
-        public decimal? totalprice { get; set; }
+         public decimal? totalprice { get; set; }
  
 
     }

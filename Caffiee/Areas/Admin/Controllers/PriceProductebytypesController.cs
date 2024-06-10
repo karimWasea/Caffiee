@@ -151,18 +151,23 @@ namespace Caffiee.Areas.Admin.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult AddShopingCaterCashHistory(PriceProductebytypesVM Entity)
-        
-        {
-            
-            Entity.totalprice = Entity.price * Entity.ShopingCaterQantity;
-            _unitOfWork._PriceProductebytypes.AddShopingCaterCashHistory(Entity);
-            TempData["Message"] = $"{Entity.totalprice}  تم اضافه المنتج بسعر "; // "Added successfully"
-            TempData["MessageType"] = "Save";
 
-            return Json(new { success = true, message = TempData["Message"] });
-        }     [HttpPost]
+
+
+        #region   notpayedcard
+       
+        
+        [HttpGet]
+        public IActionResult GetallfromShopingCartNopayed(PriceProductebytypesVM Entity, int? page)
+        {
+            ViewBag.CustomerType = Entity.CustomerType;
+            ViewBag.Catid = Entity.Catid;
+            Entity.PageNumber = page ?? 1;
+            IEnumerable<PriceProductebytypesVM>? Entitys = _unitOfWork._PriceProductebytypes.GetallfromShopingCartNopayed(Entity);
+            return View(Entitys); // Replace "ShoppingCartPartial" with your actual partial view name
+        }
+
+        [HttpPost]
         public IActionResult AddShopingCaterNotpayedHistory(PriceProductebytypesVM Entity)
         
         {
@@ -186,36 +191,33 @@ namespace Caffiee.Areas.Admin.Controllers
         
         
         
-        public IActionResult UpdateShopingCaterCashHistory(PriceProductebytypesVM Entity)
+      
+        //[HttpPost]
+        public IActionResult UpdateShopingCaterNotpayedHistory(PriceProductebytypesVM Entity)
         
         {
             
-            Entity.totalprice = Entity.price * Entity.ShopingCaterQantity;
-            _unitOfWork._PriceProductebytypes.UpdateShopingCaterCashHistory(Entity);
-            TempData["Message"] = $"{Entity.totalprice}  تم اضافه المنتج بسعر "; // "Added successfully"
+             _unitOfWork._PriceProductebytypes.UpdateShopingCaterNotpayedHistory(Entity);
+            TempData["Message"] = $"{Entity.totalprice}  تم التعديل "; // "Added successfully"
             TempData["MessageType"] = "Save";
-
-            return Json(new { success = true, message = TempData["Message"] });
-        }   public IActionResult UpdateShopingCaterNotpayedHistory(PriceProductebytypesVM Entity)
-        
-        {
-            
-            Entity.totalprice = Entity.price * Entity.ShopingCaterQantity;
-            _unitOfWork._PriceProductebytypes.UpdateShopingCaterNotpayedHistory(Entity);
-            TempData["Message"] = $"{Entity.totalprice}  تم اضافه المنتج بسعر "; // "Added successfully"
-            TempData["MessageType"] = "Save";
-
-            return Json(new { success = true, message = TempData["Message"] });
+            IEnumerable<PriceProductebytypesVM>? Entitys = _unitOfWork._PriceProductebytypes.GetallfromShopingCartNopayed(Entity);
+            return View("GetallfromShopingCartNopayed" , Entitys);
         }
 
 
 
 
 
+        public IActionResult DeleteNopayed(int Id)
+        {
 
+            _unitOfWork._PriceProductebytypes.DeleteShopingCaterNotpayedHistory(Id);
+            return View("GetallfromShopingCartNopayed");
+        }
 
-
-
+        #endregion
+        #region ShopingCater
+      
         [HttpGet]
         public IActionResult GetallfromShopingCart(PriceProductebytypesVM Entity, int? page)
         {
@@ -225,17 +227,43 @@ namespace Caffiee.Areas.Admin.Controllers
             var Entitys = _unitOfWork._PriceProductebytypes.GetallfromShopingCart(Entity);
             return View(Entitys); // Replace "ShoppingCartPartial" with your actual partial view name
         }
-     [HttpGet]
-        public IActionResult GetallfromShopingCartNopayed(PriceProductebytypesVM Entity, int? page)
-        {
-            ViewBag.CustomerType = Entity.CustomerType;
-            ViewBag.Catid = Entity.Catid;
-            Entity.PageNumber = page ?? 1;
-            var Entitys = _unitOfWork._PriceProductebytypes.GetallfromShopingCartNopayed(Entity);
-            return View(Entitys); // Replace "ShoppingCartPartial" with your actual partial view name
-        }
- 
 
+        [HttpPost]
+        public IActionResult AddShopingCaterCashHistory(PriceProductebytypesVM Entity)
+
+        {
+
+            Entity.totalprice = Entity.price * Entity.ShopingCaterQantity;
+            _unitOfWork._PriceProductebytypes.AddShopingCaterCashHistory(Entity);
+            TempData["Message"] = $"{Entity.totalprice}  تم اضافه المنتج بسعر "; // "Added successfully"
+            TempData["MessageType"] = "Save";
+
+            return Json(new { success = true, message = TempData["Message"] });
+        }
+        public IActionResult UpdateShopingCaterCashHistory(PriceProductebytypesVM Entity)
+
+        {
+
+            Entity.totalprice = Entity.price * Entity.ShopingCaterQantity;
+            _unitOfWork._PriceProductebytypes.UpdateShopingCaterCashHistory(Entity);
+            TempData["Message"] = $"{Entity.totalprice}  تم اضافه المنتج بسعر "; // "Added successfully"
+            TempData["MessageType"] = "Save";
+
+            return Json(new { success = true, message = TempData["Message"] });
+        }
+
+
+        public IActionResult DeleteCash(int Id)
+        {
+
+            _unitOfWork._PriceProductebytypes.DeleteShopingCaterCashHistory(Id);
+            return View("GetallfromShopingCartNopayed");
+        }
+
+        #endregion
+
+
+        #region freecart
         [HttpGet]
 
         public IActionResult FreeFinancialUserCash(CustomerType CustomerType  )
@@ -258,7 +286,7 @@ namespace Caffiee.Areas.Admin.Controllers
             return View("GetProductbytyp" , model); // Replace "ShoppingCartPartial" with your actual partial view name
         }
 
-
+        #endregion
 
 
 

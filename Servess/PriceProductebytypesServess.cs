@@ -149,8 +149,9 @@ namespace Servess
                 Id = p.PriceProductebytypesId,
                 totalprice = p.TotalAmount,
                 ShopingCaterQantity = p.Qantity,
+                ShopingCaterId = p.Id,
                 ProductName = p.productName,
-                Catid = (CategoryType)p.catid
+                Catid = (CategoryType)p.catid 
 
 
 
@@ -166,6 +167,7 @@ namespace Servess
                 Id = p.PriceProductebytypesId,
                 totalprice = p.TotalAmount,
                 ShopingCaterQantity = p.Qantity,
+                    ShopingCaterId = p.Id,
                 ProductName = p.productName,
                 Catid = (CategoryType)p.catid,
                  NotpayedUserid=p.NotpayedUserid,
@@ -205,8 +207,7 @@ namespace Servess
                   productName= criteria.ProductName,
                catid= (int)criteria.Catid,    
                NotpayedUserid= criteria.NotpayedUserid,    
-               ishospital= criteria.ishospital,  
-               HospitalaoOrprationtyp= (int)result,
+                HospitalaoOrprationtyp= (int)result,
 
              };
 
@@ -216,30 +217,35 @@ namespace Servess
         }
         public void UpdateShopingCaterNotpayedHistory(PriceProductebytypesVM criteria)
         {
-            var result = criteria.HospitalOroprationtypId == 0 ? HospitalOroprationtyp.oprationtyp : criteria.HospitalOroprationtypId;
-            var Entity = new ShopingCaterNotpayedHistory
-            {
-                Id = criteria.ShopingCaterid,
-                TotalAmount = criteria.totalprice,
-                PriceProductebytypesId = criteria.Id,
-                Qantity = criteria.ShopingCaterQantity,
-                productName = criteria.ProductName,
-                catid = (int)criteria.Catid,
-                productid = (int)criteria.ProductId,
-                 NotpayedUserid = criteria.NotpayedUserid,
-                 ishospital = criteria.ishospital,
-                HospitalaoOrprationtyp = (int)result,
+            var result = _context.ShopingCaterNotpayedHistory.Find(criteria.ShopingCaterId);
 
-            };
+            var product = _context.PriceProductebytypes.Include(p => p.Product).Where(i => i.Id == criteria.Id).FirstOrDefault();
 
-            _context.Update(Entity);
+       
+            result.Qantity =criteria.ShopingCaterQantity;
+            result.TotalAmount = product.price * criteria.ShopingCaterQantity;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            _context.Update(result);
             _context.SaveChanges();
         }
         public void UpdateShopingCaterCashHistory(PriceProductebytypesVM criteria)
         {
              
             var Entity = new ShopingCaterCashHistory
-            { Id = criteria.ShopingCaterid,
+            { Id = criteria.ShopingCaterId,
                 TotalAmount = criteria.totalprice,
                 PriceProductebytypesId = criteria.Id,
                 Qantity = criteria.ShopingCaterQantity,
@@ -257,7 +263,20 @@ namespace Servess
 
         public void DeleteShopingCaterCashHistory(int id)
         {
-            
+
+            //var product = _context.PriceProductebytypes.Include(p => p.Product).Where(i => i.Id == criteria.Id).FirstOrDefault();
+
+            ////if (criteria.ShopingCaterQantity > result.Qantity && criteria.ShopingCaterQantity<= product.Qantity)
+            ////{
+            ////    product.Qantity
+            ////         -= criteria.ShopingCaterQantity;
+            ////}
+            ////if (criteria.ShopingCaterQantity < result.Qantity)
+            ////{
+            ////    product.Qantity += criteria.ShopingCaterQantity;
+
+
+            ////}
 
             _context.Remove(_context.ShopingCaterCashHistory.Find(id));
             _context.SaveChanges();
@@ -265,8 +284,21 @@ namespace Servess
         } 
         public void DeleteShopingCaterNotpayedHistory(int id)
         {
-            
 
+
+            //var product = _context.PriceProductebytypes.Include(p => p.Product).Where(i => i.Id == criteria.Id).FirstOrDefault();
+
+            ////if (criteria.ShopingCaterQantity > result.Qantity && criteria.ShopingCaterQantity<= product.Qantity)
+            ////{
+            ////    product.Qantity
+            ////         -= criteria.ShopingCaterQantity;
+            ////}
+            ////if (criteria.ShopingCaterQantity < result.Qantity)
+            ////{
+            ////    product.Qantity += criteria.ShopingCaterQantity;
+
+
+            ////}
             _context.Remove(_context.ShopingCaterNotpayedHistory.Find(id));
             _context.SaveChanges();
 
