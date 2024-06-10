@@ -52,12 +52,77 @@ namespace Servess
 
         public IPagedList<NotPayedmoneyHistoryVM> SearchNotPayedmoney(NotPayedmoneyHistoryVM criteria)
         {
-            throw new NotImplementedException();
+           var queryable =  _context.NotPayedmoneyHistory.Include(i => i.UserNotPayedmoney).Include(i => i.NotPayedmoneys).Where(i => (i.PaymentStatus == criteria.PaymentStatus || criteria.PaymentStatus == 0)
+
+             && (criteria.UserNotPayedmoneyName == null || i.UserNotPayedmoney.UserName.Contains(criteria.UserNotPayedmoneyName)) && (i.HospitalaoOrprationtyp == criteria.HospitalaoOrprationtyp || criteria.HospitalaoOrprationtyp == 0)
+
+             ).Select(i => new NotPayedmoneyHistoryVM
+             {
+
+                 Id = i.Id,
+                 HospitalaoOrprationtyp = i.HospitalaoOrprationtyp
+                  ,
+                 UserNotPayedmoneyName = i.UserNotPayedmoney.UserName,
+                 ChangeDate = i.ChangeDate,
+                 ChangedByUserId = i.ChangedByUserId,
+                 CreationTime = i.CreationTime,
+                  NotpayedAmount = i.NotpayedAmount,
+                 ishospital = i.ishospital,
+                 NotPayedmoneyId = i.NotPayedmoneyId,
+                 PaymentStatus = i.PaymentStatus,
+                 TotalNotpayedAmount = i.NotPayedmoneys.TotalPayedAmount,
+                 TotalPayedAmount = i.NotPayedmoneys.TotalPayedAmount,
+                 UserNotPayedmoneyId = i.UserNotPayedmoneyId,
+
+             }
+            ).OrderBy(g => g.Id);
+
+            // Provide a default value for PageNumber if it's null
+            int pageNumber = criteria.PageNumber ?? 1;
+
+            var pagedList = GetPagedData(queryable, pageNumber);
+
+            return pagedList;
+
+
+
         }
 
-        public void SaveNotPayedmoneyHistoryDetails(int id)
+
+
+        public IPagedList<NotPayedmoneyHistoryVM> SaveNotPayedmoneyHistoryDetails(int id , int? pageNuber )
         {
-            throw new NotImplementedException();
+            var queryable = _context.NotPayedmoneyHistory.Include(i => i.UserNotPayedmoney).Where(i =>  i.NotPayedmoneyId==id
+
+                       
+
+                        ).Select(i => new NotPayedmoneyHistoryVM
+                        {
+
+                            Id = i.Id,
+                            HospitalaoOrprationtyp = i.HospitalaoOrprationtyp
+                             ,
+                            UserNotPayedmoneyName = i.UserNotPayedmoney.UserName,
+                            ChangeDate = i.ChangeDate,
+                            ChangedByUserId = i.ChangedByUserId,
+                            CreationTime = i.CreationTime,
+                            Description = i.Description,
+                            NotpayedAmount = i.NotpayedAmount,
+                            ishospital = i.ishospital,
+                            NotPayedmoneyId = i.NotPayedmoneyId,
+                            PaymentStatus = i.PaymentStatus,
+                            
+                            UserNotPayedmoneyId = i.UserNotPayedmoneyId,
+
+                        }
+                       ).OrderBy(g => g.Id);
+
+            // Provide a default value for PageNumber if it's null
+            int pageNumber = pageNuber??   1;
+
+            var pagedList = GetPagedData(queryable, pageNumber);
+
+            return pagedList;
         }
 
         public void DeleteNotPayedmoneyHistory(int id)
@@ -70,39 +135,17 @@ namespace Servess
             throw new NotImplementedException();
         }
 
+     
 
 
+        public void SaveNotPayedmoneyHistory(NotPayedmoneyHistoryVM criteria)
+        {
+            throw new NotImplementedException();
+        }
 
-        //public IPagedList<productVM> Search(productVM criteria)
-        //{
-        //    var queryable = _context.products.Where(
-        //        product =>
-        //            (criteria.ProductName == null || product.ProductName.Contains(criteria.ProductName))
-        //            && (criteria.Description == null || product.Description.Contains(criteria.Description)))
-        //        .Select(i => new productVM
-        //        {
-        //            Id = i.Id,
-        //            ProductName = i.ProductName,
-        //            Description = i.Description,
-        //            Discount = i.Discount,
-        //            CategoryTyPe = (Enumes.CategoryType)i.CategoryTyPe,
-        //            Price = i.Price,
-        //            Qantity = i.Qantity,
-        //             //, CategoryName= i.Category.CategoryName,
-        //             CoverString= _context.ProductAttachments.Where(p=>p.ProductId==i.Id).OrderByDescending(i=>i.ProductId).FirstOrDefault().FilePath,
-        //        })
-        //        .OrderBy(g => g.Id);
-
-        //    // Provide a default value for PageNumber if it's null
-        //    int pageNumber = criteria.PageNumber ?? 1;
-
-        //    var pagedList = GetPagedData(queryable, pageNumber);
-
-        //    return pagedList;
-        //}
-
-
-
-
+        public IPagedList<NotPayedmoneyHistoryVM> PrintforHospitallDay(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -15,12 +15,14 @@ namespace Interfaces
 
         void SaveNotPayedmoney(NotPayedmoneyHistoryVM criteria);
         void DeleteNotPayedmoney(int id);
-        IPagedList<NotPayedmoneyHistoryVM> SearchNotPayedmoney(NotPayedmoneyHistoryVM criteria);    
-        
-        
-        void SaveNotPayedmoneyHistoryDetails(int id  );
+        IPagedList<NotPayedmoneyHistoryVM> SearchNotPayedmoney(NotPayedmoneyHistoryVM criteria);
+
+
+        public IPagedList<NotPayedmoneyHistoryVM> SaveNotPayedmoneyHistoryDetails(int id, int? pageNuber);
         void DeleteNotPayedmoneyHistory(int id);
-        IPagedList<NotPayedmoneyHistoryVM> SearchNotPayedmoneyHistory(NotPayedmoneyHistoryVM criteria);
+        IPagedList<NotPayedmoneyHistoryVM> PrintforHospitallDay(int id);
+        void SaveNotPayedmoneyHistory(NotPayedmoneyHistoryVM criteria);
+
     }
 
 
