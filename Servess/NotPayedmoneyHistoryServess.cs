@@ -23,7 +23,7 @@ namespace Servess
     {
         public readonly ApplicationDBcontext _context; 
         Imgoperation _Imgoperation;
-
+        private object forech;
         private readonly IMapper _mapper;
 
         public NotPayedmoneyHistoryServess(ApplicationDBcontext context, IMapper mapper    ,     Imgoperation imgoperation
@@ -40,15 +40,71 @@ namespace Servess
             return _context.products.Any(i => i.Id != entity.Id && i.ProductName == entity.ProductName &&i.Price==entity.Price);
         }
 
-        public void SaveNotPayedmoney(NotPayedmoneyHistoryVM criteria)
+        public bool SaveNotPayedmoney(NotPayedmoneyHistoryVM criteria)
         {
-            throw new NotImplementedException();
+            var ispayed = false;
+
+            var queryable = _context.NotPayedmoney.FirstOrDefault(i=>i.Id==criteria.Id); 
+             if(queryable.TotalNotpayedAmount == queryable.TotalPayedAmount)
+            {
+                return  true; 
+
+            }
+
+            queryable.TotalNotpayedAmount -= criteria.payedAmount;
+            queryable.TotalPayedAmount += criteria.payedAmount;
+            if (queryable.TotalNotpayedAmount == queryable.TotalPayedAmount)
+            {
+                queryable.PaymentStatus = (int)Enumes.PaymentStatus.Paid;
+
+            }
+            queryable.PaymentStatus = (int)Enumes.PaymentStatus.NotPaid;
+            _context.SaveChanges();
+            return ispayed;    
+
+
         }
 
-        public void DeleteNotPayedmoney(int id)
+        public bool DeleteNotPayedmoney(int id)
         {
-            throw new NotImplementedException();
+            // Find the NotPayedmoney entity by id
+            var notPayedmoney = _context.NotPayedmoney.Find(id);
+            if (notPayedmoney == null)
+            {
+                return false; // or throw an exception
+            }
+
+            // Find the associated NotPayedmoneyHistory entities
+            var notPayedmoneyHistoryItems = _context.NotPayedmoneyHistory
+                .Where(i => i.NotPayedmoneyId == id)
+                .ToList();
+
+            // Find the associated NotPayedmoneyHistoryPriceProductebytypes entities
+            var notPayedmoneyHistoryPriceProductebytypesItems = _context.NotPayedmoneyHistoryPriceProductebytypes
+                .Where(i => notPayedmoneyHistoryItems.Select(h => h.Id).Contains(i.NotPayedmoneyHistoryid))
+                .ToList();
+
+            // Remove associated NotPayedmoneyHistoryPriceProductebytypes entities
+            if (notPayedmoneyHistoryPriceProductebytypesItems.Any())
+            {
+                _context.NotPayedmoneyHistoryPriceProductebytypes.RemoveRange(notPayedmoneyHistoryPriceProductebytypesItems);
+            }
+
+            // Remove associated NotPayedmoneyHistory entities
+            if (notPayedmoneyHistoryItems.Any())
+            {
+                _context.NotPayedmoneyHistory.RemoveRange(notPayedmoneyHistoryItems);
+            }
+
+            // Remove the NotPayedmoney entity
+            _context.NotPayedmoney.Remove(notPayedmoney);
+
+            // Save all changes
+            _context.SaveChanges();
+
+            return true;
         }
+
 
         public IPagedList<NotPayedmoneyHistoryVM> SearchNotPayedmoney(NotPayedmoneyHistoryVM criteria)
         {
@@ -92,7 +148,7 @@ namespace Servess
 
         public IPagedList<NotPayedmoneyHistoryVM> SaveNotPayedmoneyHistoryDetails(int id , int? pageNuber )
         {
-            var queryable = _context.NotPayedmoneyHistory.Include(i => i.UserNotPayedmoney).Where(i =>  i.NotPayedmoneyId==id
+            var queryable = _context.NotPayedmoneyHistory   .Include(i => i.UserNotPayedmoney).Where(i =>  i.NotPayedmoneyId==id
 
                        
 
@@ -125,20 +181,32 @@ namespace Servess
             return pagedList;
         }
 
-        public void DeleteNotPayedmoneyHistory(int id)
+        public bool DeleteNotPayedmoneyHistory(int id)
         {
-            throw new NotImplementedException();
-        }
+          var   queryable = _context.NotPayedmoneyHistory.Find( id);
+            var itemsToRemove = _context.NotPayedmoneyHistoryPriceProductebytypes
+         .Where(i => i.NotPayedmoneyHistoryid == id)
+         .ToList();
 
-        public IPagedList<NotPayedmoneyHistoryVM> SearchNotPayedmoneyHistory(NotPayedmoneyHistoryVM criteria)
-        {
-            throw new NotImplementedException();
-        }
+            if (itemsToRemove.Any())
+            {
+                _context.NotPayedmoneyHistoryPriceProductebytypes.RemoveRange(itemsToRemove);
+                _context.SaveChanges();
+            }
 
+
+
+            _context.NotPayedmoneyHistory.Remove(queryable);
+
+            
+            return true;
+
+        }
+ 
      
 
 
-        public void SaveNotPayedmoneyHistory(NotPayedmoneyHistoryVM criteria)
+        public bool SaveNotPayedmoneyHistory(NotPayedmoneyHistoryVM criteria)
         {
             throw new NotImplementedException();
         }

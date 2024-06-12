@@ -70,11 +70,11 @@ namespace DataAcessLayers
         public DbSet<Product>    products { get; set; }
         public DbSet<PriceProductebytypes> PriceProductebytypes { get; set; }
         public DbSet<NotPayedmoney> NotPayedmoney { get; set; }
-        //public DbSet<CustomerType> CustomerTypes { get; set; }
-        public DbSet<CategoryAttachment> CategoryAttachments { get; set; }
+         public DbSet<CategoryAttachment> CategoryAttachments { get; set; }
         public DbSet<ProductAttachment> ProductAttachments { get; set; }
         public DbSet<FinancialUserCashHistory> FinancialUserCashHistories { get; set; }
         public DbSet<FinancialUserCashHistoryPriceProductebytypes> FinancialUserCashHistoryPriceProductebytypes { get; set; } 
+        public DbSet<NotPayedmoneyHistoryPriceProductebytypes> NotPayedmoneyHistoryPriceProductebytypes { get; set; } 
         
         public DbSet<ShopingCaterCashHistory> ShopingCaterCashHistory { get; set; }
         public DbSet<ShopingCaterNotpayedHistory> ShopingCaterNotpayedHistory { get; set; }
