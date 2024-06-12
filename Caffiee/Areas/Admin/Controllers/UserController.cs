@@ -7,100 +7,124 @@ using Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Newtonsoft.Json;
-using Microsoft.EntityFrameworkCore;
-
 using Servess;
 
 namespace Caffiee.Areas.Admin.Controllers
 {
     [Area(ConstsntValuse.Admin)]
 
+ 
 
-
-    public class RolesController : Controller
+    public class UserController : BaseController
     {
-        UserManager<Applicaionuser> _user;
-
-
-
-
-
-        ApplicationDBcontext _context;
-         public RolesController(  UserManager<Applicaionuser> userManager, RoleManager<IdentityRole> roles , ApplicationDBcontext context
-)   
+        public UserController(
+        UnitOfWork unitOfWork, 
+        UserManager<Applicaionuser> userManager,
+        SignInManager<Applicaionuser> signInManager) : base(unitOfWork, userManager, signInManager)
         {
-            _user = userManager;
+            
+        }
+        [HttpGet]
 
-            _roles = roles;
-            _context = context;
-
+        public async Task<IActionResult> Index(ApplicaionuserVM user)
+        {
+            var users = await _unitOfWork._userService.Search(user);
+            return View(users);
         }
 
-        private readonly RoleManager<IdentityRole> _roles;
-
-
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Details(string id)
         {
-            var _users = await _user.Users.ToListAsync();
-            return View(_users);
-        }
-
-        public async Task<IActionResult> addRoles(string userId)
-        {
-            var user = await _user.FindByIdAsync(userId);
-            var userRoles = await _user.GetRolesAsync(user);
-
-            var allRoles = await _roles.Roles.ToListAsync();
-            if (allRoles != null)
+            var user = await _unitOfWork._userService.GetByIdAsync(id);
+            if (user == null)
             {
-                var roleList = allRoles.Select(r => new RoleViewModel()
-                {
-                    roleId = r.Id,
-                    roleName = r.Name,
-                    useRole = userRoles.Any(x => x == r.Name)
-                });
-                ViewBag.userName = user.UserName;
-                ViewBag.userId = userId;
-                return View(roleList);
-            }
-            else
                 return NotFound();
+            }
+            return View(user);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> addRoles(string userId, string jsonRoles)
+      
+
+   
+
+        [HttpGet]
+        public async Task<IActionResult> Save(string id)
         {
-            var user = await _user.FindByIdAsync(userId);
-
-            List<RoleViewModel> myRoles =
-                JsonConvert.DeserializeObject<List<RoleViewModel>>(jsonRoles);
-
-            if (user != null)
+            if (id != null)
             {
-                var userRoles = await _user.GetRolesAsync(user);
-
-                foreach (var role in myRoles)
+                var user = await _unitOfWork._userService.GetByIdAsync(id);
+                user.CustomerTypeList= _unitOfWork._Ilookup.GetCustomerType();    
+                user.GenderList= _unitOfWork._Ilookup.GetGenderType();    
+                if (user == null)
                 {
-                    if (userRoles.Any(x => x == role.roleName.Trim()) && !role.useRole)
-                    {
-                        await _user.RemoveFromRoleAsync(user, role.roleName.Trim());
-                        _context.SaveChanges();
-                    }
-
-                    if (!userRoles.Any(x => x == role.roleName.Trim()) && role.useRole)
-                    {
-                        await _user.AddToRoleAsync(user, role.roleName.Trim());
-
-                        _context.SaveChanges();
-                    }
+                    return NotFound();
                 }
+                return View(user);
+
+            }else
+            {
+                var auserr = new ApplicaionuserVM();
+                auserr.CustomerTypeList = _unitOfWork._Ilookup.GetCustomerType();
+                auserr.GenderList = _unitOfWork._Ilookup.GetGenderType();
+                return View(auserr);
+
+            }
+
+        }    [HttpPost]
+        public async Task<IActionResult> Save(ApplicaionuserVM user)
+        {
+            user.CustomerTypeList = _unitOfWork._Ilookup.GetCustomerType();
+            user.GenderList = _unitOfWork._Ilookup.GetGenderType();
+            if (!ModelState.IsValid)
+            {
+                TempData["Message"] = "user save the category. Please check the form.";
+                TempData["MessageType"] = "danger";
+                return View(user);
+            }
+            
+         
+            if (user.Id != null)
+            {
+                var updatedUser = await _unitOfWork._userService.UpdateAsync(user);
+                TempData["Message"] = "user save the category. Please check the form.";
+                TempData["MessageType"] = "danger";
 
                 return RedirectToAction(nameof(Index));
             }
-            else
-                return NotFound();
+            else {
+                ApplicaionuserVM? createdUser = await _unitOfWork._userService.CreateAsync(user);
+                TempData["Message"] = "user save the category. Please check the form.";
+                TempData["MessageType"] = "danger";
+                return RedirectToAction(nameof(Index));
+            }
         }
+
+     
+
+
+
+        public async Task<JsonResult> Delete(string id)
+        {
+            try
+            {
+                var success = await _unitOfWork._userService.DeleteAsync(id);
+               
+
+                TempData["Message"] = "Cannot save the category. Please check the form.";
+                TempData["MessageType"] = "danger";
+                return Json(new { success = true, message = "Successfully deleted!" });
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+
+
+
+
+       
     }
+
 }

@@ -1,6 +1,6 @@
 ﻿ @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
-@model IEnumerable<Cf_Viewmodels.ApplicaionuserVM>
+@model IEnumerable< DataAcessLayers.Applicaionuser>
 
 @{
     Layout = "_Layout";
@@ -44,7 +44,7 @@
                         @item.Id
                     </td>
                     <td>
-                        @item.UserNme
+                        @item.UserName
                     </td>
                     <td>
                         <a asp-controller="Roles" asp-action="addRoles" asp-route-userId="@item.Id" class="btn btn-sm btn-success">
