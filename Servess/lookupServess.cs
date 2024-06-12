@@ -55,6 +55,19 @@ namespace Servess
 
             return CustomerType;
         }
+             public List<SelectListItem> GetGenderType()
+        {
+            var CustomerType = Enum.GetValues(typeof(Gender))
+                               .Cast<C_Utilities.Enumes.Gender>()
+                               .Select(d => new SelectListItem
+                               {
+                                   Value = ((int)d).ToString(),
+                                   Text = DescriptionEnum.GetDescription(d)
+                               })
+                               .ToList();
+
+            return CustomerType;
+        }
 
 
 
@@ -129,6 +142,12 @@ namespace Servess
 
   public static   class DescriptionEnum{
 
+        public  static string GetDescription(Gender categoryType)
+        {
+            var fieldInfo = typeof(Gender).GetField(categoryType.ToString());
+            var descriptionAttribute = fieldInfo?.GetCustomAttribute<DescriptionAttribute>();
+            return descriptionAttribute?.Description ?? categoryType.ToString();
+        }
         public  static string GetDescription(CategoryType categoryType)
         {
             var fieldInfo = typeof(CategoryType).GetField(categoryType.ToString());

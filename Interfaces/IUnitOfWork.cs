@@ -8,7 +8,8 @@
         Ilookup _Ilookup { get; }
           IProduct _Product { get;   }
           IPriceProductebytypes _PriceProductebytypes { get;   }
-    
+        public IUserService _userService { get; }
+
     }
-     
+
 }

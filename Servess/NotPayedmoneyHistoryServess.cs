@@ -51,8 +51,8 @@ namespace Servess
 
             }
 
-            queryable.TotalNotpayedAmount -= criteria.payedAmount;
-            queryable.TotalPayedAmount += criteria.payedAmount;
+            //queryable.TotalNotpayedAmount -= criteria.payedAmount;
+            //queryable.TotalPayedAmount += criteria.payedAmount;
             if (queryable.TotalNotpayedAmount == queryable.TotalPayedAmount)
             {
                 queryable.PaymentStatus = (int)Enumes.PaymentStatus.Paid;
@@ -110,7 +110,7 @@ namespace Servess
         {
            var queryable =  _context.NotPayedmoneyHistory.Include(i => i.UserNotPayedmoney).Include(i => i.NotPayedmoneys).Where(i => (i.PaymentStatus == criteria.PaymentStatus || criteria.PaymentStatus == 0)
 
-             && (criteria.UserNotPayedmoneyName == null || i.UserNotPayedmoney.UserName.Contains(criteria.UserNotPayedmoneyName)) && (i.HospitalaoOrprationtyp == criteria.HospitalaoOrprationtyp || criteria.HospitalaoOrprationtyp == 0)
+             //&& (criteria.UserNotPayedmoneyName == null || i.UserNotPayedmoney.UserName.Contains(criteria.UserNotPayedmoneyName)) && (i.HospitalaoOrprationtyp == criteria.HospitalaoOrprationtyp || criteria.HospitalaoOrprationtyp == 0)
 
              ).Select(i => new NotPayedmoneyHistoryVM
              {
@@ -118,10 +118,10 @@ namespace Servess
                  Id = i.Id,
                  HospitalaoOrprationtyp = i.HospitalaoOrprationtyp
                   ,
-                 UserNotPayedmoneyName = i.UserNotPayedmoney.UserName,
-                 ChangeDate = i.ChangeDate,
-                 ChangedByUserId = i.ChangedByUserId,
-                 CreationTime = i.CreationTime,
+                 //UserNotPayedmoneyName = i.UserNotPayedmoney.UserName,
+                 //ChangeDate = i.ChangeDate,
+                 //ChangedByUserId = i.ChangedByUserId,
+                 //CreationTime = i.CreationTime,
                   NotpayedAmount = i.NotpayedAmount,
                  ishospital = i.ishospital,
                  NotPayedmoneyId = i.NotPayedmoneyId,
@@ -158,11 +158,11 @@ namespace Servess
                             Id = i.Id,
                             HospitalaoOrprationtyp = i.HospitalaoOrprationtyp
                              ,
-                            UserNotPayedmoneyName = i.UserNotPayedmoney.UserName,
-                            ChangeDate = i.ChangeDate,
-                            ChangedByUserId = i.ChangedByUserId,
-                            CreationTime = i.CreationTime,
-                            Description = i.Description,
+                            //UserNotPayedmoneyName = i.UserNotPayedmoney.UserName,
+                            //ChangeDate = i.ChangeDate,
+                            //ChangedByUserId = i.ChangedByUserId,
+                            //CreationTime = i.CreationTime,
+                            //Description = i.Description,
                             NotpayedAmount = i.NotpayedAmount,
                             ishospital = i.ishospital,
                             NotPayedmoneyId = i.NotPayedmoneyId,
